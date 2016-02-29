@@ -1,0 +1,13 @@
+Package: hybriddetective
+Type: Package
+Title: Automates the process of detecting hybrids from genetic data
+Version: 0.1.0.9000
+Date: 2016-02-26
+Author: Brendan F. Wringe
+Maintainer: Brendan F. Wringe <bwringe@gmail.com>
+Author@R: c(person("Brendan", "Wringe", email = "bwringe@gmail.com", role =
+    c("aut", "cre"), person("Nick", "Jeffries", role = "ctb"))
+Description: More about what it does (maybe more than one line)
+License: GPL
+LazyData: TRUE
+RoxygenNote: 5.0.1
