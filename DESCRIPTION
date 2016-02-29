@@ -10,4 +10,11 @@ Author@R: c(person("Brendan", "Wringe", email = "bwringe@gmail.com", role =
 Description: More about what it does (maybe more than one line)
 License: GPL
 LazyData: TRUE
+Depends:
+    R (>= 3.1.0)
+Imports:
+    tidyr,
+    stringr,
+    ggplot2,
+    reshape2
 RoxygenNote: 5.0.1

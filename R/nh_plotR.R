@@ -1,4 +1,4 @@
- @name nh_plotR
+#' @name nh_plotR
 #' @title NewHybrids Plot
 #'
 #' @description \code{nh_plotR} plots the cumulative probabilities of assignment for each individual
