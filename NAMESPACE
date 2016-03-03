@@ -2,9 +2,11 @@
 
 export(NH_Zcore)
 export(nh_accuracy_checkR)
+export(nh_analysis_data_generateR)
 export(nh_plotR)
 export(preCheckR)
 import(ggplot2)
+import(plyr)
 import(reshape2)
 import(stringr)
 import(tidyr)
