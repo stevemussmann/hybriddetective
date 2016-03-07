@@ -1,0 +1,61 @@
+## **hybriddetective**  
+***
+**hybriddetective** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment.
+***
+
+### Preamble  
+**hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** and **genepopedit** to bring the entire hybrid detection workflow into the R environment.  
+By using **hybriddetective**, together with **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis from manipulation of genotype files, to identification of panels of unlinked SNPs with the highest Fst, quantification of the efficacy and accuracy of panels to identify hybrids, to the determination of hybrid category of experimental data.  
+In addition, **hybriddetective** includes plotting functionality to generate both exploratory and publishable figures.  
+***
+
+###Overview of functions:  
+
+**Function name** | **Main use**  
+------------|----------
+**preCheckR.R** | Checks all NewHybrids results within a given directory to ensure they have converged.
+**nh_plotR.R** |  Plots cumulative probability of assignments from NewHybrids results for each individual 
+**nh_accuracy_checkR.R** | Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ >= 0.5, 0.75 and 0.9)
+**nh_plotR.R** |  Plots cumulative probability of assignments from NewHybrids results for each individual 
+**nh_analysis_data_generatoR.R** |   Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids
+**hybridpower.R** |  Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). Will also write graphical and numerical results to a directory provided by the user.
+
+***  
+###Package Installation
+*devtools* must be installed prior to installing **hybriddetective**  
+With *devtools* installed, **hybriddetective** can be installed using the command
+```
+devtools::install_git("bwringe/hybriddetective")
+```
+The packages **parallelnh** and **genepopedit** must also be installed along with **hybriddetective**  
+With *devtools* installed, these packages can be installed using the commands
+```
+devtools::install_git("bwringe/hybriddetective")
+```
+```
+devtools::install_git("rystanley/genepopedit")
+```
+**Note**: **hybriddetective** relies on functions from the packages *dplyr*, *ggplot2*, *grid*, *parallel*, *plyr*, *stringr*, *scales*, *reshape2* and *tidyr*. The user should ensure these installed prior to installing **hybriddetective**
+***
+
+###Function descriptions
+####preCheckR.R
+When using NewHybrids, the Markov Chain Monte Carlo (MCMC) chains occasionlly will fail to converge resulting in NewHybrids spuriously returning the higest probability of assignment of nearly every individual to the F2 category. In such cases, the analysis should be re-run. This function quickly assesses the results of many NewHybrids runs, and will flag those results which appear to have failed to converge for user verification.  
+**Note:** several of the fucntions contained in this package will not function correctly, or will fail if they are provided with results of non-converged runs. Thus, it is strongly recommended that this function be run on every NewHybrids result.  
+
+####nh_plotR.R
+This function will plot the cumulative probability of assignment for each individual in a NewHybrids analysis. This can be used for both simulated and experimental datasets.  
+
+####nh\_accuracy\_checkR.R
+This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by NewHybrids at three levels of probability (PofZ >= 0.5, 0.75 and 0.9). The proportions correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired.  
+
+####nh\_analysis\_data\_generatoR.R
+This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging these with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a NewHybrids format file for analysis, along with a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.  
+
+
+####hybridpower
+RYAN FILLS THIS IN
+
+
+
+
