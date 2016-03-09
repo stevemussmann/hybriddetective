@@ -5,7 +5,7 @@
 
 ### Preamble  
 **hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** and **genepopedit** to bring the entire hybrid detection workflow into the R environment.  
-By using **hybriddetective**, together with **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis from manipulation of genotype files, to identification of panels of unlinked SNPs with the highest Fst, quantification of the efficacy and accuracy of panels to identify hybrids, to the determination of hybrid category of experimental data.  
+By using **hybriddetective**, together with the packages **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis from manipulation of genotype files, to identification of panels of unlinked SNPs with the highest Fst, quantification of the efficacy and accuracy of panels to identify hybrids, to the determination of hybrid category of experimental data.  
 In addition, **hybriddetective** includes plotting functionality to generate both exploratory and publishable figures.  
 ***
 
