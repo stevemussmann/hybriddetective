@@ -9,7 +9,7 @@
 #' @param where.PGDspider A file path to the PGDspider installation folder
 #' @export
 #' @importFrom genepopedit genepop_detective subset_genepop genepop_fstat
-#' @importFrom hierfstat read.fsat wc
+#' @importFrom hierfstat read.ftsat wc
 #' @importFrom stringr str_split str_extract
 #' @importFrom plyr rbind.fill
 
