@@ -13,8 +13,8 @@
 #'    in NumSims; default is 1
 #' @param cats.include Optional character vector list denoting which hybrid categories should be included in the output; default is all categories.
 #' @export
-#' @import tidyr
-#' @import stringr
+#' @importFrom tidyr separate
+#' @importFrom stringr str_split str_extract str_detect
 #' @import plyr
 
 

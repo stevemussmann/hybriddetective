@@ -5,14 +5,11 @@
 #' @param nh.output the PofZ file from a NewHybrids analysis
 #' @export
 #' @import ggplot2
-#' @import reshape2
+#' @importFrom reshape2 melt
 
 
  nh_plotR <- function(nh_output){ ## this function plots the Q-value output from New Hybrids
 
-  ## load required packages
-  require(ggplot2)
-  require(reshape2)
 ## rename the columns so looks better/easier to interpret
 colnames(nh_output) <- c("Indv", "Pure1", "Pure2","F1", "F2", "BC1", "BC2")
 nh_output$Indv <-  as.factor(nh_output$Indv) # make the individuals factors to block out the data

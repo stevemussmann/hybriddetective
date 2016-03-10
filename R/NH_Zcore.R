@@ -6,8 +6,8 @@
 #' @param multiapplyZvec IF a single file of Zvecs is to be applied to each file, USE multiapplyZvec multiapplyZvec must be specified as a file path + file name (e.g. "~/HoldenUniversity/CoolEthansComputer/HairDolls/Zvexxx.csv")
 #' @param applyuniqueZvec IF each NewHybrids file is to be given a UNIQUE vector of Zvecs use applyuniqueZvec ---- NOTE <- to apply UNIQUE Zvecs, the Zvec files must all be placed in a single folder separate from the NewHybrids files AND they MUST follow the file name convention "NHFileName_Zvec.csv" where NHFileName is the same name as the file to which the Zvec is to be applied - consequently, the number of NewHybrids files = number of Zvec files applyuniqueZvec must be spedifed as a file path to the folder in which the Zvec files live (e.g. "~/HarrisonUniversity/DEANGordonPritchard/LettersOfRecommendation/")
 #' @export
-#' @import tidyr
-#' @import stringr
+#' @importFrom tidyr separate
+#' @importFrom stringr str_extract str_detect
 
 
 NH_Zcore <- function(GetstheZdir, multiapplyZvec=NULL, applyuniqueZvec=NULL){
@@ -78,7 +78,7 @@ if((length(multiapplyZvec) >0 ) && length(applyuniqueZvec) > 0){
     ## in order for separate to work properly, it must be given the nubmer of columns to divide - this is the number of loci included in NH file
         ## number of loci is given in the first 5 rows, and can be deterimined using a regex
     ## get number of loci using regex
-    SNPrep <- str_extract(string = addbackin, pattern = "NumLoci [:digit:]{2,5}") ## this does not cleanly take the number, so some cleaning is required
+    SNPrep <- stringr::str_extract(string = addbackin, pattern = "NumLoci [:digit:]{2,5}") ## this does not cleanly take the number, so some cleaning is required
       SNPrep <- as.numeric(gsub(x = SNPrep, pattern = "NumLoci ", replacement = ""))
       SNPrep <- SNPrep[which(is.na(SNPrep)==FALSE)]
 
@@ -86,7 +86,7 @@ if((length(multiapplyZvec) >0 ) && length(applyuniqueZvec) > 0){
   names(NHdata2) <- "Data2"
   ## separate and give a new name - separates the first column which is the indiviudal IDs from the genotype/loci data - the known genotype category assignments (Zs) must be
     ## inserted between the indiviual IDs and their corresponding genotypes
-  Nhdata3<-separate(data = NHdata2,col=Data2,into = c("Individual",rep("SNP",SNPrep)),sep = " ")
+  Nhdata3<-tidyr::separate(data = NHdata2,col=Data2,into = c("Individual",rep("SNP",SNPrep)),sep = " ")
 
 
   ## import the csv of z codes and indivudal IDs ; Then merge these with the corresponding genotype data
@@ -105,7 +105,7 @@ if((length(multiapplyZvec) >0 ) && length(applyuniqueZvec) > 0){
 #Zscorevector<-read.csv("/Users/brendanwringe/Desktop/DFO Aquaculture Interaction/South West Rivers Analysis/Frequency Based Sim/West/Zvector.csv")
 Zscorevector$Individual <- as.character(Zscorevector$Individual)
 #Merge
-NHfinal<- merge(y=Nhdata3, x=Zscorevector, by="Individual", all=TRUE)
+NHfinal<- base::merge(y=Nhdata3, x=Zscorevector, by="Individual", all=TRUE)
 NHfinal <- NHfinal[order(as.numeric(NHfinal$Individual)),]
 
 #head(NHfinal)

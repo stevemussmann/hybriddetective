@@ -11,7 +11,7 @@
 #' @importFrom genepopedit genepop_detective subset_genepop genepop_fstat
 #' @importFrom hierfstat read.fstat wc
 #' @importFrom stringr str_split str_extract
-#' @importFrom plyr rbind.fill
+#' @import plyr
 
 
 getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider){

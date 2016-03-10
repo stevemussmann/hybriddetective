@@ -7,14 +7,13 @@
 #' @param Threshold A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class)
 #' @param samplesize The number of simulated individuals per NewHybrid class (default = 200). The assumption is there is equal numbers for each class. If not there must be a 0 or NA added hold the data structure
 #' @export
-#' @import dplyr
+#' @importFrom dplyr filter
 #' @import ggplot2
-#' @import grid
-#' @import stringr
-#' @import reshape2
-#' @import stringr
+#' @importFrom grid arrow unit
+#' @importFrom stringr str_extract
+#' @importFrom reshape2 melt
+#' @importFrom scales alpha
 #' @import plyr
-#' @import scales
 
 
 hybridpower <-function(dir,filetag="",Threshold=NULL,samplesize=200) {
