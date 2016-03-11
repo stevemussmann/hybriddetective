@@ -22,7 +22,7 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspi
 
   ##panel.size must be an integer
 
-  if(is.integer(panel.size) == FALSE){
+  if(panel.size%%1 != 0){
     httr::BROWSE("https://en.wikipedia.org/wiki/Integer")
     stop("Panel size must be an integer.")
   }
