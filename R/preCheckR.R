@@ -7,7 +7,7 @@
 
 preCheckR <- function(PreDir){
 
-
+print("PrecheckR Progress: \r")
   ##
   tbCheck <- list.files(PreDir)
 CheckProgress <- txtProgressBar(min = 0, max = length(tbCheck), style = 3)
