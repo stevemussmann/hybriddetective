@@ -33,6 +33,8 @@ CheckProgress <- txtProgressBar(min = 0, max = length(tbCheck), style = 3)
 
   }
 
+cat("\r")
+
   if(length(possibleProbs_amChecking) < 1){
     print("Looks good bud, giv'er")
   }
