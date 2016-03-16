@@ -1,46 +1,31 @@
-Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=200){
+#' @name hybridpowercomp
+#' @title Power evaluation for NewHybrids analysis of simulated datasets
+#' @description \code{hybridpower} Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
+#' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
+#' @param filetag A name tag which will be added to the outputs
+#' @param Threshold A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class)
+#' @param samplesize is the number of fish per NH class. This can be a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or this can be a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}
+#' @export
+#' @importFrom dplyr filter
+#' @import ggplot2
+#' @importFrom grid arrow unit
+#' @importFrom stringr str_extract
+#' @importFrom reshape2 melt
+#' @importFrom scales alpha
+#' @import plyr
 
-## this function will estimate the power of assignment success and associated variability from New Hybrids for 6 possible classes
-#  Pure1, Pure2, F1, F2, BC1, BC2. The code is based on different simulations of individuals and repeat runs through New Hybrids (NH)
-# for each simulation. The output is a series of diagnostic plots and data summaries.
+Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=200,CT=0.1,CT=0.2){
 
-## dir - path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH)
-#        note that this directory should only hold the output folders.
+  #set directory for which holds the New Hybrids output folders
+  filedir <- dir
+  lfiles <- setdiff(list.files(dir),"Figures and Data") #ignores Figures folder in case this is run more than once
+  if(length(which(list.files(dir)=="Figures and Data"))==0){dir.create(paste0(dir,"Figures and Data"))} # if there isn't a 'Figures and Data' folder for output create one
+  if(length(which(list.files(paste0(dir,"Figures and Data"))=="pdf"))==0){dir.create(paste0(dir,"Figures and Data/pdf"))} #create a folder for pdfs
+  if(length(which(list.files(paste0(dir,"Figures and Data"))=="jpg"))==0){dir.create(paste0(dir,"Figures and Data/jpg"))} #create a folder for jpgs
+  if(length(which(list.files(paste0(dir,"Figures and Data"))=="data output"))==0){dir.create(paste0(dir,"Figures and Data/data output"))} #create a folder for data
 
-## filetag - this is a name tag which will be added to the plots
-
-## Thresholds - this is a vector of thesholds (default c(0.6,0.7,0.8,0.9)) which will to compare among different thesholds to compare among different numbers of SNPs
-
-## addThresh - a logical vector (default: FALSE) which specifies whether the threshold values should be added to the summary plot.
-
-## samplesize - is the number of fish per NH class (default = 200). The assumption is there is equal numbers for each class. If not there must be a 0 or NA added hold the data structure
-
-
-  #Check to make sure the packages required are there and if not install them
-  packages <- c("dplyr", "tidyr", "stringr","ggplot2","reshape2","grid","scales")
-  if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-    install.packages(setdiff(packages, rownames(installed.packages())))
-  }
-
-  #load each library
-  require(dplyr)
-  require(ggplot2)
-  require(tidyr)
-  require(stringr)
-  require(reshape2)
-  require(grid)
-  require(scales)
-
-
-      #set directory for which holds the New Hybrids output folders
-      filedir <- dir
-
-      lfiles <- setdiff(list.files(dir),"Figures") #ignores Figures folder in case this is run more than once
-
-      if(length(which(list.files(dir)=="Figures"))==0){dir.create(paste0(dir,"Figures"))} # if there isn't a 'Figures' folder for output create one
-      if(length(which(list.files(paste0(dir,"Figures"))=="pdf"))==0){dir.create(paste0(dir,"Figures/pdf"))} #create a folder for pdfs
-      if(length(which(list.files(paste0(dir,"Figures"))=="jpg"))==0){dir.create(paste0(dir,"Figures/jpg"))} #create a folder for jpgs
-
+  #Convergence checker
+  arethereproblems = "no"
 
     # Collate the output from New Hybrids together ('p of z' files)
         output <- NULL
@@ -68,8 +53,12 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
                 colnames(tempfile) <- c("Indv","Pure1","Pure2","F1","F2","BC1","BC2","sim","rep","nLoci")
                 tempfile=tempfile[,c("Indv","sim","rep","nLoci","Pure1","Pure2","F1","F2","BC1","BC2")]# reorder
 
-              #common order
-                if(sum(tempfile[1:samplesize,"Pure1"],na.rm=T)<sum(tempfile[1:samplesize,"Pure2"],na.rm=T)){
+                #Get the samplesize for a given class
+                if(length(samplesize)==1 & is.numeric(samplesize)){samplesize <- rep(samplesize,6)} else
+                if(length(samplesize)==1 & !is.numeric(samplesize)){samplesize <- as.vector(n_class(samplesize)[,2])}
+
+                #common order
+                if(sum(tempfile[1:samplesize[1],"Pure1"],na.rm=T)<sum(tempfile[1:samplesize[1],"Pure2"],na.rm=T)){
                   pure1 <- tempfile$Pure2;pure2 <- tempfile$Pure1
                   bc1 <- tempfile$BC2;bc2 <- tempfile$BC1
 
@@ -77,16 +66,27 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
                   tempfile$BC1 <- bc1;tempfile$BC2 <- bc2
                 }
 
-              #flag bad runs
-              if(sum(tempfile$F2)>sum(sum(tempfile$Pure1),sum(tempfile$Pure2))){tempfile[,5:length(tempfile)]=NA}
+              #Filter for convervence issues. Based on the 'convergence filter (CT) and % of indviduals permited to fail (CTI)
+              #Here we look at the "pure 1 and 2 populations for
+                if(length(which(tempfile[1:samplesize[1],"F2"]>CT))/length(1:samplesize[1])>CTI &
+                length(which(tempfile[(samplesize[1]+1):samplesize[2],"F2"]>CT))/length((samplesize[1]+1):samplesize[2])>CTI){
+                  tempfile[,5:length(tempfile)]=NA #replace data with NAs
+                  print(paste("Possible non-convergence detected in", pzfile))
+                  arethereproblems = "Yes"}
 
               output <- rbind(output,tempfile)
 
           }#end of for loop
 
+        #If convergence issues were flagged then the process stops here.
+        if(arethereproblems == "Yes")
+          {
+          stop("Please remove, or re-run those results for which non-convergence was detected", call. = F)
+          }
 
-    ## average and SD the  replicate runs of each simulation in New Hybrids
-      sim_data <- as.data.frame(output%>%group_by(nLoci,sim,Indv)%>%summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
+
+    ## average and SD the  replicate runs of each simulation in New Hybrids. Filter is just a holder for the dplyr:: call
+      sim_data <- as.data.frame(dplyr::filter(output)%>%group_by(nLoci,sim,Indv)%>%summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
                                                                        Pure2_sd=sd(Pure2),Pure2=mean(Pure2),
                                                                        F1_sd=sd(F1),F1=mean(F1),
                                                                        F2_sd=sd(F2),F2=mean(F2),
@@ -97,8 +97,9 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
       sim_means <- sim_data[,-grep("_sd",colnames(sim_data))]
 
     ## assign the classes to the data
-      nIndv <- nrow(sim_means)/6/length(unique(sim_means$sim))/length(unique(sim_means$nLoci)) #number of simulated individuals (assumes the same number for each class)
-      sim_means$class=rep(rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),each=nIndv),times=3*length(unique(sim_means$nLoci)))
+     # nIndv <- nrow(sim_means)/6/length(unique(sim_means$sim))/length(unique(sim_means$nLoci)) #number of simulated individuals (assumes the same number for each class)
+      ********** needs to be fixed here. ************
+      sim_means$class=rep(rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),each=samplesize),times=3*length(unique(sim_means$nLoci)))
 
 
 #Compare the simulations using boxplots
@@ -121,11 +122,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
       theme(strip.background = element_rect(fill="white"),legend.position="none")
 
     #save plot
-    if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}else
-    {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}else
+    {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}
 
-    if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}else
-    {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}else
+    {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}
 
     #Combined loci
     sim_means2 <- sim_means
@@ -144,11 +145,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
       theme(strip.background = element_rect(fill="white"),legend.position="none")+scale_y_continuous(limits=c(0.6,1))
 
     #Save plot
-    if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}else
-    {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}else
+    {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}
 
-    if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}else
-    {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}else
+    {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}
 
 
 ## Look at assignment success as a function of threshold probability
@@ -214,11 +215,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
         labs(x="Probability threshold",y="Assignment success",col="Classification")
 
       #Save plot
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)}
 
       #ComboHybrids
       FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
@@ -235,11 +236,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
         scale_color_brewer(palette = "Dark2")+
         labs(x="Probability threshold",y="Assignment success ± sd",col="Classification");h3
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)}
 
     #plot if no threshold specified
       if(addThresh){
@@ -260,11 +261,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
           labs(x="Probability threshold",y="Assignment success ± sd",col="# Loci")
       }
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)}
 
       ## combined hybrids
 
@@ -287,11 +288,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
       }
 
       #Save plot
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)}
 
       ## mean plot
 
@@ -306,11 +307,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))
 
         #Save plot
-        if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~z-loci.pdf"),p5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~~z-loci.pdf"),p5,height = 8,width = 10)}
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci.pdf"),p5,height = 8,width = 10)} else
+        {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci.pdf"),p5,height = 8,width = 10)}
 
-        if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~z-loci.jpg"),p5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~~z-loci.jpg"),p5,height = 8,width = 10)}
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci.jpg"),p5,height = 8,width = 10)} else
+        {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci.jpg"),p5,height = 8,width = 10)}
 
         #Combined Hybrids
         FinalData2$threshold <- paste0(FinalData2$level*100,"%")
@@ -323,11 +324,11 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
           theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))
 
         #Save plot
-        if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~z-loci_Hybrid.pdf"),h5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~~z-loci_Hybrid.pdf"),h5,height = 9,width = 10)}
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci_Hybrid.pdf"),h5,height = 8,width = 10)} else
+        {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci_Hybrid.pdf"),h5,height = 9,width = 10)}
 
-        if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)}
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)} else
+        {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)}
 
 
 
@@ -438,18 +439,18 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
         labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned ± sd"),col="Classification")
 
-        if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8)} else
-        {ggsave(paste0(dir,paste0("Figures/pdf/",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8))}
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8)} else
+        {ggsave(paste0(dir,paste0("Figures and Data/pdf/",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8))}
 
-        if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_",i,"_MissAssignment~z-nloci.jpg"),temp.plot,height = 6,width = 8)} else
-        {ggsave(paste0(dir,paste0("Figures/jpg/",i,"_MissAssignment~z-nloci.jpg"),temp.plot,height = 6,width = 8))}
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_",i,"_MissAssignment~z-nloci.jpg"),temp.plot,height = 6,width = 8)} else
+        {ggsave(paste0(dir,paste0("Figures and Data/jpg/",i,"_MissAssignment~z-nloci.jpg"),temp.plot,height = 6,width = 8))}
 
     }
 
     ## Create summary booklet
 
     if(filetag!=""){
-      pdf(file = paste0(dir,"Figures/pdf/",filetag,"_OutputBooklet.pdf"))
+      pdf(file = paste0(dir,"Figures and Data/pdf/",filetag,"_OutputBooklet.pdf"))
       print(p1);print(h1)
       print(p3);print(h3)
       print(p4);print(h4)
@@ -467,7 +468,7 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
           }
       dev.off()
     } else {
-      pdf(file = paste0(dir,"Figures/pdf/",filetag,"_OutputBooklet.pdf"))
+      pdf(file = paste0(dir,"Figures and Data/pdf/",filetag,"_OutputBooklet.pdf"))
       print(p1);print(h1)
       print(p3);print(h3)
       print(p4);print(h4)
