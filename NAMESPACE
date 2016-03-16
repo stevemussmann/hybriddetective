@@ -3,6 +3,7 @@
 export(NH_Zcore)
 export(getTopLoc)
 export(hybridpower)
+export(n_class)
 export(nh_accuracy_checkR)
 export(nh_analysis_data_generateR)
 export(nh_plotR)
