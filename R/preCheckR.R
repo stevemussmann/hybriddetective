@@ -7,7 +7,7 @@
 
 preCheckR <- function(PreDir){
 
-print("PrecheckR Progress: \r")
+writeLines("PrecheckR Progress: \r")
   ##
   tbCheck <- list.files(PreDir)
 CheckProgress <- txtProgressBar(min = 0, max = length(tbCheck), style = 3)
@@ -33,8 +33,7 @@ CheckProgress <- txtProgressBar(min = 0, max = length(tbCheck), style = 3)
 
   }
 
-print("
-  ")
+writeLines("\r")
 
   if(length(possibleProbs_amChecking) < 1){
     print("Looks good bud, giv'er")
