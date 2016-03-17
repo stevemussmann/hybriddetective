@@ -10,7 +10,7 @@
 #' @rdname hybridpowercomp
 #' @import ggplot2
 #' @import magrittr
-#' @import dplyr filter summarise ungroup group_by
+#' @importFrom dplyr filter summarise ungroup group_by
 #' @importFrom grid arrow unit
 #' @importFrom stringr str_extract
 #' @importFrom reshape2 melt
