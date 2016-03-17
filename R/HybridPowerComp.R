@@ -97,10 +97,9 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
       sim_means <- sim_data[,-grep("_sd",colnames(sim_data))]
 
     ## assign the classes to the data
-     # nIndv <- nrow(sim_means)/6/length(unique(sim_means$sim))/length(unique(sim_means$nLoci)) #number of simulated individuals (assumes the same number for each class)
-      ********** needs to be fixed here. ************
-      sim_means$class=rep(rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),each=samplesize),times=3*length(unique(sim_means$nLoci)))
-
+      classvec <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
+      classvec <- rep(classvec,times=nrow(sim_means)/length(classvec))
+      sim_means$class <- classvec
 
 #Compare the simulations using boxplots
     boxdata <- NULL
@@ -155,6 +154,9 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
 ## Look at assignment success as a function of threshold probability
     num.sim <- length(which(sim_means$sim=="S1"))/6/length(unique(sim_means$nLoci))
 
+## find he dim of each class in a given sim (length = sum n_class$n
+    classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
+
     ProbOutput <- NULL
     for (s in unique(sim_means$nLoci)){
         lsub <- filter(sim_means,nLoci == s)
@@ -162,13 +164,13 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
           tempsub <- filter(lsub,sim==i)
             for(q in 50:99/100){ # probability of 50 - 99%
 
-              farm.p <- length(which(tempsub$Pure1[1:samplesize] > q))/num.sim
-              wild.p <- length(which(tempsub$Pure2[(samplesize+1):(2*samplesize)] > q))/num.sim
-              F1.p <- length(which(tempsub$F1[((2*samplesize)+1):(3*samplesize)] > q))/num.sim
-              F2.p <- length(which(tempsub$F2[((3*samplesize)+1):(4*samplesize)] > q))/num.sim
-              farmBC.p <- length(which(tempsub$BC1[((4*samplesize)+1):(5*samplesize)] > q))/num.sim
-              wildBC.p <- length(which(tempsub$BC2[((5*samplesize)+1):(6*samplesize)] > q))/num.sim
-              tempout <- data.frame(nLoci=s,sim=i,level=q,prob=c(farm.p, wild.p,F1.p,F2.p,farmBC.p,wildBC.p),
+              p1.p <- length(which(tempsub[which(classvec2=="Pure1"),"Pure1"] > q))/samplesize[1]
+              p2.p <- length(which(tempsub[which(classvec2=="Pure2"),"Pure2"] > q))/samplesize[2]
+              F1.p <- length(which(tempsub[which(classvec2=="F1"),"F1"] > q))/samplesize[3]
+              F2.p <- length(which(tempsub[which(classvec2=="F2"),"F2"] > q))/samplesize[4]
+              BC1.p <- length(which(tempsub[which(classvec2=="BC1"),"BC1"] > q))/samplesize[5]
+              BC2.p <- length(which(tempsub[which(classvec2=="BC2"),"BC2"] > q))/samplesize[6]
+              tempout <- data.frame(nLoci=s,sim=i,level=q,prob=c(p1.p, p2.p,F1.p,F2.p,BC1.p,BC2.p),
                                     class=c("Pure1","Pure2","F1","F2","BC1","BC2"))
               ProbOutput <- rbind(ProbOutput,tempout)
 
@@ -185,10 +187,10 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
         tempsub$phyb <- rowSums(tempsub[,c("F1","F2","BC1","BC2")])
 
         for(q in 50:99/100){ # probability of 50 - 99%
-          farm.p <- length(which(tempsub$Pure1[1:samplesize] > q))/num.sim
-          wild.p <- length(which(tempsub$Pure2[(samplesize+1):(2*samplesize)] > q))/num.sim
-          Hybrid <- length(which(tempsub$phyb[((2*samplesize)+1):(6*samplesize)]>q))/(num.sim*4)
-          tempout <- data.frame(nLoci=s,sim=i,level=q,prob=c(farm.p, wild.p,Hybrid),
+          p1.p <- length(which(tempsub[which(classvec2=="Pure1"),"Pure1"] > q))/samplesize[1]
+          p2.p <- length(which(tempsub[which(classvec2=="Pure2"),"Pure2"] > q))/samplesize[2]
+          Hybrid <- length(which(tempsub[which(classvec2%in%c("F1","F2","BC1","BC2")),"phyb"]>q))/sum(samplesize[3:6])
+          tempout <- data.frame(nLoci=s,sim=i,level=q,prob=c(p1.p, p2.p,Hybrid),
                                 class=c("Pure1","Pure2","Hybrid"))
           ProbOutput2 <- rbind(ProbOutput2,tempout)
         } # end q loop
@@ -234,7 +236,7 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
         facet_grid(~nLoci)+
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
         scale_color_brewer(palette = "Dark2")+
-        labs(x="Probability threshold",y="Assignment success ± sd",col="Classification");h3
+        labs(x="Probability threshold",y="Assignment success ± sd",col="Classification")
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)} else
       {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)}
@@ -335,7 +337,6 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
     ## Misclassification 'type II' error
 
       classnames <- c("Pure1","Pure2","F1","F2","BC1","BC2")
-        Start <- Sys.time()
         missout <- NULL
         for (s in unique(sim_means$nLoci)){
           lsub <- filter(sim_means,nLoci == s)
@@ -343,7 +344,7 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
             tempsub <- filter(lsub,sim==i)
             for(q in 50:99/100){ # probability of 50 - 99%
               tempq <- tempsub
-              tempq$missclass<- classnames[apply(tempq[,classnames],1,which.max)] # what is the class of the highest NH probability
+              tempq$missclass <- classnames[apply(tempq[,classnames],1,which.max)] # what is the class of the highest NH probability
 
               tempq$missval <- 999 #place holder
               for(w in 1:nrow(tempq))
@@ -359,7 +360,7 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
               for (z in classnames){
                 temp2 <- filter(temp1,class == z)
                 if(nrow(temp2)>0){
-                  temp3 <- as.data.frame(table(temp2$missclass)/samplesize) # percentage of samples miss classed to a given class of a given type of class (i)
+                  temp3 <- as.data.frame(table(temp2$missclass)/samplesize[which(classnames==z)]) # percentage of samples miss classed to a given class of a given type of class (i)
 
                   temp4 <-  merge(dummydf,temp3,by="Var1",all.x = TRUE)
 
@@ -380,9 +381,9 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
                                        mclass_BC2=NA)}
                 missout <- rbind(missout,tempout)
 
-              } # end of z class loop
+              } # end of z loop
             } # end q loop
-          } #end i loop
+          } # end i loop
         } # end s loop
 
         #calcluate the means among simulations
@@ -415,17 +416,7 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
     PlotData[which(PlotData$variable == "mprobF2"),"variable"]="F2"
     PlotData[which(PlotData$variable == "mprobBC1"),"variable"]="BC1"
     PlotData[which(PlotData$variable == "mprobBC2"),"variable"]="BC2"
-
     PlotData$variable=factor(PlotData$variable,levels=c("Pure1","Pure2","F1","F2","BC1","BC2"))
-
-#     p6 <- ggplot(filter(PlotData,nLoci==192))+
-#       geom_line(aes(x=level,y=value,col=variable),lwd=1.25)+
-#       geom_line(aes(x=level,y=value+sd,col=variable),lty=2)+
-#       geom_line(aes(x=level,y=value-sd,col=variable),lty=2)+
-#       facet_wrap(~class,nrow=3,scales="free_y")+
-#       theme_bw()+scale_color_brewer(palette = "Dark2")+
-#       theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
-#       labs(x="Probability threshold",y="Proportion misassigned ± sd",col="Classification");p6
 
     #Create the plots
 
@@ -486,5 +477,13 @@ Hybridpower_comparison <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.
       }
       dev.off()
     }
+
+    ## clean workspace
+    rm(list=setdiff(ls(), c("p1","p3","p4","p5","h1","h3","h4","h5",
+                            "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds")))
+
+    #save workspace image
+    if(filetag!=""){save.image(paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"))} else
+    {save.image(paste0(dir,"Figures and Data/data/WorkSpace.RData"))}
 
 } #end function
