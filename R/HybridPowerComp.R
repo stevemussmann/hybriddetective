@@ -17,7 +17,7 @@
 #' @importFrom scales alpha
 #' @export
 
-hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=200,CT=0.1,CT=0.5){
+hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=200,CT=0.1,CTI=0.5){
 
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
