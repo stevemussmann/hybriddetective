@@ -25,7 +25,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
   if(length(which(list.files(dir)=="Figures and Data"))==0){dir.create(paste0(dir,"Figures and Data"))} # if there isn't a 'Figures and Data' folder for output create one
   if(length(which(list.files(paste0(dir,"Figures and Data"))=="pdf"))==0){dir.create(paste0(dir,"Figures and Data/pdf"))} #create a folder for pdfs
   if(length(which(list.files(paste0(dir,"Figures and Data"))=="jpg"))==0){dir.create(paste0(dir,"Figures and Data/jpg"))} #create a folder for jpgs
-  if(length(which(list.files(paste0(dir,"Figures and Data"))=="data output"))==0){dir.create(paste0(dir,"Figures and Data/data output"))} #create a folder for data
+  if(length(which(list.files(paste0(dir,"Figures and Data"))=="data"))==0){dir.create(paste0(dir,"Figures and Data/data"))} #create a folder for data
 
   #Convergence checker
   arethereproblems = "no"
