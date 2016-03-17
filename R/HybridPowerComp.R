@@ -4,7 +4,7 @@
 #' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
 #' @param filetag A name tag which will be added to the outputs.
 #' @param Threshold A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).
-#' @param samplesize is the number of fish per NH class. By default (NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.
+#' @param samplesize is the number of fish per NH class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.
 #' @param CT convergence threshold (default: 0.1) denoting what an acceptable proportion of each individual of P1 & P2  can be classified as "F2".
 #' @param CTI proportion of individuals (default: 0.5) within a class (P1 and P2) which are permitted to fail exceed CT.
 #' @rdname hybridpowercomp
@@ -125,10 +125,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
       theme(strip.background = element_rect(fill="white"),legend.position="none")
 
     #save plot
-    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}else
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs_p1.pdf"),p1,height = 8,width = 10)}else
     {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs_p1.pdf"),p1,height = 8,width = 10)}
 
-    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}else
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_p1.jpg"),p1,height = 8,width = 10)}else
     {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_p1.jpg"),p1,height = 8,width = 10)}
 
     #Combined loci
@@ -148,10 +148,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
       theme(strip.background = element_rect(fill="white"),legend.position="none")+scale_y_continuous(limits=c(0.6,1))
 
     #Save plot
-    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}else
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid_h1.pdf"),h1,height = 8,width = 8)}else
     {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs_Hybrid_h1.pdf"),h1,height = 8,width = 8)}
 
-    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}else
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid_h1.jpg"),h1,height = 8,width = 8)}else
     {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid_h1.jpg"),h1,height = 8,width = 8)}
 
 
@@ -221,13 +221,13 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         labs(x="Probability threshold",y="Assignment success",col="Classification")
 
       #Save plot
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)} else
       {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)} else
       {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)}
 
-      #ComboHybrids
+      #ComboHybrids ------------
       FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
                                                                                sdprob = sd(prob,na.rm=T))%>%ungroup())
       FinalData2$class <- factor(FinalData2$class, levels=c("Pure1","Pure2","Hybrid")) # set plotting levels
@@ -242,10 +242,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         scale_color_brewer(palette = "Dark2")+
         labs(x="Probability threshold",y="Assignment success ± sd",col="Classification")
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 10)} else
       {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 10)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 10)} else
       {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 10)}
 
     #plot if no threshold specified
@@ -267,10 +267,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           labs(x="Probability threshold",y="Assignment success ± sd",col="# Loci")
       }
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)} else
       {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)} else
       {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)}
 
       ## combined hybrids
@@ -294,13 +294,13 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
       }
 
       #Save plot
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)} else
       {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)} else
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)} else
       {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)}
 
-      ## mean plot
+      ## mean plot ----------
 
       #facet labels
       FinalData$threshold <- paste0(FinalData$level*100,"%")
@@ -313,10 +313,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))
 
         #Save plot
-        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci.pdf"),p5,height = 8,width = 10)} else
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci_p5.pdf"),p5,height = 8,width = 10)} else
         {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci_p5.pdf"),p5,height = 8,width = 10)}
 
-        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci.jpg"),p5,height = 8,width = 10)} else
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci_p5.jpg"),p5,height = 8,width = 10)} else
         {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci_p5.jpg"),p5,height = 8,width = 10)}
 
         #Combined Hybrids
@@ -330,16 +330,14 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))
 
         #Save plot
-        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci_Hybrid.pdf"),h5,height = 8,width = 10)} else
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci_Hybrid_h5.pdf"),h5,height = 8,width = 10)} else
         {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci_Hybrid_h5.pdf"),h5,height = 9,width = 10)}
 
-        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)} else
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci_Hybrid_h5.jpg"),h5,height = 8,width = 10)} else
         {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci_Hybrid_h5.jpg"),h5,height = 8,width = 10)}
 
 
-
-    ## Misclassification 'type II' error
-
+    ## Misclassification 'type II' error ------------
       classnames <- c("Pure1","Pure2","F1","F2","BC1","BC2")
         missout <- NULL
         for (s in unique(sim_means$nLoci)){
@@ -486,8 +484,25 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
     rm(list=setdiff(ls(), c("p1","p3","p4","p5","h1","h3","h4","h5",
                             "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag","dir")))
 
-    #save workspace image
-    if(filetag!=""){save.image(paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"),envir = environment())} else
-    {save.image(paste0(dir,"Figures and Data/data/WorkSpace.RData"),envir = environment())}
+    # objs <- c(p1,p3,p4,p5,h1,h3,h4,h5,
+    #                PlotData,boxdata,FinalData,FinalData2,
+    #                sim_means2,Thresholds,filetag,dir)
+    #
+    # objsnames <- c("p1","p3","p4","p5","h1","h3","h4","h5",
+    #           "PlotData","boxdata","FinalData","FinalData2",
+    #           "sim_means2","Thresholds","filetag","dir")
+    #
+    # assign(objs,objsnames,envir=.GlobalEnv)
+    if(filetag!="")
+    {save(list = ls(envir = environment(), all.names = TRUE),
+         file = paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"),
+         envir = environment())}else
+         {save(list = ls(envir = environment(), all.names = TRUE),
+                file = paste0(dir,"Figures and Data/data/WorkSpace.RData"),
+               envir = environment())}
+    # #save workspace image
+    # if(filetag!=""){save.image(objs,file=paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"))} else
+    # {save.image(objs,file=paste0(dir,"Figures and Data/data/WorkSpace.RData"))}
 
+    #rm(objs)
 } #end function
