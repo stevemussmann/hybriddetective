@@ -60,7 +60,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
                 IndividualsPath <- tempfiles[grep("individuals.txt", tempfiles)]
                 if(length(samplesize)==1 & is.numeric(samplesize)){samplesize <- rep(samplesize,6)}
                 if(length(samplesize)==1 & !is.numeric(samplesize)){samplesize <- as.vector(n_class(samplesize)[,2])}
-                if(is.null(samplesize)){samplesize <- as.vector(n_class(paste0(filedir, i, "/", IndividualsPath))[,2]}
+                if(is.null(samplesize)){samplesize <- as.vector(n_class(paste0(filedir, i, "/", IndividualsPath)))[,2]}
                 #common order
                 if(sum(tempfile[1:samplesize[1],"Pure1"],na.rm=T)<sum(tempfile[1:samplesize[1],"Pure2"],na.rm=T)){
                   pure1 <- tempfile$Pure2;pure2 <- tempfile$Pure1
