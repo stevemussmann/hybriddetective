@@ -4,7 +4,7 @@
 #' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
 #' @param filetag A name tag which will be added to the outputs.
 #' @param Threshold A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).
-#' @param samplesize is the number of fish per NH class. This can be a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or this can be a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.
+#' @param samplesize is the number of fish per NH class. By default (NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.
 #' @param CT convergence threshold (default: 0.1) denoting what an acceptable proportion of each individual of P1 & P2  can be classified as "F2".
 #' @param CTI proportion of individuals (default: 0.5) within a class (P1 and P2) which are permitted to fail exceed CT.
 #' @rdname hybridpowercomp
@@ -17,7 +17,7 @@
 #' @importFrom scales alpha
 #' @export
 
-hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize,CT=0.1,CTI=0.5){
+hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5){
 
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
@@ -57,9 +57,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
                 tempfile=tempfile[,c("Indv","sim","rep","nLoci","Pure1","Pure2","F1","F2","BC1","BC2")]# reorder
 
                 #Get the samplesize for a given class
-                if(length(samplesize)==1 & is.numeric(samplesize)){samplesize <- rep(samplesize,6)} else
+                IndividualsPath <- tempfiles[grep("individuals.txt", tempfiles)]
+                if(length(samplesize)==1 & is.numeric(samplesize)){samplesize <- rep(samplesize,6)}
                 if(length(samplesize)==1 & !is.numeric(samplesize)){samplesize <- as.vector(n_class(samplesize)[,2])}
-
+                if(is.null(samplesize)){samplesize <- as.vector(n_class(paste0(filedir, i, "/", IndividualsPath))[,2]}
                 #common order
                 if(sum(tempfile[1:samplesize[1],"Pure1"],na.rm=T)<sum(tempfile[1:samplesize[1],"Pure2"],na.rm=T)){
                   pure1 <- tempfile$Pure2;pure2 <- tempfile$Pure1
@@ -486,7 +487,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
                             "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag","dir")))
 
     #save workspace image
-    if(filetag!=""){save.image(paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"))} else
-    {save.image(paste0(dir,"Figures and Data/data/WorkSpace.RData"))}
+    if(filetag!=""){save.image(paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"),envir = environment())} else
+    {save.image(paste0(dir,"Figures and Data/data/WorkSpace.RData"),envir = environment())}
 
 } #end function
