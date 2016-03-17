@@ -125,10 +125,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
     #save plot
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}else
-    {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs.pdf"),p1,height = 8,width = 10)}
+    {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs_p1.pdf"),p1,height = 8,width = 10)}
 
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}else
-    {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs.jpg"),p1,height = 8,width = 10)}
+    {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_p1.jpg"),p1,height = 8,width = 10)}
 
     #Combined loci
     sim_means2 <- sim_means
@@ -148,10 +148,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
     #Save plot
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}else
-    {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs_Hybrid.pdf"),h1,height = 8,width = 8)}
+    {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~simulation-nSNPs_Hybrid_h1.pdf"),h1,height = 8,width = 8)}
 
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}else
-    {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid.jpg"),h1,height = 8,width = 8)}
+    {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid_h1.jpg"),h1,height = 8,width = 8)}
 
 
 ## Look at assignment success as a function of threshold probability
@@ -221,10 +221,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
       #Save plot
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class.pdf"),p3,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)}
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class.jpg"),p3,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)}
 
       #ComboHybrids
       FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
@@ -242,10 +242,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         labs(x="Probability threshold",y="Assignment success ± sd",col="Classification")
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)} else
-      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid.pdf"),h3,height = 8,width = 10)}
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 10)}
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)} else
-      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_Hybrid.jpg"),h3,height = 8,width = 10)}
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 10)}
 
     #plot if no threshold specified
       if(addThresh){
@@ -267,10 +267,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
       }
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error.pdf"),p4,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)}
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error.jpg"),p4,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)}
 
       ## combined hybrids
 
@@ -294,10 +294,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
       #Save plot
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_Hybrid.pdf"),h4,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)}
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid.jpg"),h4,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)}
 
       ## mean plot
 
@@ -313,10 +313,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
         #Save plot
         if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci.pdf"),p5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci.pdf"),p5,height = 8,width = 10)}
+        {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci_p5.pdf"),p5,height = 8,width = 10)}
 
         if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci.jpg"),p5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci.jpg"),p5,height = 8,width = 10)}
+        {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci_p5.jpg"),p5,height = 8,width = 10)}
 
         #Combined Hybrids
         FinalData2$threshold <- paste0(FinalData2$level*100,"%")
@@ -330,10 +330,10 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
         #Save plot
         if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~z-loci_Hybrid.pdf"),h5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci_Hybrid.pdf"),h5,height = 9,width = 10)}
+        {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~~z-loci_Hybrid_h5.pdf"),h5,height = 9,width = 10)}
 
         if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)} else
-        {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci_Hybrid.jpg"),h5,height = 8,width = 10)}
+        {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~~z-loci_Hybrid_h5.jpg"),h5,height = 8,width = 10)}
 
 
 
@@ -483,7 +483,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
     ## clean workspace
     rm(list=setdiff(ls(), c("p1","p3","p4","p5","h1","h3","h4","h5",
-                            "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag")))
+                            "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag","dir")))
 
     #save workspace image
     if(filetag!=""){save.image(paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"))} else
