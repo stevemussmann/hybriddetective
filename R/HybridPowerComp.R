@@ -484,15 +484,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
     rm(list=setdiff(ls(), c("p1","p3","p4","p5","h1","h3","h4","h5",
                             "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag","dir")))
 
-    # objs <- c(p1,p3,p4,p5,h1,h3,h4,h5,
-    #                PlotData,boxdata,FinalData,FinalData2,
-    #                sim_means2,Thresholds,filetag,dir)
-    #
-    # objsnames <- c("p1","p3","p4","p5","h1","h3","h4","h5",
-    #           "PlotData","boxdata","FinalData","FinalData2",
-    #           "sim_means2","Thresholds","filetag","dir")
-    #
-    # assign(objs,objsnames,envir=.GlobalEnv)
+    #Save workspace image
     if(filetag!="")
     {save(list = ls(envir = environment(), all.names = TRUE),
          file = paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"),
@@ -500,9 +492,5 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
          {save(list = ls(envir = environment(), all.names = TRUE),
                 file = paste0(dir,"Figures and Data/data/WorkSpace.RData"),
                envir = environment())}
-    # #save workspace image
-    # if(filetag!=""){save.image(objs,file=paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"))} else
-    # {save.image(objs,file=paste0(dir,"Figures and Data/data/WorkSpace.RData"))}
 
-    #rm(objs)
 } #end function
