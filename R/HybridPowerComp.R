@@ -17,7 +17,7 @@
 #' @importFrom scales alpha
 #' @export
 
-hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=200,CT=0.1,CTI=0.5){
+hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize,CT=0.1,CTI=0.5){
 
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
@@ -483,7 +483,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
     ## clean workspace
     rm(list=setdiff(ls(), c("p1","p3","p4","p5","h1","h3","h4","h5",
-                            "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds")))
+                            "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag")))
 
     #save workspace image
     if(filetag!=""){save.image(paste0(dir,"Figures and Data/data/",filetag,"_WorkSpace.RData"))} else
