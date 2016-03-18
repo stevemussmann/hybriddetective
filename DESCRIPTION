@@ -8,7 +8,7 @@ Maintainer: Brendan F. Wringe <bwringe@gmail.com>
 Author@R: c(person("Brendan", "Wringe", email = "bwringe@gmail.com", role =
     c("aut", "cre"),
     person("Nick", "Jeffries", role = "ctb"),
-    person("Ryan", "Stanley", role = "ctb"))
+    person("Ryan", "Stanley", role = c("aut", "ctb"))
 Description: More about what it does (maybe more than one line)
 License: GPL
 LazyData: TRUE
