@@ -10,7 +10,6 @@
 
 NHresults <- read.table("~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Simulated Proportional Sampling/NStop240ForSimulation_S1R1_NH.txt_Results/NStop240ForSimulation_S1R1_NH.txt_PofZ.txt", header = TRUE)[,-2]
 
-if(50% of P1 > 0.1 == TRUE | 50% of P2 > 0.1 == TRUE){FLAG}
 
 nh_accuracy_checkR <- function(NHResults, print.results = TRUE, all.hyb = FALSE){
 
