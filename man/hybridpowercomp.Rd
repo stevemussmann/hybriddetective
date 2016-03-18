@@ -2,7 +2,7 @@
 % Please edit documentation in R/HybridPowerComp.R
 \name{hybridpowercomp}
 \alias{hybridpowercomp}
-\title{Power evaluation for NewHybrids analysis of simulated datasets.}
+\title{Assignment power comparison among different SNP subsets using NewHybrids simulated datasets.}
 \usage{
 hybridpowercomp(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
   addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5)
@@ -12,15 +12,15 @@ hybridpowercomp(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
 
 \item{filetag}{A name tag which will be added to the outputs.}
 
+\item{Thresholds}{A vector of thresholds which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).}
+
 \item{samplesize}{is the number of fish per NH class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.}
 
 \item{CT}{convergence threshold (default: 0.1) denoting what an acceptable proportion of each individual of P1 & P2  can be classified as "F2".}
 
 \item{CTI}{proportion of individuals (default: 0.5) within a class (P1 and P2) which are permitted to fail exceed CT.}
-
-\item{Threshold}{A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).}
 }
 \description{
-\code{hybridpower} Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
+\code{hybridpowercomp} Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
 }
 
