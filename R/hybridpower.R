@@ -4,6 +4,7 @@
 #' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
 #' @param filetag A name tag which will be added to the outputs
 #' @param Threshold A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class)
+#' @param Thresholds A vector of thresholds which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).
 #' @param samplesize is the number of fish per NH class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.
 #' @param CT convergence threshold (default: 0.1) denoting what an acceptable proportion of each individual of P1 & P2  can be classified as "F2".
 #' @param CTI proportion of individuals (default: 0.5) within a class (P1 and P2) which are permitted to fail exceed CT.
@@ -19,7 +20,7 @@
 
 
 
-hybridpower <-function(dir,filetag="",Threshold=NULL,samplesize=200) {
+hybridpower <-function(dir,filetag="",Threshold=NULL,Thresholds=c(0.5,0.6,0.7,0.8,0.9),samplesize=NULL,CT=0.1,CTI=0.5) {
 
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
@@ -129,8 +130,8 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,samplesize=200) {
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_p1.jpg"),p1,height = 8,width = 10)}else
     {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_p1.jpg"),p1,height = 8,width = 10)}
 
-    if(filetag!=""){write.csv(boxdata, paste0(dir,"Figures and Data/data output/",filetag,"_AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"))}else
-    {write.csv(boxdata, paste0(dir,"Figures and Data/data output/AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"))}
+    if(filetag!=""){write.csv(boxdata, paste0(dir,"Figures and Data/data/",filetag,"_AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"))}else
+    {write.csv(boxdata, paste0(dir,"Figures and Data/data/AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"))}
 
     #Make similar boxplot with summed propbability of being a hybrid
     sim_means2 <- sim_means
@@ -154,8 +155,8 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,samplesize=200) {
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid_h1.jpg"),h1,height = 8,width = 8)}else
     {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid_h1.jpg"),h1,height = 8,width = 8)}
 
-    if(filetag!=""){write.csv(sim_means2, paste0(dir,"Figures and Data/data output/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"))}else
-    {write.csv(sim_means2, paste0(dir,"Figures and Data/data output/AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"))}
+    if(filetag!=""){write.csv(sim_means2, paste0(dir,"Figures and Data/data/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"))}else
+    {write.csv(sim_means2, paste0(dir,"Figures and Data/data/AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"))}
 
 ## create the New Hybrids plot
 
@@ -184,8 +185,8 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,samplesize=200) {
               strip.background = element_rect(fill="white",colour = "black"),panel.margin=unit(1, "lines"))
 
       #save the figure
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_NewHybridsPlot~simulation_p2.pdf"),p2,height = 8,width = 10)} else
-      {ggsave(paste0(dir,"Figures/pdf/NewHybridsPlot~simulation_p2.pdf"),p2,height = 8,width = 10)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_NewHybridsPlot~simulation_p2.pdf"),p2,height = 8,width = 10)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/NewHybridsPlot~simulation_p2.pdf"),p2,height = 8,width = 10)}
 
 
 ## Look at assignment success as a function of threshold probability
@@ -243,11 +244,11 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
         scale_color_brewer(palette = "Dark2")+
         labs(x="Probability threshold",y="Assignment success",col="Classification")
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_p3.pdf"),p3,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)}
 
       #ComboHybrids
       FinalData2 <- data.frame(ProbOutput2%>%group_by(level,class)%>%summarise(mprob = mean(prob,na.rm=T),
@@ -263,11 +264,11 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
         scale_color_brewer(palette = "Dark2")+
         labs(x="Probability threshold",y=expression("Assignment success "%+-%"sd"),col="Classification")
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_Hybrid_h3.jpg"),h3,height = 8,width = 8)}
 
     #plot if no threshold specified
       if(length(Threshold)==0){
@@ -304,11 +305,11 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
        }
 
       #Save plot
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_p4.jpg"),p4,height = 10,width = 8)}
 
       ### Combo Hybrids
 
@@ -347,11 +348,11 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
       }
 
       #Save plot
-      if(filetag!=""){ggsave(paste0(dir,"Figures/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/pdf/AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)}
 
-      if(filetag!=""){ggsave(paste0(dir,"Figures/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures/jpg/AssignmentSuccess~level-error_Hybrid_h4.jgp"),h4,height = 10,width = 8)}
+      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)} else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid_h4.jgp"),h4,height = 10,width = 8)}
 
       ## mean plot ----------
 
