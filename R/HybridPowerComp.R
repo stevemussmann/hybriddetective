@@ -1,6 +1,6 @@
 #' @name hybridpowercomp
 #' @title Power evaluation for NewHybrids analysis of simulated datasets.
-#' @description \code{hybridpower} Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
+#' @description \code{hybridpowercomp} Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
 #' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
 #' @param filetag A name tag which will be added to the outputs.
 #' @param Threshold A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).
