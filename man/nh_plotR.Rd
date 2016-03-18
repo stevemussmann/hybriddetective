@@ -4,10 +4,10 @@
 \alias{nh_plotR}
 \title{NewHybrids Plot}
 \usage{
-nh_plotR(nh_output)
+nh_plotR(NHResults)
 }
 \arguments{
-\item{nh.output}{the PofZ file from a NewHybrids analysis}
+\item{NHResults}{the PofZ file from a NewHybrids analysis}
 }
 \description{
 \code{nh_plotR} plots the cumulative probabilities of assignment for each individual
