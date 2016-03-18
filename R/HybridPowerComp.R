@@ -1,5 +1,5 @@
 #' @name hybridpowercomp
-#' @title Power evaluation for NewHybrids analysis of simulated datasets.
+#' @title Assignment power comparison among different SNP subsets using NewHybrids simulated datasets.
 #' @description \code{hybridpowercomp} Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
 #' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
 #' @param filetag A name tag which will be added to the outputs.
@@ -240,7 +240,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         facet_grid(~nLoci)+
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
         scale_color_brewer(palette = "Dark2")+
-        labs(x="Probability threshold",y="Assignment success ± sd",col="Classification")
+        labs(x="Probability threshold",y=expression("Assignment success "%+-%"sd"),col="Classification")
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 10)} else
       {ggsave(paste0(dir,"Figures and Data/pdf/AssinmentSuccess~level-class_Hybrid_h3.pdf"),h3,height = 8,width = 10)}
@@ -255,7 +255,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
         theme_bw()+facet_wrap(~class,nrow=3,scales="free_y")+theme(strip.background = element_rect(fill="white",colour = "black"))+
         scale_color_brewer(palette = "Dark2")+
-        labs(x="Probability threshold",y="Assignment success ± sd",col="# Loci")+geom_vline(xintercept = Thresholds, lty=2)
+        labs(x="Probability threshold",y=expression("Assignment success "%+-%"sd"),col="# Loci")+geom_vline(xintercept = Thresholds, lty=2)
       }
 
       if(!addThresh){
@@ -264,7 +264,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
           theme_bw()+facet_wrap(~class,nrow=3,scales="free_y")+theme(strip.background = element_rect(fill="white",colour = "black"))+
           scale_color_brewer(palette = "Dark2")+
-          labs(x="Probability threshold",y="Assignment success ± sd",col="# Loci")
+          labs(x="Probability threshold",y=expression("Assignment success "%+-%"sd"),col="# Loci")
       }
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_AssignmentSuccess~level-error_p4.pdf"),p4,height = 10,width = 8)} else
@@ -281,7 +281,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
           theme_bw()+facet_grid(~class)+theme(strip.background = element_rect(fill="white",colour = "black"))+
           scale_color_brewer(palette = "Dark2")+
-          labs(x="Probability threshold",y="Assignment success ± sd",col="# Loci")+geom_vline(xintercept = Thresholds, lty=2)
+          labs(x="Probability threshold",y=expression("Assignment success "%+-%"sd"),col="# Loci")+geom_vline(xintercept = Thresholds, lty=2)
       }
 
       if(!addThresh){
@@ -290,7 +290,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
           theme_bw()+facet_grid(~class)+theme(strip.background = element_rect(fill="white",colour = "black"))+
           scale_color_brewer(palette = "Dark2")+
-          labs(x="Probability threshold",y="Assignment success ± sd",col="# Loci")
+          labs(x="Probability threshold",y=expression("Assignment success "%+-%"sd"),col="# Loci")
       }
 
       #Save plot
@@ -309,7 +309,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         geom_point(size=2.5)+geom_path(lwd=0.9)+
         geom_errorbar(aes(ymin=mprob-sdprob,ymax=mprob+sdprob),width=0.1)+
         facet_grid(~threshold)+theme_bw()+
-        labs(x="Number of loci",y="Assignment success ± sd",col="Classification",group="")+scale_color_brewer(palette = "Dark2")+
+        labs(x="Number of loci",y=expression("Assignment success "%+-%"sd"),col="Classification",group="")+scale_color_brewer(palette = "Dark2")+
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))
 
         #Save plot
@@ -326,7 +326,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           geom_point(size=2.5)+geom_path(lwd=0.9)+
           geom_errorbar(aes(ymin=mprob-sdprob,ymax=mprob+sdprob),width=0.1)+
           facet_grid(~threshold)+theme_bw()+
-          labs(x="Number of loci",y="Assignment success ± sd",col="Classification",group="")+scale_color_brewer(palette = "Dark2")+
+          labs(x="Number of loci",y=expression("Assignment success "%+-%"sd"),col="Classification",group="")+scale_color_brewer(palette = "Dark2")+
           theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))
 
         #Save plot
@@ -388,7 +388,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           } # end i loop
         } # end s loop
 
-        #calcluate the means among simulations
+    #calcluate the means among simulations
     miss_mean <- data.frame(missout%>%group_by(nLoci,level,class)%>%summarise(mprobP1 = mean(mclass_P1,na.rm=T),
                                                                    sdprobP1 = sd(mclass_P1,na.rm=T),
                                                                    mprobP2 = mean(mclass_P2,na.rm=T),
@@ -405,13 +405,12 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
     miss_mean[is.na(miss_mean)]=NA #replace NaN's with NAs
 
     #merge with the other data
-    FinalData2 <- merge(miss_mean,FinalData,by=c("nLoci","level","class"))
+    FinalData3 <- merge(miss_mean,FinalData,by=c("nLoci","level","class"))
 
-    PlotData <- melt(FinalData2[c("nLoci","level","class","mprobP1","mprobP2","mprobF1","mprobF2","mprobBC1","mprobBC2")],id.vars=c("nLoci","level","class"))
-    PlotDatasd <- melt(FinalData2[c("nLoci","level","class","sdprobP1","sdprobP2","sdprobF1","sdprobF2","sdprobBC1","sdprobBC2")],id.vars=c("nLoci","level","class"))
+    PlotData <- melt(FinalData3[c("nLoci","level","class","mprobP1","mprobP2","mprobF1","mprobF2","mprobBC1","mprobBC2")],id.vars=c("nLoci","level","class"))
+    PlotDatasd <- melt(FinalData3[c("nLoci","level","class","sdprobP1","sdprobP2","sdprobF1","sdprobF2","sdprobBC1","sdprobBC2")],id.vars=c("nLoci","level","class"))
     PlotData$sd <- PlotDatasd$value
     PlotData$variable <- as.character(PlotData$variable)
-
     PlotData[which(PlotData$variable == "mprobP1"),"variable"]="Pure1"
     PlotData[which(PlotData$variable == "mprobP2"),"variable"]="Pure2"
     PlotData[which(PlotData$variable == "mprobF1"),"variable"]="F1"
@@ -421,7 +420,6 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
     PlotData$variable=factor(PlotData$variable,levels=c("Pure1","Pure2","F1","F2","BC1","BC2"))
 
     #Create the plots
-
     for (i in unique(PlotData$class)){
         temp.plot <- ggplot(filter(PlotData,class==i))+
         geom_line(aes(x=level,y=value,col=variable),lwd=1.25)+
@@ -430,7 +428,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         facet_grid(~nLoci,scales="free_y")+
         theme_bw()+scale_color_brewer(palette = "Dark2")+
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
-        labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned ± sd"),col="Classification")
+        labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned \u00B1 sd"),col="Classification")
 
         if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8)} else
         {ggsave(paste0(dir,paste0("Figures and Data/pdf/",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8))}
@@ -456,7 +454,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           facet_grid(~nLoci,scales="free_y")+
           theme_bw()+scale_color_brewer(palette = "Dark2")+
           theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
-          labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned ± sd"),col="Classification")
+          labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned \u00B1 sd"),col="Classification")
           print(temp.plot)
           }
       dev.off()
@@ -474,7 +472,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           facet_grid(~nLoci,scales="free_y")+
           theme_bw()+scale_color_brewer(palette = "Dark2")+
           theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
-          labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned ± sd"),col="Classification")
+          labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned \u00B1 sd"),col="Classification")
         print(temp.plot)
       }
       dev.off()
@@ -482,7 +480,7 @@ hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
     ## clean workspace
     rm(list=setdiff(ls(), c("p1","p3","p4","p5","h1","h3","h4","h5",
-                            "PlotData","boxdata","FinalData","FinalData2","sim_means2","Thresholds","filetag","dir")))
+                            "PlotData","boxdata","FinalData","FinalData2","FinalData3","sim_means2","Thresholds","filetag","dir")))
 
     #Save workspace image
     if(filetag!="")
