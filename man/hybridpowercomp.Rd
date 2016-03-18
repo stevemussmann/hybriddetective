@@ -5,14 +5,14 @@
 \title{Power evaluation for NewHybrids analysis of simulated datasets.}
 \usage{
 hybridpowercomp(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
-  addThresh = FALSE, samplesize = 200, CT = 0.1, CTI = 0.5)
+  addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5)
 }
 \arguments{
 \item{dir}{path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.}
 
 \item{filetag}{A name tag which will be added to the outputs.}
 
-\item{samplesize}{is the number of fish per NH class. This can be a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or this can be a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.}
+\item{samplesize}{is the number of fish per NH class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from \code {nh_analysis_data_generatoR}.}
 
 \item{CT}{convergence threshold (default: 0.1) denoting what an acceptable proportion of each individual of P1 & P2  can be classified as "F2".}
 
