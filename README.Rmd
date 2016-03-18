@@ -22,19 +22,14 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 
 ***  
 ###Package Installation
-*devtools* must be installed prior to installing **hybriddetective**  
-With *devtools* installed, **hybriddetective** can be installed using the command
+hybriddetective requires the packages *genepopedit* <https://github.com/rystanley/genepopedit> and *parallelnewhybrid* <https://github.com/bwringe/parallelnewhybrid> which must be installed prior to installation. genepopedit, parallelnewhybrid, and hybriddetective can be installed from Github using the R package *devtools* and the function *install_github*: 
+
 ```
-devtools::install_git("bwringe/hybriddetective")
+devtools::install_github("bwringe/parallelnewhybrid") #required
+devtools::install_github("rystanley/genepopedit") #requied
+devtools::install_github("bwringe/hybriddetective") #package
 ```
-The packages **parallelnh** and **genepopedit** must also be installed along with **hybriddetective**  
-With *devtools* installed, these packages can be installed using the commands
-```
-devtools::install_git("bwringe/hybriddetective")
-```
-```
-devtools::install_git("rystanley/genepopedit")
-```
+
 **Note**: **hybriddetective** relies on functions from the packages *dplyr*, *ggplot2*, *grid*, *parallel*, *plyr*, *stringr*, *scales*, *reshape2* and *tidyr*. The user should ensure these installed prior to installing **hybriddetective**
 ***
 
@@ -51,10 +46,11 @@ This function will quickly calculate, the proportion of individuals in a simulat
 
 ####nh\_analysis\_data\_generatoR.R
 This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging these with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a NewHybrids format file for analysis, along with a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.  
-
-
 ####hybridpower
-RYAN FILLS THIS IN
+This fuction will extract data from New Hybrids runs and evaluate the correct assignment to a given hybrid classication (Pure1, Pure2, F1, F2, BC1, and BC2). From this data hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshhold (% of an individual sample required to be assigned a hybrid class scaling from 50-100%). Diagnostic plots are also provided which detail variation among simulations as well as the what hybrid classes individuals are _missassigned_ to. Summary data and ggplot objects are saved to a .RData output automatically. Output from this analysis can be found in generated folder called "Figures and Data" which is placed within the directory (specified by *dir*) which contains the New Hybrids output folders. Note that *hybridpower* assumes all simulations and associated replicates are produced from New Hybrids analyses conducted on the same number of loci. Use *hybridpowercomp* if the number of loci varies among simulations. 
+
+####hybridpowercomp
+This function will replicate the analysis of *hybridpower* but will paritition the results according to the number of loci used in the assignment analysis. The plots will compare assignment power among differnet numbers of loci used. 
 
 
 
