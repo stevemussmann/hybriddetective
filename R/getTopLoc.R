@@ -164,7 +164,7 @@ plink_map_path <- paste0(where.PLINK, "/", "PGDtest.map")
 where.PLINK.go <- gsub(x = where.PLINK, pattern = " ", replacement = "\\ ", fixed = TRUE)
 go.to.PLINK <- paste0("cd ", where.PLINK.go)
 
-execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2")
+execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --noweb")
 ### run PLINK through system
 system(execute.PLINK)
 
