@@ -32,7 +32,7 @@ preCheckR <- function(PreDir, propCutOff = 0.5, PofZCutOff=0.1){
     amChecking <- read.table(paste0(PreDir, i, "/", pzCheckingFind), header = T)
 
     indCheckingFind <- LiamChecking[grep("individuals", LiamChecking)]
-    indChecking <- read.table(paste0(PreDir, i, "", indCheckingFind))
+    indChecking <- read.table(paste0(PreDir, i, "/", indCheckingFind))
     Output <- n_class(x = indChecking)
 
 
