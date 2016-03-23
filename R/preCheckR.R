@@ -33,7 +33,7 @@ preCheckR <- function(PreDir, propCutOff = 0.5, PofZCutOff=0.1){
 
     indCheckingFind <- LiamChecking[grep("individuals", LiamChecking)]
     indChecking <- read.table(paste0(PreDir, i, "/", indCheckingFind))
-    Output <- n_class(x = indChecking)
+    Output <- n_class(x = paste0(PreDir, i, "/", indCheckingFind))
 
 
     Prop_Pure1_F2_PofZ = length(which(amChecking[c(1:Output[1,2]), 6] > PofZCutOff))/Output[1,2]
