@@ -16,6 +16,8 @@
 
 getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider){
 
+  writeLines("Reading Data")
+
   path.start <- getwd()  ### where to write the files created by genepopedit to
 
   pops.exist <- genepopedit::genepop_detective(GPD) ## see what populations are in the file
@@ -33,6 +35,7 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspi
   }
 
 
+  writeLines("Creating training and working datasets")
   ### subsample to get a training and simulated dataset
   inds.sub <- genepopedit::genepop_sample(GenePop = GPD, nsample = 0.5)
 
@@ -76,7 +79,7 @@ sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
   }
 
 
-
+writeLines("Calculating Fst")
 ### change the format of the original file to FSTAT so can get Fst
 genepopedit::genepop_fstat(GPD.Top, path = paste0(path.start, "/", "for_FST.txt")) ## read in the file for fst
 ## remember the path of the file created by genepop_fstat
@@ -95,7 +98,7 @@ names(FST.df)[1] <- "loci"
 FST.df <- FST.df[base::order(FST.df$FSTs, decreasing = TRUE),]
 # head(FST.df)
 
-
+writeLines("Calculating Linkage")
 ### convert file to .ped and .map using PGD spider
 
 # modify the path to play nice with spaces
@@ -282,6 +285,7 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
 
  to.cut.out
 
+ writeLines("Writing output")
  your.panel <- FST.order.vec[-to.cut.out][1:panel.size]
  GPsplit <- c(stringr::str_split(string = GPD, pattern = "/"))
 
@@ -308,5 +312,7 @@ file.remove(paste0(path.start, "/plink.txt"))
 file.remove(paste0(path.start, "/LDsReform.txt"))
 file.remove(GPD.Top)
 file.remove(sim.path)
+
+writeLines("Process Completed.")
 
  }
