@@ -33,6 +33,16 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspi
   }
 
 
+  ### subsample to get a training and simulated dataset
+  inds.sub <- genepopedit::genepop_sample(GenePop = GPD, nsample = 0.5)
+
+  genepopedit::subset_genepop_individual(GenePop = GPD, indiv = inds.sub, keep = TRUE, path = paste0(path.start, "/", "GPD_for_sim.txt"))
+  genepopedit::subset_genepop_individual(GenePop = GPD, indiv = inds.sub, keep = FALSE, path = paste0(path.start, "/", "GPD_for_GET_TOP_LOC.txt"))
+
+  sim.path <- paste0(path.start, "/", "GPD_for_sim.txt")
+  GPD.Top <- paste0(path.start, "/", "GPD_for_GET_TOP_LOC.txt")
+
+
 
   ### some people might want to get LD for both pops at once - sure why not give them the option
 
@@ -45,7 +55,7 @@ popLDsubsetDF <- data.frame(op=pops.exist, rename=c("Pop1", "Pop2")) ## make a D
 subPOP <- popLDsubsetDF[which(popLDsubsetDF[,2] == LDpop),1] ### get the name of the pop to be subsetted
 
 ## subset out the population in which LD is to be calculated - this will make a file, which will be deleted after
-genepopedit::subset_genepop(GenePop = GPD, sPop = subPOP, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
+genepopedit::subset_genepop(GenePop = GPD.Top, sPop = subPOP, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
 ## remember path to the file created by subset_genepop
 sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
 
@@ -57,7 +67,7 @@ sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
 
     popLDsubsetDF <- data.frame(op=pops.exist, rename=c("Pop1", "Pop1")) ## make a both the same
 
-    genepopedit::subset_genepop_aggregate(GenePop = GPD, agPopFrame = popLDsubsetDF, path = paste0(path.start, "/", "subset_for_LD.txt"))
+    genepopedit::subset_genepop_aggregate(GenePop = GPD.Top, agPopFrame = popLDsubsetDF, path = paste0(path.start, "/", "subset_for_LD.txt"))
     sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
     ## now rename
 
@@ -68,7 +78,7 @@ sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
 
 
 ### change the format of the original file to FSTAT so can get Fst
-genepopedit::genepop_fstat(GPD, path = paste0(path.start, "/", "for_FST.txt")) ## read in the file for fst
+genepopedit::genepop_fstat(GPD.Top, path = paste0(path.start, "/", "for_FST.txt")) ## read in the file for fst
 ## remember the path of the file created by genepop_fstat
 fst_data_path <- paste0(path.start, "/", "for_FST.txt")
 
@@ -281,9 +291,10 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
 
     outName <- paste0(GPD.path, outNameHold, "_", panel.size, "_Loci_Panel.txt")
 
- genepopedit::subset_genepop(GenePop = GPD, subs = your.panel, keep = TRUE, path = outName)
+ genepopedit::subset_genepop(GenePop = sim.path, subs = your.panel, keep = TRUE, path = outName)
 
  write(x = your.panel, file = paste0(GPD.path, paste0("Top_", panel.size, "_loci.txt")))
+ write(x = inds.sub, file = paste0(GPD.path, "_individuals_for_Simulation.txt"))
 
  file.remove(remember.spidpath)
  file.remove(sub_data_path)
@@ -295,5 +306,7 @@ file.remove(plink_map_path)
 file.remove(plink_ped_path)
 file.remove(paste0(path.start, "/plink.txt"))
 file.remove(paste0(path.start, "/LDsReform.txt"))
+file.remove(GPD.Top)
+file.remove(sim.path)
 
  }
