@@ -1,7 +1,7 @@
 #' @name n class
 #' @title Evalute the number of simulated individuals per NewHybrid class#'
 #' @description \code{n_class} will provide a count of each class according to vector of sample names specified in the *_individuals.txt output from  \code{nh_analysis_data_generatoR}
-#' @param x vector of sample IDs provided by the *_Individuals.txt output from \code{nh_analysis_data_generatoR}.
+#' @param x vector of sample IDs provided by the *_Individuals.txt output from \code{nh_analysis_data_generatoR}. This must be a vector and not a df.
 #' @rdname n_class
 #' @export
 
@@ -9,9 +9,10 @@
 n_class <- function(x)
   {
 
-  if(length(x)==1){dat <- read.table(x);dat <- dat[,1]}
+  if(length(x)==1){dat <- read.table(x,stringsAsFactors = F);dat <- as.character(dat[,1])}else
+    {dat <- as.character(x)}
 
-  dat <- as.character(dat) #  character vector
+   #  character vector
 
   #Identify the specific classes
   Pures <- dat[grep("Pure",dat)]
