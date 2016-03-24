@@ -152,7 +152,7 @@ nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
   indivs.in.dataset <- c(sim.inds.include.vector, unknown.indivs.exist)
   insertNumIndivs <- paste("NumIndivs", length(indivs.in.dataset))
 
-  insertNumLoci <- paste("NumLoci", length(sim.inds.Loci)) ## will probably have to be -1
+  insertNumLoci <- paste("NumLoci", length(sim.inds.Loci[-1])) ## will probably have to be -1
 
   ### hard coded stuff
   insertDigits <- "Digits 3"
@@ -164,7 +164,7 @@ nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
 
   insert.meta.data <- c(insertNumIndivs, insertNumLoci, insertDigits, insertFormat, insertLociName)
 
-    sim.unknown.combined <- merge(x = sim.inds.include[,-1], y = unknown.inds.include[,-1])
+    sim.unknown.combined <- rbind(sim.inds.include[,-1], unknown.inds.include[,-1])
     sim.ind.renameforNH <- c(1:nrow(sim.unknown.combined))
     sim.unknown.combined <- data.frame(sim.ind.renameforNH, sim.unknown.combined)
     sim.unknown.output <- do.call(paste, c(data.frame(sim.unknown.combined[,]), sep = " "))
@@ -173,5 +173,4 @@ nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
 
     write(x = data.out, file = output.name)
 
-
-} # End Function
+}
