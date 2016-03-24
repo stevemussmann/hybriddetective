@@ -17,9 +17,6 @@
 #' @importFrom stringr str_split str_extract str_detect
 #' @import plyr
 
-sim.pops.include <- c("Pure1", "Pure2") ### allow various numbers of categories to be included
-
-
 
 nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.include = c("Pure1", "Pure2"), output.name){
   ### read in teh simulated data
