@@ -168,6 +168,6 @@ nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
     write(x = data.out, file = output.name)
     indivs.out.file <- gsub(x = output.name, pattern = ".txt", replacement = "")
     indivs.out.file <- paste0(indivs.out.file, "_individuals.txt")
-    write.table(x = indivs.in.dataset, file = indivs.out.file)
+    write(x = indivs.in.dataset, file = "indivs.out.file.txt")
 
 }
