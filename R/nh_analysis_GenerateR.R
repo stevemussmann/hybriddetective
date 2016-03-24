@@ -142,7 +142,7 @@ nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
 
 
   ###
-  indivs.in.dataset <- c(sim.inds.include.vector, unknown.indivs.exist)
+  indivs.in.dataset <- c(as.character(sim.inds.include.vector), unknown.indivs.exist)
   insertNumIndivs <- paste("NumIndivs", length(indivs.in.dataset))
 
   insertNumLoci <- paste("NumLoci", length(sim.inds.Loci[-1])) ## will probably have to be -1
