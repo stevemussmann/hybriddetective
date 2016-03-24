@@ -16,6 +16,7 @@
 #' @importFrom tidyr separate
 #' @importFrom stringr str_split str_extract str_detect
 #' @import plyr
+#' @import stringr
 
 
 nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.include = c("Pure1", "Pure2"), output.name){
