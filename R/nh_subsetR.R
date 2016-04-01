@@ -23,12 +23,12 @@ nh_subset <- function(NHData, loci = NULL){
 
   colnames(temp) <- colnamevec
 
-  if(length(loci) > 0){ ### May add ability to subset populations later - have if statement here to allow
+  # if(length(loci) > 0){ ### May add ability to subset populations later - have if statement here to allow
 
     loci.to.remove <- which(colnamevec %in% loci)
 
     temp_subsetted <- temp[, -loci.to.remove]
-      }
+      # }
 
   insertNumIndivs <- paste("NumIndivs", nrow(temp_subsetted))
 
