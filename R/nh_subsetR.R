@@ -16,7 +16,6 @@ nh_subset <- function(NHData, loci = NULL){
   NHD <- read.table(NHData, header = FALSE, quote = "", sep = "\t", stringsAsFactors = FALSE)
 
   NHD_nometa <- NHD[-(1:5),]
-  colnames(NHD_nometa) <- "temp"
 
   temp <- as.data.frame(do.call(rbind, strsplit(NHD_nometa, " ")))
 
