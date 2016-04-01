@@ -2,7 +2,7 @@
 #' @title Subset NewHybrids format datasets
 #' @description Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels
 #' @param NHData The file path to a NewHybrids formatted dataset to be subsetted
-#' @param loci A vector of Loci names to be removed from the dataset
+#' @param loci A vector of Loci names to be retained from the dataset
 #' @importFrom dplyr filter summarise ungroup group_by
 #' @importFrom grid arrow unit
 #' @importFrom stringr str_extract str_split
@@ -25,9 +25,9 @@ nh_subset <- function(NHData, loci = NULL){
 
   # if(length(loci) > 0){ ### May add ability to subset populations later - have if statement here to allow
 
-    loci.to.remove <- which(colnamevec %in% loci)
+    loci.to.keep <- which(colnamevec %in% loci)
 
-    temp_subsetted <- temp[, -loci.to.remove]
+    temp_subsetted <- temp[, c(1, loci.to.keep)]
       # }
 
   insertNumIndivs <- paste("NumIndivs", nrow(temp_subsetted))
