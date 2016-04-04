@@ -98,7 +98,9 @@ $(document).ready(function () {
 
 
 <hr />
-<p><strong>hybriddetective</strong> is an R package designed to work in concert with the packages <strong>parallelnewhybrid</strong> and <strong>genepopedit</strong> to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment.</p>
+<div id="hybriddetective-is-an-r-package-designed-to-work-in-concert-with-the-packages-parallelnewhybrid-and-genepopedit-to-streamline-and-where-possible-automate-the-detection-of-hybrids-by-moving-the-entire-process-into-the-r-environment." class="section level3">
+<h3><strong><em>hybriddetective</em></strong> is an R package designed to work in concert with the packages <strong>parallelnewhybrid</strong> and <strong>genepopedit</strong> to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment.</h3>
+</div>
 <div id="preamble" class="section level3">
 <h3>Preamble</h3>
 <p><strong>hybriddetective</strong> is designed to work in conjunction with, and to link the functions contained in the R packages <strong>parallelnewhybrid</strong> and <strong>genepopedit</strong> to bring the entire hybrid detection workflow into the R environment.</p>
@@ -203,7 +205,7 @@ hybridpower
 hybridpowercomp
 </h4>
 <p>This function will replicate the analysis of <em>hybridpower</em> but will paritition the results according to the number of loci used in the assignment analysis. The plots will compare assignment power among differnet numbers of loci used.<br />
-<span style="color:red"> <strong>NOTE:</strong></span> <em>hybridpowercomp</em> assumes all simulations and associated replicates are produced from <em>NewHybrids</em> analyses conducted on the same number of loci. Use <em>hybridpowercomp</em> if the number of loci varies among simulations.</p>
+<span style="color:red"> <strong>NOTE:</strong></span> <em>hybridpower</em> assumes that the same simulated datasets are being tested, with varying numbers of loci in the panel. <em>hybridpowercomp</em> should be used if the number of loci do not vary among simulations.</p>
 </div>
 
 
