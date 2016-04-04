@@ -1,31 +1,48 @@
-## **hybriddetective**  
+---
+title: "hybriddetective"
+output:
+  html_document:
+    theme: yeti
+    highlight: tango
+---
+
+
 ***
-**hybriddetective** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment.
-***
+**hybriddetective** is an R package designed to work in concert with the packages **parallelnewhybrid** and **genepopedit** to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment.
+
 
 ### Preamble  
 **hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** and **genepopedit** to bring the entire hybrid detection workflow into the R environment.  
-By using **hybriddetective**, together with the packages **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis from manipulation of genotype files, to identification of panels of unlinked SNPs with the highest Fst, quantification of the efficacy and accuracy of panels to identify hybrids, to the determination of hybrid category of experimental data.  
+
+By using **hybriddetective**, together with the packages **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis starting with genotypic data through to identification of hybrid individuals, with quantifiable levels of certainty of assignment. These packages facilitate the manipulation of genotype files, the identification of panels of unlinked markers based on the highest loci-specific Fst, the simulation of multi-generation hybrids and subsequent quantification of the efficacy and accuracy of panels to identify hybrids, and the determination of hybrid category of experimental data.  
+    
 In addition, **hybriddetective** includes plotting functionality to generate both exploratory and publishable figures.  
+    
+**hybriddetective** and **parrallelnewhybrid** were designed primarily to work with the Bayesian model-based genetic hybrid detection programme *NewHybrids* (Anderson and Thompson 2002). However by using the format interconversion tools provided in **hybriddetective** and **genepopedit**, users are able to analyze simulated and experimental datasets in other programmes such as *STRUCTURE*.  
+
 ***
 
 ###Overview of functions:  
 
 **Function name** | **Main use**  
 ------------|------------------------------------------------------------------------------------------
-**preCheckR.R** | Checks all NewHybrids results within a given directory to ensure they have converged.
-**nh_plotR.R** |  Plots cumulative probability of assignments from NewHybrids results for each individual 
-**nh_accuracy_checkR.R** | Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ >= 0.5, 0.75 and 0.9)
-**nh_plotR.R** |  Plots cumulative probability of assignments from NewHybrids results for each individual 
-**nh_analysis_data_generatoR.R** |   Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids
-**nh_data_generateR.R** |   Merges specified simulated reference datasets with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids
-**hybridpower.R** |  Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). Will also write graphical and numerical results to a directory provided by the user.
-**hybridpowercomp.R** |  Replicates the functionality of *hybridpower*, but allows the efficacy of multiple panels of varying numbers of markers to be compared.
 **getTopLoc.R** |  Creates a panel comprised of the top *n* unlinked loci. Exports a list of loci, and a dataset to be used in the simulation functions.
+**nh_subsetR.R** |  Subset loci from *NewHybrids* format datasets
+**preCheckR.R** | Checks all *NewHybrids* results within a given directory to ensure they have converged.
+**nh_plotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual 
+**nh_accuracy_checkR.R** | Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ >= 0.5, 0.75 and 0.9)
+**hybridpower.R** |  Evaluates the accuracy with which *NewHybrids* assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). Will also write graphical and numerical results to a directory provided by the user.
+**hybridpowercomp.R** |  Replicates the functionality of *hybridpower*, but allows the efficacy of multiple panels of varying numbers of markers to be compared.
+**nh_data_generateR.R** |   Merges specified simulated reference datasets with the genotypes of unknown/experimental individuals, producing a file to be analyzed by *NewHybrids*
+**nh_analysis_data_generatoR.R** |   Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by *NewHybrids*
+
+
 
 ***  
 ###Package Installation
-hybriddetective requires the packages *genepopedit* <https://github.com/rystanley/genepopedit> and *parallelnewhybrid* <https://github.com/bwringe/parallelnewhybrid> which must be installed prior to installation. genepopedit, parallelnewhybrid, and hybriddetective can be installed from Github using the R package *devtools* and the function *install_github*: 
+**hybriddetective** requires the packages **genepopedit** <https://github.com/rystanley/genepopedit> and **parallelnewhybrid** <https://github.com/bwringe/parallelnewhybrid>, and these must be installed from GitHub prior to the installation of **hybryddetective**.  
+
+**genepopedit**, **parallelnewhybrid**, and **hybriddetective** can be installed from GitHub using the R package *devtools* and the function *install_github*: 
 
 ```
 devtools::install_github("bwringe/parallelnewhybrid") #required
@@ -33,32 +50,34 @@ devtools::install_github("rystanley/genepopedit") #requied
 devtools::install_github("bwringe/hybriddetective") #package
 ```
 
-**Note**: **hybriddetective** relies on functions from the packages *dplyr*, *ggplot2*, *grid*, *parallel*, *plyr*, *stringr*, *scales*, *reshape2* and *tidyr*. The user should ensure these installed prior to installing **hybriddetective**
+<span style = "color:red"> <strong>NOTE:</strong></span> **hybriddetective** also relies on functions from the packages *dplyr*, *ggplot2*, *grid*, *parallel*, *plyr*, *stringr*, *scales*, *reshape2* and *tidyr*. The user should ensure these installed from CRAN prior to installing **hybriddetective**.
+
 ***
 
 ###Function descriptions
-####preCheckR.R
-When using NewHybrids, the Markov Chain Monte Carlo (MCMC) chains occasionlly will fail to converge resulting in NewHybrids spuriously returning the higest probability of assignment of nearly every individual to the F2 category. In such cases, the analysis should be re-run. This function quickly assesses the results of many NewHybrids runs, and will flag those results which appear to have failed to converge for user verification.  
-**Note:** several of the fucntions contained in this package will not function correctly, or will fail if they are provided with results of non-converged runs. Thus, it is strongly recommended that this function be run on every NewHybrids result.  
+<h4 class="text-primary"> preCheckR.R</h4>
+When using *NewHybrids*, the Markov Chain Monte Carlo (MCMC) chains will occasionlly fail to converge resulting, in *NewHybrids* spuriously returning the higest probability of assignment of nearly every individual to the F2 category. In such cases, the analysis should be re-run. *preCheckR.R* quickly assesses the results of many independent *NewHybrids* runs, and will flag instances in which the probability of assignment values indicate the chains appear to have failed to converge. Results flagged by *preCheckR.R* should be manually verified by the user.  
+<span style = "color:red"> <strong>NOTE:</strong></span> several of the functions in **hybriddetective** will not function correctly, or will fail if they are provided with results of non-converged runs. Thus, it is strongly recommended that *preCheckR.R* be run on every *NewHybrids* result.  
 
-####nh_plotR.R
-This function will plot the cumulative probability of assignment for each individual in a NewHybrids analysis. This can be used for both simulated and experimental datasets.  
+<h4 class="text-primary">nh_plotR.R</h4>
+This function will plot the cumulative probability of assignment (PofZ) for each individual in a *NewHybrids* analysis. *nh_plotR.R* can be used with both simulated and experimental datasets.  
 
-####nh\_accuracy\_checkR.R
-This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by NewHybrids at three levels of probability (PofZ >= 0.5, 0.75 and 0.9). The proportions correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired. This function is intended primarily for exploratory analysis, and it's functionality is expanded upon in the functions *hybridpower* and *hybridpowercomp*.  
+<h4 class="text-primary">nh\_accuracy\_checkR.R</h4>
+This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by *NewHybrids* at three probability of assignment thresholds (PofZ >= 0.5, 0.75 and 0.9). The proportion of individuals for each hybrid category correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired. *nh_accuracy_checkR.R* is intended primarily for exploratory analysis, and it's functionality is expanded upon in the functions *hybridpower* and *hybridpowercomp*.  
 
-####nh\_analysis\_data\_generatoR.R
-This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging these with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a NewHybrids format file for analysis, along with a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file. **NOTE**: This function creates a unique simulated data set each time it is run.  
+<h4 class="text-primary">nh\_analysis\_data\_generatoR.R</h4>
+This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging the simulated data with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of the individuals included (including those that were simulated) in the *NewHybrids* formatted file. <span style = "color:red"> <strong>NOTE:</strong></span> *nh_analysis_data_generatoR.R* creates a unique simulated data set each time it is run.   
 
-####nh\_analysis\_GenerateR.R
-This function combines pre-simulated datasets with experimental/unknown data. Both the simulated and experimental datasets can be in GENEPOP or NewHybrids formats. This function also allows the user to specify which hybrid categories to include from the simulated dataset.
+<h4 class="text-primary">nh\_analysis\_GenerateR.R</h4>
+This function combines pre-simulated datasets with experimental/unknown data. Both the simulated and experimental datasets can be in *GENEPOP* or *NewHybrids* formats. This function also allows the user to specify which hybrid categories to include from the simulated dataset. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of all individuals included in the *NewHybrids* formatted file.
 
-####hybridpower
-This fuction will extract data from New Hybrids runs and evaluate the correct assignment to a given hybrid classication (Pure1, Pure2, F1, F2, BC1, and BC2). From this data hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshhold (% of an individual sample required to be assigned a hybrid class scaling from 50-100%). Diagnostic plots are also provided which detail variation among simulations as well as the what hybrid classes individuals are _missassigned_ to. Summary data and ggplot objects are saved to a .RData output automatically. Output from this analysis can be found in generated folder called "Figures and Data" which is placed within the directory (specified by *dir*) which contains the New Hybrids output folders. Note that *hybridpower* assumes all simulations and associated replicates are produced from New Hybrids analyses conducted on the same number of loci. Use *hybridpowercomp* if the number of loci varies among simulations.  
+<h4 class="text-primary">hybridpower</h4>
+This fuction will extract data from *NewHybrids* runs and evaluate the correct assignment to a given hybrid classication (i.e. Pure1, Pure2, F1, F2, BC1, and BC2). From this data, hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshhold (minimum probability of assignment threshold required for an individual to be assigned a hybrid class, scaling from 0.50-1.00). Diagnostic plots are also provided which detail variation among simulations, as well as to which hybrid classes individuals are _missassigned_ to. Summary data and *ggplot* objects are saved to a .RData output automatically. Outputs from this function are saved to the folder "Figures and Data" which is generated within the directory (specified by *dir*) that contains the *NewHybrids* output folders.  
+<span style = "color:red"> <strong>NOTE:</strong></span> *hybridpower* assumes all simulations and associated replicates are produced from *NewHybrids* analyses conducted on the same number of loci. Use *hybridpowercomp* if the number of loci varies among simulations.  
 
-####hybridpowercomp
+<h4 class="text-primary">hybridpowercomp</h4>
 This function will replicate the analysis of *hybridpower* but will paritition the results according to the number of loci used in the assignment analysis. The plots will compare assignment power among differnet numbers of loci used.  
-
+<span style = "color:red"> <strong>NOTE:</strong></span> *hybridpowercomp* assumes all simulations and associated replicates are produced from *NewHybrids* analyses conducted on the same number of loci. Use *hybridpowercomp* if the number of loci varies among simulations.
 
 
 
