@@ -127,7 +127,7 @@ nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
     NHResultsDir_Split <- NHResultsDir_Split[-grep(x = NHResultsDir_Split, pattern = ".txt")]
     NHResultsDir <- paste0(paste(NHResultsDir_Split, collapse = "/"), "/")
     get.files.list <- list.files(NHResultsDir)
-    unknown.indivs.exist <- read.table(paste0(NHResultsDir, "/", get.files.list[grep(x = get.files.list, pattern = "individuals")])) ### hold the individual file to appened to teh simulated individuals
+    unknown.indivs.exist <- as.matrix(read.table(paste0(NHResultsDir, "/", get.files.list[grep(x = get.files.list, pattern = "individuals")]))) ### hold the individual file to appened to teh simulated individuals
 
     Output <- n_class(x = paste0(NHResultsDir, "/", get.files.list[grep(x = get.files.list, pattern = "individuals")])) ## also want to have the numbers of individuals in each population
 
