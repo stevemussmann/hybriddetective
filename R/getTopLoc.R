@@ -57,6 +57,8 @@ popLDsubsetDF <- data.frame(op=pops.exist, rename=c("Pop1", "Pop2")) ## make a D
 
 subPOP <- popLDsubsetDF[which(popLDsubsetDF[,2] == LDpop),1] ### get the name of the pop to be subsetted
 
+subPOP <- as.character(subPOP)
+
 ## subset out the population in which LD is to be calculated - this will make a file, which will be deleted after
 genepopedit::subset_genepop(GenePop = GPD.Top, sPop = subPOP, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
 ## remember path to the file created by subset_genepop
@@ -296,9 +298,13 @@ execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --noweb"
 system(execute.PLINK)
 }
 
-execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --noweb")
+### Windows PLINK CALL
+if(Sys.info()["sysname"] == "Windows"){
+execute.PLINK <- paste0(go.to.PLINK, " && ", "plink --file PGDtest --r2 --noweb")
 ### run PLINK through system
-system(execute.PLINK)
+shell(execute.PLINK)
+}
+
 
 ## copy the LD file created by PLINK to the working directory
 file.copy(from = paste0(where.PLINK, "plink.ld"), to = path.start)
