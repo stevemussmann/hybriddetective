@@ -82,6 +82,10 @@ sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
 writeLines("Calculating Fst")
 ### change the format of the original file to FSTAT so can get Fst
 
+# modify the path to play nice with spaces
+
+path.start.PGD <- gsub(x = path.start, pattern = " ", replacement = "\\")
+where.PGDspider.PGD <- gsub(x = where.PGDspider, pattern = " ", replacement = "\\ ", fixed = TRUE)
 
 GP_FSTAT_SPID <- "# spid-file generated: Fri Apr 08 10:53:23 ADT 2016
 
@@ -187,10 +191,6 @@ FST.df <- FST.df[base::order(FST.df$FSTs, decreasing = TRUE),]
 writeLines("Calculating Linkage")
 ### convert file to .ped and .map using PGD spider
 
-# modify the path to play nice with spaces
-
-path.start.PGD <- gsub(x = path.start, pattern = " ", replacement = "\\")
-where.PGDspider.PGD <- gsub(x = where.PGDspider, pattern = " ", replacement = "\\ ", fixed = TRUE)
 
 ## create spid file
 
