@@ -81,9 +81,63 @@ sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
 
 writeLines("Calculating Fst")
 ### change the format of the original file to FSTAT so can get Fst
-genepopedit::genepop_fstat(GPD.Top, path = paste0(path.start, "/", "for_FST.txt")) ## read in the file for fst
+
+
+GP_FSTAT_SPID <- "# spid-file generated: Fri Apr 08 10:53:23 ADT 2016
+
+# GENEPOP Parser questions
+PARSER_FORMAT=GENEPOP
+
+# Enter the size of the repeated motif (same for all loci: one number; different: comma separated list (e.g.: 2,2,3,2):
+GENEPOP_PARSER_REPEAT_SIZE_QUESTION=
+# Select the type of the data:
+GENEPOP_PARSER_DATA_TYPE_QUESTION=SNP
+# How are Microsat alleles coded?
+GENEPOP_PARSER_MICROSAT_CODING_QUESTION=REPEATS
+
+# FSTAT Writer questions
+WRITER_FORMAT=FSTAT
+
+# Specify which data type should be included in the FSTAT file  (FSTAT can only analyze one data type per file):
+FSTAT_WRITER_DATA_TYPE_QUESTION=SNP
+# Save label file
+FSTAT_WRITER_LABEL_FILE_QUESTION=
+# Do you want to save an additional file with labels (population names)?
+FSTAT_WRITER_INCLUDE_LABEL_QUESTION=false
+# Specify the locus/locus combination you want to write to the FSTAT file:
+FSTAT_WRITER_LOCUS_COMBINATION_QUESTION=
+"
+
+write(x = GP_FSTAT_SPID, file = paste0(path.start, "/", "GP_FSTAT.spid"))
+
+
+### move spid file to the PGDspider folder
+file.copy(from = paste0(path.start, "/GP_FSTAT.spid"), to = where.PGDspider, overwrite = TRUE)
+remember.spidpath <- paste0(path.start, "/", "GP_FSTAT.spid")
+## move the input file as well to the same location as PGDspider - this makes this step so much easier
+file.copy(from <- GPD.Top, to = where.PGDspider, overwrite = TRUE)
+
+### create a string to call PGDspider
+input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
+execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+spid.call <- "-spid GP_FSTAT.spid"
+input.format <- "-inputformat GENEPOP"
+output.format <- "-outputformat FSTAT"
+goto.spider <- paste0("cd ", where.PGDspider.PGD, "; ", execute.SPIDER)
+output.file.path <- "-outputfile for_FST.txt"
+## string to run
+run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " ", output.file.path, " ", output.format, " ", spid.call)
+
+
+### run PGDspider through system
+system(run.PGDspider)
+
+
+### move the FSTAT format file back to the working directory
+file.copy(from = paste0(where.PGDspider, "/for_FST.txt"), to = path.start, overwrite = TRUE)
 ## remember the path of the file created by genepop_fstat
 fst_data_path <- paste0(path.start, "/", "for_FST.txt")
+
 
 ### read in the FSTAT formatted file
 for.fst <- hierfstat::read.fstat("for_FST.txt")
@@ -305,6 +359,7 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
  file.remove(ped.path)
 file.remove(map.path)
 file.remove(paste0(where.PGDspider, "/hyb.spid"))
+file.remove(paste0(where.PGDspider, "/GP_FSTAT.spid"))
 file.remove(fst_data_path)
 file.remove(plink_map_path)
 file.remove(plink_ped_path)
