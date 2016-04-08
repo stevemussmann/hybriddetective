@@ -117,6 +117,13 @@ remember.spidpath <- paste0(path.start, "/", "GP_FSTAT.spid")
 ## move the input file as well to the same location as PGDspider - this makes this step so much easier
 file.copy(from <- GPD.Top, to = where.PGDspider, overwrite = TRUE)
 
+
+
+
+#### OS X and LINUX CALL
+
+if(Sys.info()["sysname"] != "Windows"){
+
 ### create a string to call PGDspider
 input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
 execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
@@ -131,6 +138,31 @@ run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " 
 
 ### run PGDspider through system
 system(run.PGDspider)
+
+} # End MAC LINUX IF
+
+
+#### Windows call
+
+if(Sys.info()["sysname"] != "Windows"){
+
+### create a string to call PGDspider
+input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
+execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+spid.call <- "-spid GP_FSTAT.spid"
+input.format <- "-inputformat GENEPOP"
+output.format <- "-outputformat FSTAT"
+goto.spider <- paste0("cd ", where.PGDspider.PGD, " && ", execute.SPIDER)
+output.file.path <- "-outputfile for_FST.txt"
+## string to run
+run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " ", output.file.path, " ", output.format, " ", spid.call)
+
+
+### run PGDspider through system
+shell(run.PGDspider)
+
+} # End WINDOWS IF
+
 
 
 ### move the FSTAT format file back to the working directory
@@ -199,6 +231,11 @@ remember.spidpath <- paste0(path.start, "/", "hyb.spid")
 ## move the input file as well to the same location as PGDspider - this makes this step so much easier
 file.copy(from <- sub_data_path, to = where.PGDspider, overwrite = TRUE)
 
+
+
+#### OS X LINUX call
+
+if(Sys.info()["sysname"] != "Windows"){
 ### create a string to call PGDspider
 input.file.call <- paste0("-inputfile subset_for_LD.txt")
 execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
@@ -212,6 +249,26 @@ run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " 
 
 ### run PGDspider through system
 system(run.PGDspider)
+} # END OSX LINUX if
+
+
+#### Windows call
+
+if(Sys.info()["sysname"] == "Windows"){
+### create a string to call PGDspider
+input.file.call <- paste0("-inputfile subset_for_LD.txt")
+execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+spid.call <- "-spid hyb.spid"
+input.format <- "-inputformat GENEPOP"
+output.format <- "-outputformat PED"
+goto.spider <- paste0("cd ", where.PGDspider.PGD, " && ", execute.SPIDER)
+output.file.path <- paste0("-outputfile PGDtest.ped")
+## string to run
+run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " ", output.file.path, " ", output.format, " ", spid.call)
+
+### run PGDspider through system
+shell(run.PGDspider)
+} # END OSX LINUX if
 
 
 ## move the created ped and map files to the PLINK folder
@@ -230,6 +287,14 @@ plink_map_path <- paste0(where.PLINK, "/", "PGDtest.map")
 ### modify PLINK path so it plays nice with system
 where.PLINK.go <- gsub(x = where.PLINK, pattern = " ", replacement = "\\ ", fixed = TRUE)
 go.to.PLINK <- paste0("cd ", where.PLINK.go)
+
+
+### OSX LINUX PLINK call
+if(Sys.info()["sysname"] != "Windows"){
+execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --noweb")
+### run PLINK through system
+system(execute.PLINK)
+}
 
 execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --noweb")
 ### run PLINK through system
