@@ -144,7 +144,7 @@ system(run.PGDspider)
 
 #### Windows call
 
-if(Sys.info()["sysname"] != "Windows"){
+if(Sys.info()["sysname"] == "Windows"){
 
 ### create a string to call PGDspider
 input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
