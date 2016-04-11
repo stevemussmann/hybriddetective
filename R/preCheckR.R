@@ -21,7 +21,7 @@ preCheckR <- function(PreDir, propCutOff = 0.5, PofZCutOff=0.1){
   ##
   tbCheck <- list.files(PreDir)
 
-  if(grep(x = tbCheck, pattern = "Figures and Data") > 0){tbCheck = tbCheck[-which(tbCheck == "Figures and Data")]}
+  if(length(grep(x = tbCheck, pattern = "Figures and Data")) > 0){tbCheck = tbCheck[-which(tbCheck == "Figures and Data")]}
 
   CheckProgress <- txtProgressBar(min = 0, max = length(tbCheck), style = 3)
   possibleProbs_amChecking <- NULL
