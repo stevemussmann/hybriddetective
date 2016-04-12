@@ -131,7 +131,7 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,Thresholds=c(0.5,0.6,0.7,0.
     {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_p1.jpg"),p1,height = 8,width = 10)}
 
     if(filetag!=""){write.csv(boxdata, paste0(dir,"Figures and Data/data/",filetag,"_AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"))}else
-    {write.csv(boxdata, paste0(dir,"Figures and Data/data/AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"))}
+    {write.csv(boxdata, paste0(dir,"Figures and Data/data/AssignmentSuccess~simulation-nSNPs_OUTPUT.csv"), row.names = FALSE)}
 
     #Make similar boxplot with summed propbability of being a hybrid
     sim_means2 <- sim_means
@@ -156,7 +156,7 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,Thresholds=c(0.5,0.6,0.7,0.
     {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~simulation-nSNPs_Hybrid_h1.jpg"),h1,height = 8,width = 8)}
 
     if(filetag!=""){write.csv(sim_means2, paste0(dir,"Figures and Data/data/",filetag,"_AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"))}else
-    {write.csv(sim_means2, paste0(dir,"Figures and Data/data/AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"))}
+    {write.csv(sim_means2, paste0(dir,"Figures and Data/data/AssignmentSuccess~simulation-nSNPs_Hybrid_OUTPUT.csv"), row.names = FALSE)}
 
 ## create the New Hybrids plot
 
