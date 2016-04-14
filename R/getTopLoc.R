@@ -14,7 +14,7 @@
 #' @import plyr
 
 
-getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider){
+getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider, return.environment = TRUE, save.LociandIndividuals = FALSE){
 
   writeLines("Reading Data")
 
@@ -421,23 +421,42 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
     outName <- paste0(GPD.path, outNameHold, "_", panel.size, "_Loci_Panel.txt")
 
  genepopedit::subset_genepop(GenePop = sim.path, subs = your.panel, keep = TRUE, path = outName)
+  new.sim.GP <- data.table::fread(outName,
+                                 header = FALSE, sep = "\t",
+                                 stringsAsFactors = FALSE)
 
+ if(save.LociandIndividuals == TRUE){
  write(x = your.panel, file = paste0(GPD.path, paste0("Top_", panel.size, "_loci.txt")))
  write(x = inds.sub, file = paste0(GPD.path, "_individuals_for_Simulation.txt"))
+}
 
- file.remove(remember.spidpath)
- file.remove(sub_data_path)
- file.remove(ped.path)
-file.remove(map.path)
-file.remove(paste0(where.PGDspider, "/hyb.spid"))
-file.remove(paste0(where.PGDspider, "/GP_FSTAT.spid"))
-file.remove(fst_data_path)
-file.remove(plink_map_path)
-file.remove(plink_ped_path)
-file.remove(paste0(path.start, "/plink.txt"))
-file.remove(paste0(path.start, "/LDsReform.txt"))
-file.remove(GPD.Top)
-file.remove(sim.path)
+
+ if(return.environment == TRUE){
+
+   nh_topLoci <- list()
+   nh_topLoci$One <- new.sim
+   nh_topLoci$Two <- your.panel
+   nh_topLoci$Three <- inds.sub
+
+        names(nh_topLoci) = c(paste0(outNameHold, "_", panel.size, "_Loci_Panel"),
+            paste0("Top_", panel.size, "_loci"),
+            paste0(outName, "_IndividualsInSim"))
+
+ }
+
+    file.remove(remember.spidpath)
+    file.remove(sub_data_path)
+    file.remove(ped.path)
+    file.remove(map.path)
+    file.remove(paste0(where.PGDspider, "/hyb.spid"))
+    file.remove(paste0(where.PGDspider, "/GP_FSTAT.spid"))
+    file.remove(fst_data_path)
+    file.remove(plink_map_path)
+    file.remove(plink_ped_path)
+    file.remove(paste0(path.start, "/plink.txt"))
+    file.remove(paste0(path.start, "/LDsReform.txt"))
+    file.remove(GPD.Top)
+    file.remove(sim.path)
 
 writeLines("Process Completed.")
 
