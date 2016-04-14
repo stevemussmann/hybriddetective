@@ -111,57 +111,74 @@ $(document).ready(function () {
 </div>
 <div id="overview-of-functions" class="section level3">
 <h3>Overview of functions:</h3>
-<table style="width:144%;">
+<table style="width:146%;">
 <colgroup>
 <col width="18%"></col>
-<col width="126%"></col>
+<col width="34%"></col>
+<col width="93%"></col>
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left"><strong>Function name</strong></th>
+<th align="left"><strong>Synopsis</strong></th>
 <th align="left"><strong>Main use</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left"><strong>getTopLoc.R</strong></td>
-<td align="left">Creates a panel comprised of the top <em>n</em> unlinked loci. Exports a list of loci, and a dataset to be used in the simulation functions.</td>
+<td align="left">Creates a panel comprised of the top <em>n</em> unlinked loci. Exports a list of loci, and a dataset to be used in the simulation functions in <strong>parallelnewhybrid</strong> (<a href="https://github.com/bwringe/parallelnewhybrid" class="uri">https://github.com/bwringe/parallelnewhybrid</a>), or another programme.</td>
+<td align="left"><a href="#gettoploc"><em>Data Preparation</em></a></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>nh_data_generateR.R</strong></td>
+<td align="left">Merges specified simulated reference datasets with the genotypes of unknown/experimental individuals, producing a file to be analyzed by <em>NewHybrids</em></td>
+<td align="left"><a href="#nhdatageneratR"><em>Data Preparation</em></a></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>nh_analysis_data_generatoR.R</strong></td>
+<td align="left">Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by <em>NewHybrids</em></td>
+<td align="left"><a href="#nhanalysisdata"><em>Data Preparation</em></a></td>
 </tr>
 <tr class="even">
 <td align="left"><strong>nh_subsetR.R</strong></td>
 <td align="left">Subset loci from <em>NewHybrids</em> format datasets</td>
+<td align="left"><a href="#nhsubset"><em>Data Preparation</em></a></td>
 </tr>
 <tr class="odd">
 <td align="left"><strong>preCheckR.R</strong></td>
-<td align="left">Checks all <em>NewHybrids</em> results within a given directory to ensure they have converged.</td>
+<td align="left">Checks all <em>NewHybrids</em> results within a given directory to ensure they have converged</td>
+<td align="left"><a href="#precheck"><em>Error Checking and Diagnostics</em></a></td>
 </tr>
 <tr class="even">
 <td align="left"><strong>nh_plotR.R</strong></td>
 <td align="left">Plots cumulative probability of assignments from <em>NewHybrids</em> results for each individual</td>
+<td align="left"><a href="#plotR"><em>Error Checking and Diagnostics</em></a></td>
 </tr>
 <tr class="odd">
+<td align="left"><strong>nh_multiplotR.R</strong></td>
+<td align="left">Plots cumulative probability of assignments from <em>NewHybrids</em> results for each individual for all results within a given folder</td>
+<td align="left"><a href="#multiplotR"><em>Error Checking and Diagnostics</em></a></td>
+</tr>
+<tr class="even">
 <td align="left"><strong>nh_accuracy_checkR.R</strong></td>
 <td align="left">Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ &gt;= 0.5, 0.75 and 0.9)</td>
+<td align="left"><a href="#accuracy"><em>Error Checking and Diagnostics</em></a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><strong>hybridpower.R</strong></td>
 <td align="left">Evaluates the accuracy with which <em>NewHybrids</em> assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). Will also write graphical and numerical results to a directory provided by the user.</td>
+<td align="left"><a href="#power"><em>Quantification and Analysis</em></a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><strong>hybridpowercomp.R</strong></td>
 <td align="left">Replicates the functionality of <em>hybridpower</em>, but allows the efficacy of multiple panels of varying numbers of markers to be compared.</td>
-</tr>
-<tr class="even">
-<td align="left"><strong>nh_panel_plotR.R</strong></td>
-<td align="left">Plots the change in individual genotype class probability of assignment for different panel sizes.</td>
+<td align="left"><a href="#powercomp"><em>Quantification and Analysis</em></a></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>nh_data_generateR.R</strong></td>
-<td align="left">Merges specified simulated reference datasets with the genotypes of unknown/experimental individuals, producing a file to be analyzed by <em>NewHybrids</em></td>
-</tr>
-<tr class="even">
-<td align="left"><strong>nh_analysis_data_generatoR.R</strong></td>
-<td align="left">Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by <em>NewHybrids</em></td>
+<td align="left"><strong>nh_panel_delta_plotR.R</strong></td>
+<td align="left">Plots the change in individual genotype class probability of assignment for different panel sizes.</td>
+<td align="left"><a href="#deltaplot"><em>Quantification and Analysis</em></a></td>
 </tr>
 </tbody>
 </table>
@@ -169,7 +186,7 @@ $(document).ready(function () {
 </div>
 <div id="package-installation" class="section level3">
 <h3>Package Installation</h3>
-<p><strong>hybriddetective</strong> requires the packages <strong>genepopedit</strong> <a href="https://github.com/rystanley/genepopedit" class="uri">https://github.com/rystanley/genepopedit</a> and <strong>parallelnewhybrid</strong> <a href="https://github.com/bwringe/parallelnewhybrid" class="uri">https://github.com/bwringe/parallelnewhybrid</a>, and these must be installed from GitHub prior to the installation of <strong>hybryddetective</strong>.</p>
+<p><strong>hybriddetective</strong> requires the packages <strong>genepopedit</strong> (<a href="https://github.com/rystanley/genepopedit" class="uri">https://github.com/rystanley/genepopedit</a>) and <strong>parallelnewhybrid</strong> (<a href="https://github.com/bwringe/parallelnewhybrid" class="uri">https://github.com/bwringe/parallelnewhybrid</a>), and these must be installed from GitHub prior to the installation of <strong>hybryddetective</strong>.</p>
 <p><strong>genepopedit</strong>, <strong>parallelnewhybrid</strong>, and <strong>hybriddetective</strong> can be installed from GitHub using the R package <em>devtools</em> and the function <em>install_github</em>:</p>
 <pre><code>devtools::install_github(&quot;bwringe/parallelnewhybrid&quot;) #required
 devtools::install_github(&quot;rystanley/genepopedit&quot;) #requied
@@ -178,48 +195,99 @@ devtools::install_github(&quot;bwringe/hybriddetective&quot;) #package</code></p
 <p><span style="color:red"> <strong>NOTE:</strong></span> certain functions in <strong>hybriddetective</strong> rely on the programmes <strong>PGDSpider</strong> and <strong>PLINK</strong>. These can be downloaded from <a href="http://www.cmpg.unibe.ch/software/PGDSpider/" class="uri">http://www.cmpg.unibe.ch/software/PGDSpider/</a> and <a href="https://www.cog-genomics.org/plink2" class="uri">https://www.cog-genomics.org/plink2</a> respectively, and must be installed prior to running <strong>hybriddetective</strong>.</p>
 <hr />
 </div>
+<div id="hybriddetective-contributors" class="section level3">
+<h3><strong>hybriddetective</strong> Contributors</h3>
+<ul>
+<li>Brendan Wringe <a href="https://github.com/bwringe" class="uri">https://github.com/bwringe</a>; bwringe(at)gmail.com; Corresponding author<br />
+</li>
+<li>Dr. Ian Bradbury <a href="http://tinyurl.com/h3qrhkv" class="uri">http://tinyurl.com/h3qrhkv</a><br />
+</li>
+<li>Dr. Nick Jeffery <a href="https://github.com/NickJeff13" class="uri">https://github.com/NickJeff13</a><br />
+</li>
+<li>Dr. Ryan Ronald Edward Stanley <a href="https://github.com/rystanley" class="uri">https://github.com/rystanley</a></li>
+</ul>
+<p>This package has been designed to work in conjunction with the packages <strong>parallelnewhybrid</strong> (<a href="https://github.com/bwringe/parallelnewhybrid" class="uri">https://github.com/bwringe/parallelnewhybrid</a>) and <strong>genepopedit</strong> (<a href="https://github.com/rystanley/genepopedit" class="uri">https://github.com/rystanley/genepopedit</a>) to offer a more efficient and repeatable method ofdetecting hybrid individuals based on genomic data. This is accomplished by moving the workflow into the R environment. The package is open, and interested individuals are encouraged to modify the code for their purposes if needed. I will endeavour to respond in a timely manner to any and all inquiries, and will try to add requested functions, or functionality where requested.</p>
+<ul>
+<li>If you don’t understand anything, please contact me (bwringe[at]gmail.com)</li>
+<li>Any ideas on how to improve the functionality is very much appreciated.</li>
+<li>If you spot a typo, feel free to edit and send a pull request.</li>
+</ul>
+<p>Pull request how-to:</p>
+<ul>
+<li>Click the edit this page on the sidebar.</li>
+<li>Make the changes using github’s in-page editor and save.</li>
+<li>Submit a pull request and include a brief description of your changes. (e.g. “spelling errors” or “indexing error”).</li>
+</ul>
+<p>To cite the current version of genepopedit, please refer to our zenodo DOI:</p>
+<hr />
+<hr />
+</div>
 <div id="function-descriptions" class="section level3">
 <h3>Function descriptions</h3>
+<a name="gettoploc"></a>
 <h4 class="text-primary">
 getTopLoc.R
 </h4>
-<p>This function is designed to produce panels of the <em>n</em> unlinked loci with the highest loci-specific Fst, where <em>n</em> is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panels that is then used in their validation. The function will save three files to the folder that contains the data provided. The first file is a list of the top <em>n</em> loci, ordered by Fst, which can be used to subset data in with the function <strong>genepop_subset</strong> from the <strong>genepopedit</strong> package. The second file is a list of the individuals from each of the two populations which were subsetted out to form the testing panel. The final file is a NewHybrids formatted dataset containing the genotypes at the top <em>n</em> loci of the validation subset. This dataset can be used in the <strong>freqbasedsim</strong> functions in the <strong>parallelnewhybrid</strong> package to create simulated hybrids for panel efficacy testing. Data must be entered into the function as a two-population GENEPOP format file.<br />
+<p>This function is designed to produce panels of the <em>n</em> unlinked loci with the highest loci-specific Fst, where <em>n</em> is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used used to created simulated hybrid datasets to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panels that is then used in their validation (Anderson 2010). The function will save three files to the folder that contains the data provided. The first file is a list of the top <em>n</em> loci, ordered by Fst, which can be used to subset data in with the function <strong>genepop_subset</strong> from the <strong>genepopedit</strong> package. The second file is a list of the individuals from each of the two populations which were subsetted out to form the testing panel. The final file is This dataset can be used in the <strong>freqbasedsim</strong> functions in the <strong>parallelnewhybrid</strong> package to create simulated hybrids for panel efficacy testing. Data must be entered into the function as a two-population GENEPOP format file.<br />
 <span style="color:red"> <strong>NOTE:</strong></span> The programmes <strong>PLINK</strong> and <strong>PGDspider</strong> are required to run <strong>getTopLoc.R</strong>. Refer to package installation for downloading instructions.</p>
+<a name="nhdatageneratR"></a>
+<h4 class="text-primary">
+nh_analysis_data_generatoR.R
+</h4>
+<p>This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging the simulated data with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a <em>NewHybrids</em> format file for analysis, along with a dataframe containing the names of the individuals included (including those that were simulated) in the <em>NewHybrids</em> formatted file. <span style="color:red"> <strong>NOTE:</strong></span> <em>nh_analysis_data_generatoR.R</em> creates a unique simulated data set each time it is run.</p>
+<a name="nhanalysisdata"></a>
+<h4 class="text-primary">
+nh_analysis_GenerateR.R
+</h4>
+<p>This function combines pre-simulated datasets with experimental/unknown data. Both the simulated and experimental datasets can be in <em>GENEPOP</em> or <em>NewHybrids</em> formats. This function also allows the user to specify which hybrid categories to include from the simulated dataset. The function will save a <em>NewHybrids</em> format file for analysis, along with a dataframe containing the names of all individuals included in the <em>NewHybrids</em> formatted file.</p>
+<a name="nhsubset"></a>
+<h4 class="text-primary">
+nh_subsetR.R
+</h4>
+<p>This function allows the user to subset markers out of <em>NewHybrids</em> formatted datafiles to test the efficacy of different panel sizes.</p>
+<a name="precheck"></a>
 <h4 class="text-primary">
 preCheckR.R
 </h4>
 <p>When using <em>NewHybrids</em>, the Markov Chain Monte Carlo (MCMC) chains will occasionlly fail to converge resulting, in <em>NewHybrids</em> spuriously returning the higest probability of assignment of nearly every individual to the F2 category. In such cases, the analysis should be re-run. <em>preCheckR.R</em> quickly assesses the results of many independent <em>NewHybrids</em> runs, and will flag instances in which the probability of assignment values indicate the chains appear to have failed to converge. Results flagged by <em>preCheckR.R</em> should be manually verified by the user.<br />
 <span style="color:red"> <strong>NOTE:</strong></span> several of the functions in <strong>hybriddetective</strong> will not function correctly, or will fail if they are provided with results of non-converged runs. Thus, it is strongly recommended that <em>preCheckR.R</em> be run on every <em>NewHybrids</em> result.</p>
+<a name="plotR"></a>
 <h4 class="text-primary">
 nh_plotR.R
 </h4>
 <p>This function will plot the cumulative probability of assignment (PofZ) for each individual in a <em>NewHybrids</em> analysis. <em>nh_plotR.R</em> can be used with both simulated and experimental datasets.</p>
+<a name="multiplotR"></a>
+<h4 class="text-primary">
+nh_plotR.R
+</h4>
+<p>This function will plot the cumulative probability of assignment (PofZ) for each individual in a <em>NewHybrids</em> analysis, for all analyses within a given folder. <em>nh_plotR.R</em> can be used with both simulated and experimental datasets. This function is useful for visualizing results where <strong>preCheckR.R</strong> has indicated that <em>NewHybrids</em> may have failed to converge.</p>
+<a name="accuracy"></a>
 <h4 class="text-primary">
 nh_accuracy_checkR.R
 </h4>
 <p>This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by <em>NewHybrids</em> at three probability of assignment thresholds (PofZ &gt;= 0.5, 0.75 and 0.9). The proportion of individuals for each hybrid category correctly assigned will be returned as a dataframe with the name “NH.accuracy”, and can also be printed to the screen if desired. <em>nh_accuracy_checkR.R</em> is intended primarily for exploratory analysis, and it’s functionality is expanded upon in the functions <em>hybridpower</em> and <em>hybridpowercomp</em>.</p>
+<a name="power"></a>
 <h4 class="text-primary">
 hybridpower
 </h4>
 <p>This fuction will extract data from <em>NewHybrids</em> runs and evaluate the correct assignment to a given hybrid classication (i.e. Pure1, Pure2, F1, F2, BC1, and BC2). From this data, hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshhold (minimum probability of assignment threshold required for an individual to be assigned a hybrid class, scaling from 0.50-1.00). Diagnostic plots are also provided which detail variation among simulations, as well as to which hybrid classes individuals are <em>missassigned</em> to. Summary data and <em>ggplot</em> objects are saved to a .RData output automatically. Outputs from this function are saved to the folder “Figures and Data” which is generated within the directory (specified by <em>dir</em>) that contains the <em>NewHybrids</em> output folders.<br />
 <span style="color:red"> <strong>NOTE:</strong></span> <em>hybridpower</em> assumes all simulations and associated replicates are produced from <em>NewHybrids</em> analyses conducted on the same number of loci. Use <em>hybridpowercomp</em> if the number of loci varies among simulations.</p>
+<a name="powercomp"></a>
 <h4 class="text-primary">
 hybridpowercomp
 </h4>
 <p>This function will replicate the analysis of <em>hybridpower</em> but will paritition the results according to the number of loci used in the assignment analysis. The plots will compare assignment power among differnet numbers of loci used.<br />
 <span style="color:red"> <strong>NOTE:</strong></span> <em>hybridpower</em> assumes that the same simulated datasets are being tested, with varying numbers of loci in the panel. <em>hybridpowercomp</em> should be used if the number of loci do not vary among simulations.</p>
+<a name="deltaplot"></a>
 <h4 class="text-primary">
 nh_panel_delta_plotR.R
 </h4>
 <p>This function is designed to illustrate the changes in individual probability of assignment to each of the six genotype frequency classes when analyzed using panels of differing numbers of markers. The user can specify if they would like the plot to be saved, or returned as a <strong>ggplot2</strong> object for further formatting.</p>
-<h4 class="text-primary">
-nh_analysis_data_generatoR.R
-</h4>
-<p>This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging the simulated data with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a <em>NewHybrids</em> format file for analysis, along with a dataframe containing the names of the individuals included (including those that were simulated) in the <em>NewHybrids</em> formatted file. <span style="color:red"> <strong>NOTE:</strong></span> <em>nh_analysis_data_generatoR.R</em> creates a unique simulated data set each time it is run.</p>
-<h4 class="text-primary">
-nh_analysis_GenerateR.R
-</h4>
-<p>This function combines pre-simulated datasets with experimental/unknown data. Both the simulated and experimental datasets can be in <em>GENEPOP</em> or <em>NewHybrids</em> formats. This function also allows the user to specify which hybrid categories to include from the simulated dataset. The function will save a <em>NewHybrids</em> format file for analysis, along with a dataframe containing the names of all individuals included in the <em>NewHybrids</em> formatted file.</p>
+<hr />
+</div>
+<div id="citations" class="section level3">
+<h3>Citations</h3>
+<p>Anderson, E.C. 2010. Assessing the power of informative subsets of loci for population assignment: standard methods are upwardly biased. Molecular Ecology Resources. 10(4): 701-710.</p>
 </div>
 
 
