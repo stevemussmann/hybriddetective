@@ -10,6 +10,7 @@
 #' @importFrom stringr str_extract str_detect
 
 
+
 NH_Zcore <- function(GetstheZdir, multiapplyZvec=NULL, applyuniqueZvec=NULL){
 
   ## this function will insert a column of known genotype categories <- Zvec into a NewHybrids formatted dataset
