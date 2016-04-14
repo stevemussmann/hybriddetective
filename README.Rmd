@@ -90,6 +90,13 @@ To cite the current version of genepopedit, please refer to our zenodo DOI:
 This function is designed to produce panels of the *n* unlinked loci with the highest loci-specific Fst, where *n* is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used used to created simulated hybrid datasets to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panels that is then used in their validation (Anderson 2010). The function will save three files to the folder that contains the data provided. The first file is a list of the top *n* loci, ordered by Fst, which can be used to subset data in with the function **genepop_subset** from the **genepopedit** package. The second file is a list of the individuals from each of the two populations which were subsetted out to form the testing panel. The final file is  This dataset can be used in the **freqbasedsim** functions in the **parallelnewhybrid** package to create simulated hybrids for panel efficacy testing. Data must be entered into the function as a two-population GENEPOP format file.  
 <span style = "color:red"> <strong>NOTE:</strong></span> The programmes **PLINK** and **PGDspider** are required to run **getTopLoc.R**. Refer to package installation for downloading instructions.  
 
+####Usage
+
+To create a panel consisting of the top 50 Loci from the example dataset *PurePops* (Note:)
+'''r
+
+'''
+
 
 <a name = "nhdatageneratR"/>
 <h4 class="text-primary">nh\_analysis\_data\_generatoR.R</h4>
