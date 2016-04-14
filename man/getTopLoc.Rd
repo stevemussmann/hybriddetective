@@ -4,7 +4,8 @@
 \alias{getTopLoc}
 \title{Creates a panel of the top n unlinked loci, and exports the list of loci}
 \usage{
-getTopLoc(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider)
+getTopLoc(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider,
+  return.environment = TRUE, save.LociandIndividuals = FALSE)
 }
 \arguments{
 \item{GPD}{A file path to the GENEPOP format file you wish to create your panel from}
