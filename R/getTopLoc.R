@@ -434,7 +434,7 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
  if(return.environment == TRUE){
 
    nh_topLoci <- list()
-   nh_topLoci$One <- new.sim
+   nh_topLoci$One <- new.sim.GP
    nh_topLoci$Two <- your.panel
    nh_topLoci$Three <- inds.sub
 
