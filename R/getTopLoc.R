@@ -13,16 +13,8 @@
 #' @importFrom stringr str_split str_extract
 #' @import plyr
 
-GPD = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/untitled folder/NSrenamed.txt"
-LDpop = "Pop2"
-panel.size = 1000
-where.PLINK <- "~/Desktop/DFO Aquaculture Interaction/Software/plink_mac/"
-where.PGDspider <- "~/Desktop/DFO Aquaculture Interaction/Software/PGDSpider_2.0.9.0/"
-save.LociandIndividuals = TRUE
 
-
-
-# getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider, return.environment = TRUE, save.LociandIndividuals = FALSE){
+getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider, return.environment = TRUE, save.LociandIndividuals = FALSE){
 
   writeLines("Reading Data")
 
