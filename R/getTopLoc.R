@@ -13,8 +13,16 @@
 #' @importFrom stringr str_split str_extract
 #' @import plyr
 
+GPD = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/untitled folder/NSrenamed.txt"
+LDpop = "Pop2"
+panel.size = 1000
+where.PLINK <- "~/Desktop/DFO Aquaculture Interaction/Software/plink_mac/"
+where.PGDspider <- "~/Desktop/DFO Aquaculture Interaction/Software/PGDSpider_2.0.9.0/"
+save.LociandIndividuals = TRUE
 
-getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider, return.environment = TRUE, save.LociandIndividuals = FALSE){
+
+
+# getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider, return.environment = TRUE, save.LociandIndividuals = FALSE){
 
   writeLines("Reading Data")
 
@@ -115,15 +123,15 @@ FSTAT_WRITER_LOCUS_COMBINATION_QUESTION=
 "
 
 write(x = GP_FSTAT_SPID, file = paste0(path.start, "/", "GP_FSTAT.spid"))
+remember.FSTAT.spidpath.WD <- paste0(path.start, "/", "GP_FSTAT.spid")
 
 
 ### move spid file to the PGDspider folder
 file.copy(from = paste0(path.start, "/GP_FSTAT.spid"), to = where.PGDspider, overwrite = TRUE)
-remember.spidpath <- paste0(path.start, "/", "GP_FSTAT.spid")
+remember.FSTAT.spidpath.PGD <- paste0(where.PGDspider, "/", "GP_FSTAT.spid")
 ## move the input file as well to the same location as PGDspider - this makes this step so much easier
 file.copy(from <- GPD.Top, to = where.PGDspider, overwrite = TRUE)
-
-
+remember.GPD.Top.PGD <- paste0(where.PGDspider, "GPD_for_GET_TOP_LOC.txt")
 
 
 #### OS X and LINUX CALL
@@ -144,6 +152,8 @@ run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " 
 
 ### run PGDspider through system
 system(run.PGDspider)
+
+remember.for_FST.PGD <- paste0(where.PGDspider, "for_FST.txt")
 
 } # End MAC LINUX IF
 
@@ -166,6 +176,8 @@ run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " 
 
 ### run PGDspider through system
 shell(run.PGDspider)
+
+remember.for_FST.PGD <- paste0(where.PGDspider, "for_FST.txt")
 
 } # End WINDOWS IF
 
@@ -226,13 +238,15 @@ spid.file <- c(spidTop, map.loc, spidBottom)
 
 ## write spid file
 write(x = spid.file, file = paste0(path.start, "/", "hyb.spid"))
+remember.LD.spidpath.WD <- paste0(path.start, "/", "hyb.spid")
+
 
 ### move spid file to the PGDspider folder
 file.copy(from = paste0(path.start, "/hyb.spid"), to = where.PGDspider, overwrite = TRUE)
-remember.spidpath <- paste0(path.start, "/", "hyb.spid")
+remember.LD.spidpath.PGD <- paste0(where.PGDspider, "/", "hyb.spid")
 ## move the input file as well to the same location as PGDspider - this makes this step so much easier
 file.copy(from <- sub_data_path, to = where.PGDspider, overwrite = TRUE)
-
+remember.sub_data_path.PGD <- paste0(where.PGDspider, "subset_for_LD.txt")
 
 
 #### OS X LINUX call
@@ -251,6 +265,9 @@ run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " 
 
 ### run PGDspider through system
 system(run.PGDspider)
+remember.PEDpath.PGD <- paste0(where.PGDspider, "PGDtest.ped")
+remember.MAPpath.PGD <- paste0(where.PGDspider, "PGDtest.map")
+
 } # END OSX LINUX if
 
 
@@ -270,6 +287,9 @@ run.PGDspider <- paste0(goto.spider, " ", input.file.call, " ", input.format, " 
 
 ### run PGDspider through system
 shell(run.PGDspider)
+remember.PEDpath.PGD <- paste0(where.PGDspider, "PGDtest.ped")
+remember.MAPpath.PGD <- paste0(where.PGDspider, "PGDtest.map")
+
 } # END OSX LINUX if
 
 
@@ -313,12 +333,14 @@ file.copy(from = paste0(where.PLINK, "plink.ld"), to = path.start)
 
 ## rename the file and change it to a txt
 file.rename(from = paste0(path.start, "/", "plink.ld"), to = paste0(path.start, "/", "plink.txt"))
+remember.PLINKLDFile.WDpath <- paste0(path.start, "/", "plink.txt")
 
 ## read the file in as characters - there are an uneven number of spaces between data, so have to remove those before can read as a table
 LDs <- readChar(con = "plink.txt", file.info("plink.txt")$size) ## read in as a long character string
 LDs_reform <- gsub(x = LDs, pattern = "\\ +", replacement = " ") ### remove more than 1 space
 ## save as a new .txt file, which is now formatted to be read into R easily
 write(x = LDs_reform, file = "LDsReform.txt")
+remember.LDReformat.path <- paste0(path.start, "/LDsReform.txt")
 ## read back in
 Linked <- read.table("LDsReform.txt", header = TRUE)
 ## keep only the needed columns
@@ -341,7 +363,9 @@ Linked.df$SNP_A <- as.character(Linked.df$SNP_A)
 Linked.df$SNP_B <- as.character(Linked.df$SNP_B)
 
 ### keep only linked loci < the size of the panel you wish to create
-loci.in.LD.vec <- loci.in.LD[which(loci.in.LD < panel.size)] ## which loci in LD < the size of the panel
+# loci.in.LD.vec <- loci.in.LD[which(loci.in.LD < panel.size)] ## which loci in LD < the size of the panel
+
+loci.in.LD.vec <- loci.in.LD
 
 # what rows of the ld data frame contain the the linked loci in the top n of Fst values?
 what.positions.get <- list()
@@ -372,13 +396,14 @@ for(i in 1:length(what.positions.get)){
 }
 
  ## compare the SNPs in the LD file to the ranked order by Fst - save the ranks of the SNPs that are linked - but only unique values, i.e. if
-    ## one SNP is linked to two other SNPs, only record 3 names, not 4. Ranks = positions in vector of ranked loci
+
 
  linked.ranks <- list()
   for(j in 1:length(SNP.out)){
 
     to.double.check <- SNP.out[[j]] ## gets names of the jth SNPs and what other SNP they are linked to
-    dbl.chk <- to.double.check[which(str_detect(string = noquote(to.double.check), pattern = as.character(FST.order.vec[loci.in.LD.vec[j]]))==FALSE)]
+    # dbl.chk <- to.double.check[which(str_detect(string = noquote(to.double.check), pattern = as.character(FST.order.vec[loci.in.LD.vec[j]]))==FALSE)]
+    dbl.chk <-to.double.check[-which(as.character(FST.order.vec[loci.in.LD.vec[j]]) == noquote(to.double.check))]
         ### the jth SNPs are saved as a string in to.double.check, this removes the jth SNP in loci.fst from this, so only have non-duplicated
 
     where.best.link.fst <- loci.in.LD.vec[j] ## the loci with the greatest Fst among the linked ones, will be the jth in the ranked vector
@@ -392,13 +417,13 @@ for(i in 1:length(what.positions.get)){
  linked.ranks.df <- plyr::rbind.fill(lapply(linked.ranks,function(y){as.data.frame(t(y),stringsAsFactors=FALSE)}))
 
 
-
-
 ### now this is where it get a list of numbers to be removed from the ranked vector of loci names by Fst
-h.rows <- which(linked.ranks.df$V1<panel.size) ##
+# h.rows <- which(linked.ranks.df$V1<panel.size) ##
+ h.rows <- linked.ranks.df$V1
  to.cut.out <- NULL
  for(i in 1:length(h.rows)){
- a <- h.rows[i]
+ # a <- h.rows[i]
+ a = i
 
  ## this ensures that where we get more than one of the linked loci in the top n loci, we keep the one with the highest Fst (lowest number in the rank)
  if((linked.ranks.df$V1[a] < linked.ranks.df$V2[a])==TRUE){
@@ -408,9 +433,19 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
 
  }
 
- to.cut.out
+ to.cut.out <- to.cut.out[which(duplicated(to.cut.out)==FALSE)]
 
- writeLines("Writing output")
+  writeLines("Writing output")
+
+
+
+ if(length(FST.order.vec[-to.cut.out]) <  length(FST.order.vec[-to.cut.out][1:panel.size])){
+
+   writeLines(paste0("Desired panel size ", panel.size,  " is larger than total number of unlinked loci ", length(FST.order.vec[-to.cut.out]), ". ", "Returning ALL unlinked loci."))
+   panel.size = length(FST.order.vec[-to.cut.out])
+
+ }
+
  your.panel <- FST.order.vec[-to.cut.out][1:panel.size]
  GPsplit <- c(stringr::str_split(string = GPD, pattern = "/"))
 
@@ -444,20 +479,30 @@ h.rows <- which(linked.ranks.df$V1<panel.size) ##
 
  }
 
-    file.remove(remember.spidpath)
-    file.remove(sub_data_path)
-    file.remove(ped.path)
-    file.remove(map.path)
-    file.remove(paste0(where.PGDspider, "/hyb.spid"))
-    file.remove(paste0(where.PGDspider, "/GP_FSTAT.spid"))
-    file.remove(fst_data_path)
-    file.remove(plink_map_path)
-    file.remove(plink_ped_path)
-    file.remove(paste0(path.start, "/plink.txt"))
-    file.remove(paste0(path.start, "/LDsReform.txt"))
-    file.remove(GPD.Top)
-    file.remove(sim.path)
+
+file.remove(sim.path)
+file.remove(GPD.Top)
+file.remove(sub_data_path)
+file.remove(remember.FSTAT.spidpath.WD)
+file.remove(remember.FSTAT.spidpath.PGD)
+file.remove(remember.GPD.Top.PGD)
+file.remove(remember.for_FST.PGD)
+file.remove(fst_data_path)
+file.remove(remember.LD.spidpath.WD)
+file.remove(remember.LD.spidpath.PGD)
+file.remove(remember.sub_data_path.PGD)
+file.remove(remember.PEDpath.PGD)
+file.remove(remember.MAPpath.PGD)
+file.remove(plink_ped_path)
+file.remove(plink_map_path)
+file.remove(remember.PLINKLDFile.WDpath)
+file.remove(remember.LDReformat.path)
+
+
+
+
 
 writeLines("Process Completed.")
 
  }
+
