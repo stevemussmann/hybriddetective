@@ -132,7 +132,7 @@ if(Sys.info()["sysname"] != "Windows"){
 
 ### create a string to call PGDspider
 input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
-execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
 spid.call <- "-spid GP_FSTAT.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat FSTAT"
@@ -156,7 +156,7 @@ if(Sys.info()["sysname"] == "Windows"){
 
 ### create a string to call PGDspider
 input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
-execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
 spid.call <- "-spid GP_FSTAT.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat FSTAT"
@@ -246,7 +246,7 @@ remember.sub_data_path.PGD <- paste0(where.PGDspider, "subset_for_LD.txt")
 if(Sys.info()["sysname"] != "Windows"){
 ### create a string to call PGDspider
 input.file.call <- paste0("-inputfile subset_for_LD.txt")
-execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
 spid.call <- "-spid hyb.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat PED"
@@ -268,7 +268,7 @@ remember.MAPpath.PGD <- paste0(where.PGDspider, "PGDtest.map")
 if(Sys.info()["sysname"] == "Windows"){
 ### create a string to call PGDspider
 input.file.call <- paste0("-inputfile subset_for_LD.txt")
-execute.SPIDER <- "java -Xmx1024m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
 spid.call <- "-spid hyb.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat PED"
