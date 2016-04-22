@@ -3,7 +3,7 @@
 #'
 #' @description \code{getTopLoc} Extracts the genotypes of individuals at the top n (by Fst) unlinked loci. The resultant file can then be used to simulate the panel efficacy using freqbasedsim. Alternatively, multiple panel sizes can be created by using truncated vectors of the exported loci names in the function subset_genepop from the genepopedit package (www.github.com/rystanley)
 #' @param GPD A file path to the GENEPOP format file you wish to create your panel from
-#' @param LDpop A string which denotes which of the two populations you wish to calculate linkage disequilibrium from. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
+#' @param LDpop A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
 #' @param panel.size An integer number of loci to include in the panel
 #' @param where.PLINK A file path to the PLINK installation folder
 #' @param where.PGDspider A file path to the PGDspider installation folder

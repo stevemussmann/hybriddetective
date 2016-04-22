@@ -2,7 +2,7 @@
 #' @title NewHybrids Plot
 #'
 #' @description \code{nh_plotR} plots the cumulative probabilities of assignment for each individual
-#' @param NHResults the PofZ file from a NewHybrids analysis
+#' @param NHResults A file path to the NewHybrids (PofZ file) result to be plotted
 #' @export
 #' @import ggplot2
 #' @importFrom reshape2 melt

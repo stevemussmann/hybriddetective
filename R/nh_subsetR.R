@@ -1,8 +1,8 @@
 #' @name nh_subset
 #' @title Subset NewHybrids format datasets
 #' @description Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels
-#' @param NHData The file path to a NewHybrids formatted dataset to be subsetted
-#' @param loci A vector of Loci names to be retained from the dataset
+#' @param NHData The file path to the NewHybrids formatted dataset to be subsetted
+#' @param loci A vector of Loci names to be retained in the dataset
 #' @importFrom dplyr filter summarise ungroup group_by
 #' @importFrom grid arrow unit
 #' @importFrom stringr str_extract str_split

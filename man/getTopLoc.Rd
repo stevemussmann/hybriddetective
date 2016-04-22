@@ -10,7 +10,7 @@ getTopLoc(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider,
 \arguments{
 \item{GPD}{A file path to the GENEPOP format file you wish to create your panel from}
 
-\item{LDpop}{A string which denotes which of the two populations you wish to calculate linkage disequilibrium from. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.}
+\item{LDpop}{A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.}
 
 \item{panel.size}{An integer number of loci to include in the panel}
 

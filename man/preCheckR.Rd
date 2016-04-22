@@ -9,7 +9,7 @@ preCheckR(PreDir, propCutOff = 0.5, PofZCutOff = 0.1)
 \arguments{
 \item{PreDir}{the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.}
 
-\item{propCutOff}{The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZ). The default is 0.5.}
+\item{propCutOff}{The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.}
 
 \item{PofZCutOff}{The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.}
 }

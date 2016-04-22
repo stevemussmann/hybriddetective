@@ -7,7 +7,7 @@
 nh_plotR(NHResults)
 }
 \arguments{
-\item{NHResults}{the PofZ file from a NewHybrids analysis}
+\item{NHResults}{A file path to the NewHybrids (PofZ file) result to be plotted}
 }
 \description{
 \code{nh_plotR} plots the cumulative probabilities of assignment for each individual

@@ -8,11 +8,12 @@ output:
 
 
 ***
-###***hybriddetective*** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment.
+###***hybriddetective*** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment. It can also rapidly create multi-generation simulated hybrid datasets.
+***
 
 
 ### Preamble  
-**hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** and **genepopedit** to bring the entire hybrid detection workflow into the R environment.  
+**hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** and **genepopedit**, to bring the entire hybrid detection workflow into the R environment.  
 
 By using **hybriddetective**, together with the packages **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis starting with genotypic data through to identification of hybrid individuals, with quantifiable levels of certainty of assignment. These packages facilitate the manipulation of genotype files, the identification of panels of unlinked markers based on the highest loci-specific Fst, the simulation of multi-generation hybrids and subsequent quantification of the efficacy and accuracy of panels to identify hybrids, and the determination of hybrid category of experimental data.  
     
@@ -27,9 +28,14 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 **Function name** | **Synopsis** | **Main use**  
 ------------|------------------------------------------|------------------------------------------------------------------
 **getTopLoc.R**  | Creates a panel comprised of the top *n* unlinked loci. Exports a list of loci, and a dataset to be used in the simulation functions in **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>), or another programme.| [_Data Preparation_](#gettoploc)
+**freqbasedsim.R**  | Creates simulated hybrid datasets comprised of *two pure parental groups*, *F1*, *F2*, and *backcrosses to both parentals* .| [_Data Preparation_](#freqbased)
+**freqbasedsim_Advanced.R**  | Creates simulated hybrid datasets comprised of *two pure parental groups*, *F1*, *F2*, and *backcrosses to both ancestral groups*. Allows the number of individuals of each genotype frequency category output to be specified by the user.| [_Data Preparation_](#freqbasedADV)
+**freqbasedsim_UB2.R**  | Creates simulated hybrid datasets comprised of *two pure parental groups*, *F1*, *F2*, and *backcrosses to both ancestral groups*. A less biased version of the simulation function which allows the user to specify the proportion of individuals in each of the two ancestral populations to be used to generate the allele frequencies upon which to base the simulations. Also allows the number of individuals of each genotype frequency category output to be specified by the user.| [_Data Preparation_](#freqbasedUB2)
 **nh_data_generateR.R** |   Merges specified simulated reference datasets with the genotypes of unknown/experimental individuals, producing a file to be analyzed by *NewHybrids* | [_Data Preparation_](#nhdatageneratR)
 **nh_analysis_data_generatoR.R** |   Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by *NewHybrids*| [_Data Preparation_](#nhanalysisdata)
 **nh_subsetR.R** |  Subset loci from *NewHybrids* format datasets| [_Data Preparation_](#nhsubset)
+**nh_analysis_data_generatoR.R** |   Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by *NewHybrids*| [_Data Preparation_](#nhanalysisdata)
+**nh_zcore.R** |  Inserts known genotype category assignments to *NewHybrids* format files (see Anderson 2002)| [_Data Preparation_](#zcore)
 **preCheckR.R** | Checks all *NewHybrids* results within a given directory to ensure they have converged| [_Error Checking and Diagnostics_](#precheck)
 **nh_plotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual | [_Error Checking and Diagnostics_](#plotR)
 **nh_multiplotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual for all results within a given folder | [_Error Checking and Diagnostics_](#multiplotR)
@@ -41,13 +47,13 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 
 ***  
 ###Package Installation
-**hybriddetective** requires the packages **genepopedit** (<https://github.com/rystanley/genepopedit>) and **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>), and these must be installed from GitHub prior to the installation of **hybryddetective**.  
+**hybriddetective** requires the packages **genepopedit** (<https://github.com/rystanley/genepopedit>) and **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>), and these must be installed from GitHub prior to the installation of **hybriddetective**.  
 
 **genepopedit**, **parallelnewhybrid**, and **hybriddetective** can be installed from GitHub using the R package *devtools* and the function *install_github*: 
 
 ```
 devtools::install_github("bwringe/parallelnewhybrid") #required
-devtools::install_github("rystanley/genepopedit") #requied
+devtools::install_github("rystanley/genepopedit") #required
 devtools::install_github("bwringe/hybriddetective") #package
 ```
 
@@ -64,19 +70,19 @@ devtools::install_github("bwringe/hybriddetective") #package
 * Dr. Nick Jeffery <https://github.com/NickJeff13>  
 * Dr. Ryan Ronald Edward Stanley <https://github.com/rystanley> 
 
-This package has been designed to work in conjunction with the packages **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>) and **genepopedit** (<https://github.com/rystanley/genepopedit>) to offer a more efficient and repeatable method ofdetecting hybrid individuals based on genomic data. This is accomplished by moving the workflow into the R environment. The package is open, and interested individuals are encouraged to modify the code for their purposes if needed. I will endeavour to respond in a timely manner to any and all inquiries, and will try to add requested functions, or functionality where requested.
+This package has been designed to work in conjunction with the packages **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>) and **genepopedit** (<https://github.com/rystanley/genepopedit>) to offer a more efficient and repeatable method of detecting hybrid individuals based on genomic data. This is accomplished by moving the workflow into the R environment. The package is open, and interested individuals are encouraged to modify the code for their purposes if needed. I will endeavour to respond in a timely manner to any and all inquiries, and will try to add requested functions, or functionality where requested.
 
 * If you don't understand anything, please contact me (bwringe[at]gmail.com)
-* Any ideas on how to improve the functionality is very much appreciated.
+* Any ideas on how to improve the functionality are very much appreciated.
 * If you spot a typo, feel free to edit and send a pull request.  
 
 Pull request how-to:
 
 * Click the edit this page on the sidebar.
-* Make the changes using github’s in-page editor and save.
+* Make the changes using GitHub’s in-page editor and save.
 * Submit a pull request and include a brief description of your changes. (e.g. "spelling errors" or "indexing error").  
 
-To cite the current version of genepopedit, please refer to our zenodo DOI: 
+To cite the current version of **hybriddetective**, please refer to our zenodo DOI: 
 
 
 *** 
@@ -86,8 +92,18 @@ To cite the current version of genepopedit, please refer to our zenodo DOI:
 
 <a name = "gettoploc"/>
 <h4 class="text-primary"> getTopLoc.R</h4>
-This function is designed to produce panels of the *n* unlinked loci with the highest loci-specific Fst, where *n* is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used used to created simulated hybrid datasets to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panels that is then used in their validation (Anderson 2010). The function will save three files to the folder that contains the data provided. The first file is a list of the top *n* loci, ordered by Fst, which can be used to subset data in with the function **genepop_subset** from the **genepopedit** package. The second file is a list of the individuals from each of the two populations which were subsetted out to form the testing panel. The final file is  This dataset can be used in the **freqbasedsim** functions in the **parallelnewhybrid** package to create simulated hybrids for panel efficacy testing. Data must be entered into the function as a two-population GENEPOP format file.  
+This function is designed to produce panels of the *n* unlinked loci with the highest loci-specific Fst, where *n* is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used to created simulated hybrid datasets to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panel(s) that is then used in their validation (Anderson 2010). The function will save three files to the folder that contains the data provided. The first file is a list of the top *n* loci, ordered by Fst, which can be used to subset data in with the function **genepop_subset** from the **genepopedit** package. The second file is a list of the individuals from each of the two populations that were subsetted out to form the testing panel. The final file are the genotypes of the individuals listed in the second file, at the top *n* unlinked loci (listed in the first file). This dataset can be used in the **freqbasedsim** functions to create simulated hybrids for panel efficacy testing. 
+<span style = "color:red"> <strong>NOTE:</strong></span> Data must be entered into the function as a two-population GENEPOP format file.  
 <span style = "color:red"> <strong>NOTE:</strong></span> The programmes **PLINK** and **PGDspider** are required to run **getTopLoc.R**. Refer to package installation for downloading instructions.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*GPD*| A file path to the GENEPOP format file you wish to create your panel from
+*LDpop*| A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
+*panel.size*| An integer number of loci to include in the panel
+*where.PLINK*| A file path to the PLINK installation folder
+*where.PGDspider*| A file path to the PGDspider installation folder
+
 
 ####Usage
 
@@ -96,22 +112,123 @@ To create a panel consisting of the top 50 Loci from the example dataset *PurePo
 ## 
 ```
 
+***
+
+<a name = "freqbased"/>
+<h4 class="text-primary"> freqbasedsim.R</h4>
+TEXT TEXT TEXT  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*GenePopData*| GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed  
+*pop.groups*|An optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB
+*outputName*|An optional character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix *\_SiRj_NH* added where *i* is the number of *S*imulations corresponding to the output, and *j* is the number of *R*eplicates of the *ith* simulation. NH refers to the fact that the output is in *NewHybrids* format.  
+*sample.size*|An optional integer to specify the number of simulated individuals to be created for each of the six hybrid classes (e.g. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals). Default is 200  
+*NumSims*|An integer number of simulated datasets to be created. Default is 1  
+*NumReps*|An integer number of replicates to be created for each of the *i* simulated datasets specified in NumSims. Default is 1  
+
+####Usage
+```r
+### Create a simulated dataset comprised of 200 individuals in each of the six genotype frequency classes (i.e. Pure1, Pure2, F1, F2, BC1 and BC2)
+
+freqbasedsim(GenePopData = "~/ ... /YourReferenceData.txt", sample.size = 200, NumSims = 3, NumReps = 3)
+```
+
+***
+
+<a name = "freqbasedADV"/>
+<h4 class="text-primary"> freqbasedsim_Advanced.R</h4>
+TEXT TEXT TEXT  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*GenePopData*| GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed  
+*pop.groups*|An optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB
+*outputName*|An optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix *\_SiRj_NH* added where *i* is the number of *S*imulations corresponding to the output, and *j* is the number of *R*eplicates of the *ith* simulation. NH refers to the fact that the output is in *NewHybrids* format.  
+*sample.sizePure*|An optional integer to specify the number of simulated  Pure1 and Pure2 individuals (centred ancestral populations) to be created. Default is 200  
+*sample.sizeF1*|An optional integer to specify the number of simulated  F1 individuals (Pure1 X Pure2) to be created. Default is 200  
+*sample.sizeF2*|An optional integer to specify the number of simulated  F2 dividuals (F1 X F1) to be created. Default is 200  
+*sample.sizeBC*|An optional integer to specify the number of simulated  Back Cross1 and BackCross2 individuals (Pure1 X F1 and Pure2XF2) to be created. Default is 200  
+*NumSims*|An integer number of simulated datasets to be created. Default is 1  
+*NumReps*|An integer number of replicates to be created for each of the *i* simulated datasets specified in NumSims. Default is 1  
+
+####Usage
+```r
+## If the number of Pure, F1, F2 and Backcross individuals to be returned is not specified, this function is the same as freqbasedsim. Because NewHybrids utilizes a Bayesian algorithm, results may be influenced by the proportions of individuals of different genotypic frequency categories provided, thus this function can be used to tailor the numbers of simulated individuals in each category to those expected of your study system.
+
+### Suppose you expect that the majority of individuals in will be pure, with the numbers of Pure > F1 > F2 >= BC
+
+freqbasedsim_Advanced(GenePopData = , sample.sizePure = 100, sample.sizeF1 = 50, sample.sizeF2 = 10, sample.sizeBC = 10, NumSims = 3, NumReps = 3)
+
+## This will create three independent simulations, each replicated three times.
+```
+
+***
+
+<a name = "freqbasedUB2"/>
+<h4 class="text-primary"> freqbasedsim_UB2.R</h4>
+TEXT TEXT TEXT  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*GenePopData* | GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed  
+*pop.groups* | An optional character vector denoting how the two ancestral populations should be named. Default is PopA and PopB  
+*prop.sample* | The proportion of individuals in both ancestral PopA and PopB to sample to create the simulated hybrids (Pure1, Pure2, F1, F2, BC1, and BC2)  
+*outputName* | An optional character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix *\_SiRj_NH* added where *i* is the number of *S*imulations corresponding to the output, and *j* is the number of *R*eplicates of the *ith* simulation. NH refers to the fact that the output is in *NewHybrids* format.  
+*sample.sizePure1* | An optional integer to specify the number of simulated Pure1 individuals (centred ancestral PopA) to be output when the desired number is less than the number of individuals in Ancestral Population 1 * prop.sample. The default is NULL, where the number output = number of individuals in Ancestral Population 1 * prop.sample. If a number greater than number of individuals in Ancestral Population 1 * prop.sample is requested, the number of individuals in Ancestral Population 1 * prop.sample are output.  
+*sample.sizePure2* | An optional integer to specify the number of simulated Pure2 individuals (centred ancestral PopB) to be output when the desired number is less than the number of individuals in Ancestral Population 2 * prop.sample. The default is NULL, where the number output = number of individuals in Ancestral Population 2 * prop.sample. If a number greater than number of individuals in Ancestral Population 2 * prop.sample is requested, the number of individuals in Ancestral Population 2 * prop.sample are output.  
+*sample.sizeF1* | An optional integer to specify the number of F1 individuals to be output when the desired number of simulated F1 individuals is less than (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample. The default is NULL where the number returned = (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample. Unless sample.sizeF1 is explicitly stated, even when sample.sizePure1 and sample.sizePure2 are specified, the number of simulated F1 individuals returned will be equal to (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample.  
+*sample.sizeF2* | An optional integer to specify the number of simulated F2 individuals to be output when the desired number of simulated F2 individuals is less than (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample. The default is NULL where the number returned = (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample. Unless sample.sizeF2 is explicitly stated, even when sample.sizePure1 and sample.sizePure2 are specified, the number of simulated F2 individuals returned will be equal to (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample.  
+*sample.sizeBC1* | An optional integer to specify the number of simulated BC1 (PopA X F1) individuals to be output when the desired number of simulated BC1 individuals is less than the number of individuals in Ancestral PopA * prop.sample. The default is NULL where the number returned = number of individuals in Ancestral PopA * prop.sample. Unless sample.sizeBC1 is explicitly stated, even when sample.sizePure1 and sample.sizeF1 are specified, the number of simulated BC1 individuals returned will be equal to number of individuals in Ancestral PopA * prop.sample.  
+*sample.sizeBC2* | An optional integer to specify the number of simulated BC2 (PopB X F1) individuals to be output when the desired number of simulated BC2 individuals is less than the number of individuals in Ancestral PopB * prop.sample. The default is NULL where the number returned = number of individuals in Ancestral PopB * prop.sample. Unless sample.sizeBC2 is explicitly stated, even when sample.sizePure2 and sample.sizeF1 are specified, the number of simulated BC2 individuals returned will be equal to number of individuals in Ancestral PopB * prop.sample.  
+*NumSims* | An integer number of simulated datasets to be created. Default is 1  
+*NumReps* | An integer number of replicates to be created for each of the *i* simulated datasets specified in NumSims. Default is 1  
+
+####Usage
+```r
+## This function is designed to be more unbiased than the other simulation functions. This is accomplished by sampling, without replacement, only a proportion (specified by prop.sample) of the individuals provided (Anderson 2010). 
+
+freqbasedsim_UB2(GPD = "~/ ... /YourReferenceData.txt")
+```
+
+***
 
 <a name = "nhdatageneratR"/>
 <h4 class="text-primary">nh\_analysis\_data\_generatoR.R</h4>
-This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging the simulated data with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of the individuals included (including those that were simulated) in the *NewHybrids* formatted file. <span style = "color:red"> <strong>NOTE:</strong></span> *nh_analysis_data_generatoR.R* creates a unique simulated data set each time it is run.   
+This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging the simulated data with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of the individuals included (including those that were simulated) in the *NewHybrids* formatted file.  
+<span style = "color:red"> <strong>NOTE:</strong></span> *nh_analysis_data_generatoR.R* creates a unique simulated data set each time it is run.   
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*ReferencePopsData*| A file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed. 
+*UnknownIndivs*| A dataframe of genotypes of unknown/experimental individuals to be analyzed for hybrid category generated using the function *genepop_flatten* from the package *genepopedit*. Individuals or loci can be subsetted from this flattened data set if desired, or manipulations can conducted before flattening using the appropriate functions from *genepopedit*. <span style = "color:red"> <strong>NOTE:</strong></span>: the number of loci in ReferencePopsData must equal the number in UnkownIndivs 
+*outputName*| An optional character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the *suffix _SiRj_NH* added where *i* is the number of simulations corresponding to the output, and *j* is the number of replicates of the *ith* simulation. NH refers to the fact that the output is in NewHybrids format 
+*pop.groups*| An optional character vector denoting how the two ancestral populations should be named; default is "PopA" and "PopB" 
+*sample.size*| An integer number of simulated individuals to be created for each of the six hybrid classes (e.g. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals); default is 200 
+*NumSims*| An integer number of simulated datasets to be created; default is 1 
+*NumReps*| An integer number of replicates to be created for each of the *n* simulated datasets specified in NumSims; default is 1 
+*cats.include*| Optional character vector list denoting which hybrid categories should be included in the output; default is to include all categories.
 
 ####Usage
 
 ```r
-### This function will create simulated reference data using the algorithm from "freqbasedsim" from the package parallelnewhybrid based on the genotypes of two reference populations provided by the user, and then combines these with unknown/experimental data
+### This function will create simulated reference data using the algorithm from "freqbasedsim" based on the genotypes of two reference populations provided by the user, and then combines these with unknown/experimental data
 
 nh_analysis_data_generateR(ReferencePopsData = "~/ ... /TwoReferencePops.txt", UnknownIndvs = "~/ ... /GenotypesOfUnknownInds.txt", sample.size = 50, NumSims = 3, NumReps = 3) ### create reference populations comprised of 50 individuals. Make 3 independent simulations, and 3 replicates of each.
 ```
 
+***
+
 <a name = "nhanalysisdata"/>
 <h4 class="text-primary">nh\_analysis\_GenerateR.R</h4>
 This function combines pre-simulated datasets with experimental/unknown data. Both the simulated and experimental datasets can be in *GENEPOP* or *NewHybrids* formats. This function also allows the user to specify which hybrid categories to include from the simulated dataset. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of all individuals included in the *NewHybrids* formatted file.
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*ReferencePopsData*| A file path to a either a *NewHybrids* or *GENEPOP* formatted file containing genotypes from the simulated ancestral populations. This can be the result of any of the *freqbasedsim* functions in this package, or a file created using the function *genepop_newhybrids* from the package *genepopedit*.  
+*UnknownIndivs*| A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a *GENEPOP* or *NewHybrids* format file. <span style = "color:red"> <strong>NOTE:</strong></span>: the number of loci in ReferencePopsData must equal the number in UnkownIndivs 
+*sim.pops.include*| An optional character vector list denoting which hybrid categories from the simulated data should be included in the output; default is Pure Population 1 and Pure Population 2. 
+*outputName*| An optional character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the *suffix _SiRj_NH* added where *i* is the number of simulations corresponding to the output, and *j* is the number of replicates of the *ith* simulation. NH refers to the fact that the output is in NewHybrids format 
 
 ####Usage
 
@@ -121,14 +238,21 @@ This function combines pre-simulated datasets with experimental/unknown data. Bo
 nh_analysis_GenerateR(ReferencePopsData = "~/ ... /PreSimulatedData.txt", UnknownIndivs = "~/ ... /GenotypesOfUnknownInds.txt")
 ```
 
+***
+
 <a name = "nhsubset"/>
 <h4 class="text-primary">nh\_subsetR.R</h4>
-This function allows the user to subset markers out of *NewHybrids* formatted datafiles to test the efficacy of different panel sizes.  
+This function allows the user to subset markers out of *NewHybrids* formatted data files to test the efficacy of different panel sizes.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*NHData*| The file path to the NewHybrids formatted dataset to be subsetted
+*loci*| A vector of loci names to be retained in the dataset
 
 ####Usage
 
 ```r
-### Use to remove genotypes at specified loci to test panels of different sizes, or composition. Loci must be specifed as the names of the loci.
+### Use to remove genotypes at specified loci to test panels of different sizes, or composition. Loci must be specified as the names of the loci.
 
 ### Find out what the names of the loci in your dataset are - assuming NewHybrids formatted file. 
 
@@ -139,11 +263,41 @@ loci.names <- scan("~/ ... /yourdata.txt", skip = 4, nlines = 1, what = "charact
 nh_subset(NHData = "~/ ... /yourdata.txt", loci = loci.names[1:50]) ## function will save the new dataset in the same folder with the filename "yourdata_subsetted.txt"
 ```
 
+***
+
+<a name = "zcore"/>
+<h4 class="text-primary">nh\_zcore.R</h4>
+TEXT TEXT TEXT  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*GetstheZdir*| A file path to the folder in which the *NewHybrids* formatted files to be appended reside
+*multiapplyZvec*| **IF** *a single Zvec is to be applied to each **NewHybrids** format file*, use *multiapplyZvec*. Zvec will added in batch fashion to every *NewHybrids* format file within a working folder. *multiapplyZvec* must be specified as a file path + file name (e.g. "~/HoldenUniversity/CoolEthansComputer/HairDolls/Zvexxx.csv")
+*applyuniqueZvec*| **IF** *each **NewHybrids** format file is to be given a UNIQUE vector of Zvecs* use *applyuniqueZvec*. <span style = "color:red"> <strong>NOTE:</strong></span> : to apply UNIQUE Zvecs, the Zvec files must all be placed in a single folder separate from the *NewHybrids* files *AND* they MUST follow the file name convention "NHFileName_Zvec.csv" where NHFileName is the same name as the file to which the Zvec is to be applied. Consequently, the number of *NewHybrids* files = number of Zvec files. *applyuniqueZvec* must be specified as a file path to the folder in which the Zvec files reside (e.g. "~/HarrisonUniversity/DEANGordonPritchard/LettersOfRecommendation/")  
+
+####Usage
+```r
+## to apply the same file of Zed scores to multiple files:
+
+nh_zcore(GetstheZdir = "~/ ... /yourNHFiles/", multiapplyZvec = "~/ ... /yourZeds.txt")  ## NOTE: Single file
+
+## to apply unique files of Zed scores to corresponding files:
+
+nh_zcore(GetstheZdir = "~/ ... /yourNHFiles/", applyuniqueZvec = "~/ ... /yourZedFiles/") ## Zed files must all be placed in a single folder separate from the NewHybrids files AND they MUST follow the file name convention "NHFileName_Zvec.csv" where NHFileName is the same name as the file to which the Zvec is to be applied
+```
+
+***
 
 <a name = "precheck"/>
 <h4 class="text-primary"> preCheckR.R</h4>
-When using *NewHybrids*, the Markov Chain Monte Carlo (MCMC) chains will occasionlly fail to converge resulting, in *NewHybrids* spuriously returning the higest probability of assignment of nearly every individual to the F2 category. In such cases, the analysis should be re-run. *preCheckR.R* quickly assesses the results of many independent *NewHybrids* runs, and will flag instances in which the probability of assignment values indicate the chains appear to have failed to converge. Results flagged by *preCheckR.R* should be manually verified by the user.  
+When using *NewHybrids*, the Markov Chain Monte Carlo (MCMC) chains will occasionally fail to converge resulting, in *NewHybrids* spuriously returning the highest probability of assignment of nearly every individual to the F2 category. In such cases, the analysis should be re-run. *preCheckR.R* quickly assesses the results of many independent *NewHybrids* runs, and will flag instances in which the probability of assignment values indicate the chains appear to have failed to converge. Results flagged by *preCheckR.R* should be manually verified by the user.  
 <span style = "color:red"> <strong>NOTE:</strong></span> several of the functions in **hybriddetective** will not function correctly, or will fail if they are provided with results of non-converged runs. Thus, it is strongly recommended that *preCheckR.R* be run on every *NewHybrids* result.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*PreDir*| The directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
+*propCutOff*| The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5. 
+*PofZCutOff*| The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1. 
 
 #####Usage
 
@@ -152,15 +306,20 @@ When using *NewHybrids*, the Markov Chain Monte Carlo (MCMC) chains will occasio
 
 ## to check results created by running parallelnh_xx
 
-preCheckR(PreDir = "~/ ... /NH.Results/", propCutOff = 0.5, PofZCutOff = 0.1) ## run with the default cutoff values; these could have been left blank.
+preCheckR(PreDir = "~/ ... /NH.Results/", propCutOff = 0.5, PofZCutOff = 0.1) ## run with the default cut-off values; these could have been left blank.
 ### preCheckR will now flag any results where more than 50% (propCutOFF) of EITHER Pure1 or Pure2 individuals are given a probability of being an F2 greater than 10% (PofZCutOff)
 
 ```
 
+***
 
 <a name = "plotR"/>
 <h4 class="text-primary">nh_plotR.R</h4>
 This function will plot the cumulative probability of assignment (PofZ) for each individual in a *NewHybrids* analysis. *nh_plotR.R* can be used with both simulated and experimental datasets.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*NHResults*| A file path to the NewHybrids (PofZ file) result to be plotted 
 
 ####Usage
 ```r
@@ -170,9 +329,15 @@ nh_plotR(NHResults = "~/ ... /NH.Results/YourData_Results/YourData_PofZ.txt") ##
 
 ```
 
+***
+
 <a name = "multiplotR"/>
 <h4 class="text-primary">nh_plotR.R</h4>
 This function will plot the cumulative probability of assignment (PofZ) for each individual in a *NewHybrids* analysis, for all analyses within a given folder. *nh_plotR.R* can be used with both simulated and experimental datasets. This function is useful for visualizing results where **preCheckR.R** has indicated that *NewHybrids* may have failed to converge.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*NHResults*| A file path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located. 
 
 ####Usage
 ```r
@@ -181,9 +346,18 @@ This function will plot the cumulative probability of assignment (PofZ) for each
 nh_multiplotR(NHResults = "~/ ... /NH.Results/") ## the function will create a folder called "NewHybrids Plots" within the directory specified by "NHResults", and the plots will be saved to that folder. 
 ```
 
+***
+
 <a name = "accuracy"/>
 <h4 class="text-primary">nh\_accuracy\_checkR.R</h4>
 This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by *NewHybrids* at three probability of assignment thresholds (PofZ >= 0.5, 0.75 and 0.9). The proportion of individuals for each hybrid category correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired (print.results = TRUE). The user also has the option to check the proportion of individuals in all hybrid categories correctly identified as being of hybrid ancestry (i.e. proportion of F1, F2, BC1, and BC2 individuals given the greatest PofZ in an any of those categories as opposed to Pure1 or Pure2). *nh_accuracy_checkR.R* is intended primarily for exploratory analysis, and it's functionality is expanded upon in the functions *hybridpower* and *hybridpowercomp*.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*NHResultsDir*| A file path to the NewHybrids (PofZ file) result to be checked. 
+*print.results*| A logical query for whether the function output should be printed to the screen in addition to exported as an object. Default is TRUE 
+*all.hyb*| A logical query if the proportion of all individuals known to be hybrids were assigned to a hybrid category regardless if the category was the correct one. Default is FALSE
+
 
 ####Usage
 
@@ -194,10 +368,21 @@ nh_accuracy_checkR(NHResultsDir = "~/ ... /NH.Results/YourData_Results/", print.
 
 ```
 
+***
+
 <a name = "power"/>
 <h4 class="text-primary">hybridpower</h4>
-This fuction will extract data from *NewHybrids* runs and evaluate the correct assignment to a given hybrid classication (i.e. Pure1, Pure2, F1, F2, BC1, and BC2). From this data, hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshhold (minimum probability of assignment threshold required for an individual to be assigned a hybrid class, scaling from 0.50-1.00). Diagnostic plots are also provided which detail variation among simulations, as well as to which hybrid classes individuals are _missassigned_ to. Summary data and *ggplot* objects are saved to a .RData output automatically. Outputs from this function are saved to the folder "Figures and Data" which is generated within the directory (specified by *dir*) that contains the *NewHybrids* output folders.  
+This function will extract data from *NewHybrids* runs and evaluate the correct assignment to a given hybrid classification (i.e. Pure1, Pure2, F1, F2, BC1, and BC2). From this data, hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshold (minimum probability of assignment threshold required for an individual to be assigned a hybrid class, scaling from 0.50-1.00). Diagnostic plots are also provided which detail variation among simulations, as well as to which hybrid classes individuals are _missassigned_ to. Summary data and *ggplot* objects are saved to a .RData output automatically. Outputs from this function are saved to the folder "Figures and Data" which is generated within the directory (specified by *dir*) that contains the *NewHybrids* output folders.  
 <span style = "color:red"> <strong>NOTE:</strong></span> *hybridpower* assumes all simulations and associated replicates are produced from *NewHybrids* analyses conducted on the same number of loci. Use *hybridpowercomp* if the number of loci varies among simulations.  
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*dir*| File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located. 
+*filetag*| An optional character vector to be applied as the name of the outputs.
+*Threshold*| A threshold which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class) 
+*Thresholds*| A vector of thresholds which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class). 
+*samplesize*| The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt. 
+*CT*| The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.  
+*CTI*| The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.  
 
 ####Usage
 
@@ -209,10 +394,21 @@ This fuction will extract data from *NewHybrids* runs and evaluate the correct a
 hybridpower(dir = "~/ ... /NH.Results/") ## Defaults appropriate for analysis
 ```
 
+***
+
 <a name = "powercomp"/>
 <h4 class="text-primary">hybridpowercomp</h4>
-This function will replicate the analysis of *hybridpower* but will paritition the results according to the number of loci used in the assignment analysis. The plots will compare assignment power among differnet numbers of loci used.  
+This function will replicate the analysis of *hybridpower* but will partition the results according to the number of loci used in the assignment analysis. The plots will compare assignment power among different numbers of loci used.  
 <span style = "color:red"> <strong>NOTE:</strong></span> *hybridpower* assumes that the same simulated datasets are being tested, with varying numbers of loci in the panel. *hybridpowercomp* should be used if the number of loci do not vary among simulations.  
+
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*dir*| File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located. 
+*filetag*| An optional character vector to be applied as the name of the outputs. 
+*Thresholds*| A vector of thresholds which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class). 
+*samplesize*| The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt. 
+*CT*| The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.   
+*CTI*| The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5. 
 
 ####Usage
 
@@ -223,14 +419,23 @@ This function will replicate the analysis of *hybridpower* but will paritition t
 hybridpowercomp(dir = "~/ ... /NH.Results/") ## Defaults appropriate for analysis
 ```
 
+***
+
 <a name = "deltaplot"/>
 <h4 class="text-primary">nh\_panel\_delta\_plotR.R</h4>
 This function is designed to illustrate the changes in individual probability of assignment to each of the six genotype frequency classes when analyzed using panels of differing numbers of markers. The user can specify if they would like the plot to be saved, or returned as a **ggplot2** object for further formatting.  
 
+**Parameter** | **Description**
+------------|---------------------------------------------------------------  
+*GPD*| File path to the directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders. 
+*return.workspace*| A logical query of whether the ggplot2 object should be returned to the workspace for further editing or formatting. Can take values of "TRUE" or "FALSE". NOTE: if return.workspace = TRUE, the user must assign a variable to the function (i.e. mydata <- nh\_ind_panel_delta(...)) 
+*save.plot*| A logical query of whether the plot should be saved as a file in the working directory. NOTE: The file will be saved "delta_plot.xxx", and so must be renamed if the function is to be run more than once to prevent overwriting. 
+*plot.filetype*| If save.plot = TRUE, plot.filetype specifies the file type to save the plot as. The default is "png", with the option of "pdf". 
+
 ####Usage
 
 ```r
-### Use nh_panel_delta_plotR to visualize the change (if any) in individual assignment to genotype freqency class using panels comprised of different numbers of markers. The plot can returned to the global environment as an object called "delta.plot" by default, and can optionally be saved to the directory specifed by GPD.
+### Use nh_panel_delta_plotR to visualize the change (if any) in individual assignment to genotype frequency class using panels comprised of different numbers of markers. The plot can returned to the global environment as an object called "delta.plot" by default, and can optionally be saved to the directory specified by GPD.
 
 nh_panel_delta_plotR(GPD = "~/ ... /NH.Results/", return.workspace = TRUE, save.plot = FALSE) ### return the plot to the workspace, but do not save
 ```

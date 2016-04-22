@@ -3,7 +3,7 @@
 #'
 #' @description \code{preCheckR} detects cases where the NewHybrids MCMC chains fail to converge, and warns the user that the identified analyses should be repeated. When NewHybrids fails to converge, it is generally visible in cumulative probability plots (see nh_plotR) and identifiable in the PofZ file as an excess of F2 posterior probability. This function checks that the proportion of known Pure Population 1 or Pure Population 2 individuals assigned at least a
 #' @param PreDir the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
-#' @param propCutOff The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZ). The default is 0.5.
+#' @param propCutOff The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.
 #' @param PofZCutOff The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.
 #' @export
 

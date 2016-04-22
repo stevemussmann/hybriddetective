@@ -8,7 +8,7 @@ nh_panel_delta_plotR(GPD, return.workspace, save.plot = FALSE,
   plot.filetype = "png")
 }
 \arguments{
-\item{GPD}{path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.}
+\item{GPD}{Filepath to the directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.}
 
 \item{return.workspace}{A logical query of whether the ggplot2 object should be returned to the workspace for further editing or formatting. Can take values of "TRUE" or "FALSE". NOTE: if return.workspace = TRUE, the user must assign a variable to the function (i.e. mydata <- nh_ind_panel_delta(...))}
 

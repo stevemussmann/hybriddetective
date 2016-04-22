@@ -7,9 +7,9 @@
 nh_subset(NHData, loci = NULL)
 }
 \arguments{
-\item{NHData}{The file path to a NewHybrids formatted dataset to be subsetted}
+\item{NHData}{The file path to the NewHybrids formatted dataset to be subsetted}
 
-\item{loci}{A vector of Loci names to be retained from the dataset}
+\item{loci}{A vector of Loci names to be retained in the dataset}
 }
 \description{
 Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels

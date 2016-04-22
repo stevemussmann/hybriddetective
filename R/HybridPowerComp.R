@@ -1,12 +1,12 @@
 #' @name hybridpowercomp
 #' @title Assignment power comparison among different SNP subsets using NewHybrids simulated datasets.
 #' @description Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
-#' @param dir path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
-#' @param filetag A name tag which will be added to the outputs.
+#' @param dir File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
+#' @param filetag An optional character vector to be applied as the name of the outputs.
 #' @param Thresholds A vector of thresholds which will be added to the plots showing the assignment success for different levels of probability of a given class estimated by NewHybrids. Default is (NULL) so if nothing is specified it will not add this to the output plots (success ~ threshold by class).
-#' @param samplesize is the number of fish per NH class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to the *_Individuals.txt output from.
-#' @param CT convergence threshold (default: 0.1) denoting what an acceptable proportion of each individual of P1 & P2  can be classified as "F2".
-#' @param CTI proportion of individuals (default: 0.5) within a class (P1 and P2) which are permitted to fail exceed CT.
+#' @param samplesize The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt.
+#' @param CT The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.
+#' @param CTI The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.
 #' @rdname hybridpowercomp
 #' @import ggplot2
 #' @import magrittr

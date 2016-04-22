@@ -8,11 +8,11 @@ nh_analysis_GenerateR(ReferencePopsData, UnknownIndivs,
   sim.pops.include = c("Pure1", "Pure2"), output.name)
 }
 \arguments{
-\item{ReferencePopsData}{A file path to a NewHybrids formatted file containing genotypes from the simulated ancestral populations. This can be the result of any of the freqbasedsim functions, or a file created using the function genepop_XXXX from the package genepopedit}
+\item{ReferencePopsData}{A file path to a either a NewHybrids or GENEPOP formatted file containing genotypes from the simulated ancestral populations. This can be the result of any of the freqbasedsim functions, or a file created using the function genepop_newhybrids from the package genepopedit}
 
-\item{UnknownIndivs}{A dataframe of the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci in ReferencePopsData must equal the number in UnkownIndivs}
+\item{UnknownIndivs}{A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci in ReferencePopsData must equal the number in UnkownIndivs}
 
-\item{sim.pops.include}{Optional character vector list denoting which hybrid categories should be included in the output; default is Pure Population 1 and Pure Population 2.}
+\item{sim.pops.include}{Optional character vector list denoting which hybrid categories from the simulatedd data should be included in the output; default is Pure Population 1 and Pure Population 2.}
 
 \item{outputName}{outputName an optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format}
 }

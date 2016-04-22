@@ -9,7 +9,7 @@ nh_accuracy_checkR(NHResultsDir, print.results = TRUE, all.hyb = FALSE)
 \arguments{
 \item{NHResultsDir}{A file path to the NewHybrids (PofZ file) result to be checked.}
 
-\item{print.results}{a logical query for whether the results should be printed to the screen in addition to exported as an object. Default is TRUE}
+\item{print.results}{a logical query for whether the function output should be printed to the screen in addition to exported as an object. Default is TRUE}
 
 \item{all.hyb}{a logical query if the proportion of all indivuals known to be hybrids were assigned to a hybrid category regardless if the category was the correct one. Default is FALSE}
 }

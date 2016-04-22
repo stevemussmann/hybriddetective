@@ -1,7 +1,7 @@
 #' @name nh_panel_delta_plotR
 #' @title Plot change in individual assignment probability at different panel sizes
 #' @description Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
-#' @param GPD path directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
+#' @param GPD Filepath to the directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.
 #' @param return.workspace A logical query of whether the ggplot2 object should be returned to the workspace for further editing or formatting. Can take values of "TRUE" or "FALSE". NOTE: if return.workspace = TRUE, the user must assign a variable to the function (i.e. mydata <- nh_ind_panel_delta(...))
 #' @param save.plot A logical query of whether the plot should be saved as a file in the working directory. NOTE: The file will be saved "delta_plot.xxx", and so must be renamed if the function is to be run more than once to prevent overwriting.
 #' @param plot.filetype If save.plot = TRUE, plot.filetype specifies the filetype to save the plot as. The default is "png", with the option of "pdf".
