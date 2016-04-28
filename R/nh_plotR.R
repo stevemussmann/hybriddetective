@@ -3,12 +3,13 @@
 #'
 #' @description \code{nh_plotR} plots the cumulative probabilities of assignment for each individual
 #' @param NHResults A file path to the NewHybrids (PofZ file) result to be plotted
+#' @param ColourVector A logical which can be used to reverse the Pure1/BC1, Pure2/BC2 colours if NEWHYBRIDS switches which population is called Population1 and Population2 between analyses of the same data (allows you to make your plots the same colours)
 #' @export
 #' @import ggplot2
 #' @importFrom reshape2 melt
 
 
- nh_plotR <- function(NHResults){ ## this function plots the Q-value output from New Hybrids
+ nh_plotR <- function(NHResults, ColourVector = 1){ ## this function plots the Q-value output from New Hybrids
 
 
    nh_output <- read.table(file = NHResults, header = TRUE)[,-2]
@@ -21,7 +22,12 @@
   colnames(NH_melt) <- c("Indv", "PopProb", "CumProb") ## rename so that its prettier
 
   ## lets give the plot some pretty colours
+  if(ColourVector == 1){
   col.vec <- c("red", "blue", "grey", "green", "black", "yellow", "brown")
+  }
+  if(ColourVector == 2){
+    col.vec <- c("blue", "red", "grey", "green", "yellow", "black", "brown")
+  }
 
   ## to be used later if decide to break the data or if there are different numbers of individuals in each population type
   # break.by <- nrow(nh_output)/6
