@@ -467,7 +467,7 @@ for(i in 1:length(what.positions.get)){
 
         names(nh_topLoci) = c(paste0(outNameHold, "_", panel.size, "_Loci_Panel"),
             paste0("Top_", panel.size, "_loci"),
-            paste0(outName, "_IndividualsInSim"))
+            paste0(outNameHold, "_IndividualsInSim"))
 
  }
 
