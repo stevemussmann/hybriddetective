@@ -352,7 +352,7 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
       {ggsave(paste0(dir,"Figures and Data/pdf/AssignmentSuccess~level-error_Hybrid_h4.pdf"),h4,height = 10,width = 8)}
 
       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)} else
-      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid_h4.jgp"),h4,height = 10,width = 8)}
+      {ggsave(paste0(dir,"Figures and Data/jpg/AssignmentSuccess~level-error_Hybrid_h4.jpg"),h4,height = 10,width = 8)}
 
       ## mean plot ----------
 
