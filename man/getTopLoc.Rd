@@ -4,7 +4,8 @@
 \alias{getTopLoc}
 \title{Creates a panel of the top n unlinked loci, and exports the list of loci}
 \usage{
-getTopLoc(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider,
+getTopLoc(GPD, LDpop = "Pop1", panel.size, allocate.PGD.RAM = 1,
+  r2.threshold = 0.2, ld.window = NULL, where.PLINK, where.PGDspider,
   return.environment = TRUE, save.LociandIndividuals = FALSE)
 }
 \arguments{
@@ -13,6 +14,12 @@ getTopLoc(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider,
 \item{LDpop}{A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.}
 
 \item{panel.size}{An integer number of loci to include in the panel}
+
+\item{allocate.PGD.RAM}{An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses.}
+
+\item{r2.threshold}{The minimum r^2 threshold to consider a pair of loci to be in LD}
+
+\item{ld.window}{Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which essentially asks to compare each SNP against all others}
 
 \item{where.PLINK}{A file path to the PLINK installation folder}
 

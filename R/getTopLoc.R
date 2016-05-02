@@ -11,13 +11,16 @@
 #' @param where.PLINK A file path to the PLINK installation folder
 #' @param where.PGDspider A file path to the PGDspider installation folder
 #' @export
-#' @importFrom genepopedit genepop_detective subset_genepop genepop_fstat
+#' @importFrom genepopedit genepop_detective subset_genepop genepop_fstat Optimfunc
 #' @importFrom hierfstat read.fstat wc
 #' @importFrom stringr str_split str_extract
 #' @import plyr
 
 
-getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspider, return.environment = TRUE, save.LociandIndividuals = FALSE){
+getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,allocate.PGD.RAM=1,
+                      r2.threshold=0.2,ld.window=NULL,where.PLINK,
+                      where.PGDspider, return.environment = TRUE,
+                      save.LociandIndividuals = FALSE){
 
   writeLines("Reading Data")
 
@@ -53,7 +56,7 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspi
   }
 
   if(length(ld.window)==0){
-    ld.window = 99999 ### sets the LD window to essentially check every SNP pairwise
+    ld.window = 999999 ### sets the LD window to essentially check every SNP pairwise
   }
 
   if(ld.window < 0){
