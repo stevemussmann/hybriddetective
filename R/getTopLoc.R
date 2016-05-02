@@ -5,6 +5,9 @@
 #' @param GPD A file path to the GENEPOP format file you wish to create your panel from
 #' @param LDpop A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
 #' @param panel.size An integer number of loci to include in the panel
+#' @param r2.threshold The minimum r^2 threshold to consider a pair of loci to be in LD
+#' @param ld.window Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which essentially asks to compare each SNP against all others
+#' @param allocate.PGD.RAM An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses.
 #' @param where.PLINK A file path to the PLINK installation folder
 #' @param where.PGDspider A file path to the PGDspider installation folder
 #' @export
@@ -34,6 +37,28 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size, where.PLINK, where.PGDspi
     stop("File must contain two populations. The package genepopedit offers editing functions")
   }
 
+  #Variable checks
+  if(allocate.PGD.RAM%%1 != 0){
+    stop("Please specify an integer GB value to allocate to PGDspider.")
+  }
+
+  allocate.PGD.RAM <- allocate.PGD.RAM*1024
+
+  if(r2.threshold < 0 | r2.threshold > 1){
+    stop("r^2 threshold must be a value between 0 and 1")
+  }
+
+  if(r2.threshold<0.2){
+    writeLines("Linkage detection threshold is low (<0.2). Linkage will be classified at a higher frequency than default PLINK selection parameters.")
+  }
+
+  if(length(ld.window)==0){
+    ld.window = 99999 ### sets the LD window to essentially check every SNP pairwise
+  }
+
+  if(ld.window < 0){
+    stop("LD window must be non-negative")
+  }
 
   writeLines("Creating training and working datasets")
   ### subsample to get a training and simulated dataset
@@ -132,7 +157,7 @@ if(Sys.info()["sysname"] != "Windows"){
 
 ### create a string to call PGDspider
 input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
-execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- paste0("java -Xmx", allocate.PGD.RAM, "m -Xms512m -jar PGDSpider2-cli.jar")
 spid.call <- "-spid GP_FSTAT.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat FSTAT"
@@ -156,7 +181,7 @@ if(Sys.info()["sysname"] == "Windows"){
 
 ### create a string to call PGDspider
 input.file.call <- "-inputfile GPD_for_GET_TOP_LOC.txt"
-execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- paste0("java -Xmx", allocate.PGD.RAM, "m -Xms512m -jar PGDSpider2-cli.jar")
 spid.call <- "-spid GP_FSTAT.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat FSTAT"
@@ -184,7 +209,7 @@ fst_data_path <- paste0(path.start, "/", "for_FST.txt")
 ### read in the FSTAT formatted file
 for.fst <- hierfstat::read.fstat("for_FST.txt")
 ## calculate Fst
-FST.dat <- hierfstat::wc(for.fst)
+FST.dat <- suppressWarnings(hierfstat::wc(for.fst))
 ### get the Fst values
 FSTs <- FST.dat$per.loc$FST
 ### create a dataframe that is the names of the Loci, and their corresponding Fst
@@ -246,7 +271,7 @@ remember.sub_data_path.PGD <- paste0(where.PGDspider, "subset_for_LD.txt")
 if(Sys.info()["sysname"] != "Windows"){
 ### create a string to call PGDspider
 input.file.call <- paste0("-inputfile subset_for_LD.txt")
-execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- paste0("java -Xmx", allocate.PGD.RAM, "m -Xms512m -jar PGDSpider2-cli.jar")
 spid.call <- "-spid hyb.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat PED"
@@ -268,7 +293,7 @@ remember.MAPpath.PGD <- paste0(where.PGDspider, "PGDtest.map")
 if(Sys.info()["sysname"] == "Windows"){
 ### create a string to call PGDspider
 input.file.call <- paste0("-inputfile subset_for_LD.txt")
-execute.SPIDER <- "java -Xmx16384m -Xms512m -jar PGDSpider2-cli.jar"
+execute.SPIDER <- paste0("java -Xmx", allocate.PGD.RAM, "m -Xms512m -jar PGDSpider2-cli.jar")
 spid.call <- "-spid hyb.spid"
 input.format <- "-inputformat GENEPOP"
 output.format <- "-outputformat PED"
@@ -305,14 +330,14 @@ go.to.PLINK <- paste0("cd ", where.PLINK.go)
 
 ### OSX LINUX PLINK call
 if(Sys.info()["sysname"] != "Windows"){
-execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --noweb")
+execute.PLINK <- paste0(go.to.PLINK, "; ", "./plink --file PGDtest --r2 --ld-window-r2 ", r2.threshold, " --ld-window ", ld.window, " --noweb")
 ### run PLINK through system
 system(execute.PLINK)
 }
 
 ### Windows PLINK CALL
 if(Sys.info()["sysname"] == "Windows"){
-execute.PLINK <- paste0(go.to.PLINK, " && ", "plink --file PGDtest --r2 --noweb")
+execute.PLINK <- paste0(go.to.PLINK, " && ", "plink --file PGDtest --r2 --ld-window-r2 ", r2.threshold, " --ld-window ", ld.window, " --noweb")
 ### run PLINK through system
 shell(execute.PLINK)
 }
@@ -340,120 +365,80 @@ Linked <- Linked[c("SNP_A", "SNP_B", "R2")]
 ### turn both columns into a single vector of unduplicated loci names
 ld.unique <- c(as.character(Linked$SNP_A), as.character(Linked$SNP_B))
 ld.unique <- as.character(ld.unique[which(duplicated(ld.unique)==FALSE)])
-# head(FST.df)
 
-## get a vector which is the names of the loci in order of highest to lowest Fst
-FST.order.vec <- c(as.character(FST.df$loci))
-## get those loci that appear in both lists
-# which(FST.order.vec %in% ld.unique)
+if(length(ld.unique > 1)){
 
-loci.in.LD <- which(FST.order.vec %in% ld.unique) ### which Loci identified as being in LD
+  FST.df2 <- FST.df[which(FST.df$loci %in% ld.unique),]
+  FST.ld.ordered <- as.character(FST.df2[order(FST.df2$FSTs,decreasing=T),"loci"])
 
-## turn the linked loci into a dataframe, then make sure the SNP names are characters so can be searched against the LD and Fst vectors
-Linked.df <- Linked
-Linked.df$SNP_A <- as.character(Linked.df$SNP_A)
-Linked.df$SNP_B <- as.character(Linked.df$SNP_B)
+  holdlist <- list()
+  for(i in FST.ld.ordered){
+    hold <- c(i,as.character(Linked[which(Linked[,1]%in%i),2]),
+              as.character(Linked[which(Linked[,2]%in%i),1]))
 
-### keep only linked loci < the size of the panel you wish to create
-# loci.in.LD.vec <- loci.in.LD[which(loci.in.LD < panel.size)] ## which loci in LD < the size of the panel
-
-loci.in.LD.vec <- loci.in.LD
-
-# what rows of the ld data frame contain the the linked loci in the top n of Fst values?
-what.positions.get <- list()
-for(k in 1:length(loci.in.LD.vec)){
-
-    in.ld.min <- loci.in.LD.vec[k]
-
-  get.rows <- which(Linked.df$SNP_A == FST.order.vec[in.ld.min] | Linked.df$SNP_B == FST.order.vec[in.ld.min])
-  # print(get.rows)
-  #what.rows.get <- list(what.rows.get, get.rows)
-what.positions.get[[k]] <- get.rows
+    hold2 <- NULL
+    for(k in 1:length(hold)){hold2 <- c(hold2,which(FST.ld.ordered == hold[k]))}
+    holdlist[[i]] <- hold2
   }
 
- ## Get the names of the SNPs in LD from the PLINK LD file
- SNP.out <- list()
-for(i in 1:length(what.positions.get)){
+  linked.ranks.df2 <- plyr::rbind.fill(lapply(holdlist,function(y){as.data.frame(t(y),stringsAsFactors=FALSE)}))
 
-  to.get <- what.positions.get[[i]]
+  to.keep <- FST.ld.ordered[genepopedit::Optimfunc(linked.ranks.df2)]
+  to.drop <- setdiff(as.character(FST.df2$loci),to.keep)
 
-  SNP_loop <- NULL
-  for(k in 1:length(what.positions.get[[i]])){
-    SNP.hold.loop <- c(Linked.df[what.positions.get[[i]][k], "SNP_A"], Linked.df[what.positions.get[[i]][k], "SNP_B"]) ## get the values from teh row defined for SNP_A and B
-    SNP_loop <- rbind(SNP_loop, SNP.hold.loop) ## there may be more than one row defined, rbind them together
-  }
+  FST.df2$loci <- as.character(FST.df2$loci)
+  FST.df$loci <- as.character(FST.df$loci)
 
-  SNP.out[[i]] <- SNP_loop ## add to new list
-
-}
-
- ## compare the SNPs in the LD file to the ranked order by Fst - save the ranks of the SNPs that are linked - but only unique values, i.e. if
-
-
- linked.ranks <- list()
-  for(j in 1:length(SNP.out)){
-
-    to.double.check <- SNP.out[[j]] ## gets names of the jth SNPs and what other SNP they are linked to
-    # dbl.chk <- to.double.check[which(str_detect(string = noquote(to.double.check), pattern = as.character(FST.order.vec[loci.in.LD.vec[j]]))==FALSE)]
-    dbl.chk <-to.double.check[-which(as.character(FST.order.vec[loci.in.LD.vec[j]]) == noquote(to.double.check))]
-        ### the jth SNPs are saved as a string in to.double.check, this removes the jth SNP in loci.fst from this, so only have non-duplicated
-
-    where.best.link.fst <- loci.in.LD.vec[j] ## the loci with the greatest Fst among the linked ones, will be the jth in the ranked vector
-    where.its.linked <- which(FST.order.vec %in% dbl.chk) ## get the loctions on hte ranked vector of the loci it is linked to
-    hold.linked.ranks <- c(where.best.link.fst, where.its.linked) ## cbind them together
-    linked.ranks[[j]] <- hold.linked.ranks ## output in a list
-
-  }
-
- ## turn the list into a dataframe by adding NA where there are too few 'columns' in a string
- linked.ranks.df <- plyr::rbind.fill(lapply(linked.ranks,function(y){as.data.frame(t(y),stringsAsFactors=FALSE)}))
-
-
-### now this is where it get a list of numbers to be removed from the ranked vector of loci names by Fst
-# h.rows <- which(linked.ranks.df$V1<panel.size) ##
- h.rows <- linked.ranks.df$V1
- to.cut.out <- NULL
- for(i in 1:length(h.rows)){
- # a <- h.rows[i]
- a = i
-
- ## this ensures that where we get more than one of the linked loci in the top n loci, we keep the one with the highest Fst (lowest number in the rank)
- if((linked.ranks.df$V1[a] < linked.ranks.df$V2[a])==TRUE){
-   to.cut <- linked.ranks.df$V2[a]
-   to.cut.out <- c(to.cut.out, to.cut)
- }
-
- }
-
- to.cut.out <- to.cut.out[which(duplicated(to.cut.out)==FALSE)]
+  to.keep <- FST.df[-which(FST.df$loci %in% to.drop),]
 
   writeLines("Writing output")
+  Unlinked.panel <- FST.df[which(FST.df$loci %in% to.keep$loci),]
+
+  your.panel <- FST.df
+  your.panel_un <- Unlinked.panel
+  your.panel <- your.panel[order(your.panel$FSTs,decreasing=TRUE),]
+  your.panel_unlinked <- your.panel_un[order(your.panel_un$FSTs,decreasing = TRUE),]
+  your.panel_unlinked <- your.panel_unlinked[1:panel.size,] #return the panel size
+  Linked.df <- Linked
+  writeLines("Process Completed.")
+}
+
+if(length(ld.unique) < 1){ # if not linked loci
+  writeLines("Writing output")
+  writeLines("No linked loci detected, all loci returned.")
+  your.panel <- FST.df
+  your.panel <- your.panel[order(your.panel$FSTs,decreasing=TRUE),]
+  your.panel_unlinked <- your.panel[1:panel.size,]#return the panel size
+  Linked.df <- NA
+  }
 
 
-
- if(length(FST.order.vec[-to.cut.out]) <  length(FST.order.vec[-to.cut.out][1:panel.size])){
+ if(nrow(your.panel_unlinked) <  panel.size){
 
    writeLines(paste0("Desired panel size ", panel.size,  " is larger than total number of unlinked loci ", length(FST.order.vec[-to.cut.out]), ". ", "Returning ALL unlinked loci."))
-   panel.size = length(FST.order.vec[-to.cut.out])
+   panel.size = nrow(your.panel_unlinked)
 
  }
 
- your.panel <- FST.order.vec[-to.cut.out][1:panel.size]
+
  GPsplit <- c(stringr::str_split(string = GPD, pattern = "/"))
 
   outNameHold <- stringr::str_extract(GPsplit, paste0("[:word:]{3,}", ".txt"))
   GPD.path <- gsub(x = GPD, pattern = outNameHold, replacement = "")
   outNameHold <- gsub(x = outNameHold, pattern = ".txt", replacement = "")
 
-    outName <- paste0(GPD.path, outNameHold, "_", panel.size, "_Loci_Panel.txt")
+  outName <- paste0(GPD.path, outNameHold, "_", panel.size, "_Loci_Panel.txt")
 
- genepopedit::subset_genepop(GenePop = sim.path, subs = your.panel, keep = TRUE, path = outName)
-  new.sim.GP <- data.table::fread(outName,
+ genepopedit::subset_genepop(GenePop = sim.path,
+                             subs = as.character(your.panel_unlinked$loci),
+                             keep = TRUE, path = outName)
+
+ new.sim.GP <- data.table::fread(outName,
                                  header = FALSE, sep = "\t",
                                  stringsAsFactors = FALSE)
 
  if(save.LociandIndividuals == TRUE){
- write(x = your.panel, file = paste0(GPD.path, paste0("Top_", panel.size, "_loci.txt")))
+ write(x = your.panel_unlinked$loci, file = paste0(GPD.path, paste0("Top_", panel.size, "_loci.txt")))
  write(x = inds.sub, file = paste0(GPD.path, "_individuals_for_Simulation.txt"))
 }
 
@@ -462,12 +447,12 @@ for(i in 1:length(what.positions.get)){
 
    nh_topLoci <- list()
    nh_topLoci$One <- new.sim.GP
-   nh_topLoci$Two <- your.panel
+   nh_topLoci$Two <- your.panel_unlinked$loci
    nh_topLoci$Three <- inds.sub
 
-        names(nh_topLoci) = c(paste0(outNameHold, "_", panel.size, "_Loci_Panel"),
-            paste0("Top_", panel.size, "_loci"),
-            paste0(outNameHold, "_IndividualsInSim"))
+   names(nh_topLoci) = c(paste0(outNameHold, "_", panel.size, "_Loci_Panel"),
+      paste0("Top_", panel.size, "_loci"),
+      paste0(outNameHold, "_IndividualsInSim"))
 
  }
 
@@ -489,10 +474,6 @@ file.remove(plink_ped_path)
 file.remove(plink_map_path)
 file.remove(remember.PLINKLDFile.WDpath)
 file.remove(remember.LDReformat.path)
-
-
-
-
 
 writeLines("Process Completed.")
 
