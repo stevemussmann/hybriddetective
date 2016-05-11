@@ -1,4 +1,4 @@
-#' @name nh_analysis_data_generateR
+#' @name nh_analysis_simulateR_generateR
 #' @title NewHybrids data generator
 #'
 #' @description \code{nh_analysis_data_generateR} Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.
@@ -18,7 +18,7 @@
 
 
 
-nh_analysis_data_generateR <- function(ReferencePopsData, UnknownIndvs, outputName = NULL, pop.groups = c("Pure1", "Pure2"), sample.size = 200, NumSims = 1, NumReps = 1, cats.include = c("PopA", "PopB", "F1", "F2", "BCA", "BCB")){
+nh_analysis_simulateR_generateR <- function(ReferencePopsData, UnknownIndvs, outputName = NULL, pop.groups = c("Pure1", "Pure2"), sample.size = 200, NumSims = 1, NumReps = 1, cats.include = c("PopA", "PopB", "F1", "F2", "BCA", "BCB")){
 
 if(length(out.name) == 0){out.name=ReferencePopsData}
 

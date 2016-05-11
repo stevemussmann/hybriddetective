@@ -1,4 +1,4 @@
-#' @name hybridpowercomp
+#' @name hybridPowerComp
 #' @title Assignment power comparison among different SNP subsets using NewHybrids simulated datasets.
 #' @description Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
 #' @param dir File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
@@ -17,7 +17,7 @@
 #' @importFrom  scales alpha
 #' @export
 
-hybridpowercomp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5){
+hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5){
 
   #set directory for which holds the New Hybrids output folders
   filedir <- dir

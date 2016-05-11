@@ -1,4 +1,4 @@
-#' @name nh_subset
+#' @name nh_subsetR
 #' @title Subset NewHybrids format datasets
 #' @description Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels
 #' @param NHData The file path to the NewHybrids formatted dataset to be subsetted
@@ -10,7 +10,7 @@
 
 
 
-nh_subset <- function(NHData, loci = NULL){
+nh_subsetR <- function(NHData, loci = NULL){
 
 
   NHD <- read.table(NHData, header = FALSE, quote = "", sep = "\t", stringsAsFactors = FALSE)

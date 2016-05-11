@@ -1,4 +1,4 @@
-#' @name nh_analysis_GenerateR
+#' @name nh_analysis_generateR
 #' @title NewHybrids analysis file maker
 #'
 #' @description \code{nh_analysis_GenerateR} Merges simulated genotypes with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.
@@ -12,7 +12,7 @@
 #' @import plyr
 
 
-nh_analysis_GenerateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.include = c("Pure1", "Pure2"), output.name){
+nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.include = c("Pure1", "Pure2"), output.name){
   ### read in teh simulated data
   sim.file <- read.table(ReferencePopsData, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
 
