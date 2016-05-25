@@ -20,7 +20,6 @@
 
 hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5,ignore=FALSE){
 
-  dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing//NSTop48-1000-NoZed/"
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
   lfiles <- setdiff(list.files(dir),c("Figures and Data", "NewHybrids Plots")) #ignores Figures folder in case this is run more than once and in case plots made
@@ -90,7 +89,7 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           stop("Please remove, or re-run those results for which non-convergence was detected", call. = F)
           }
 
-        if(arethereproblems == "Yes" & ignore == "TRUE"){print("
+        if(arethereproblems == "Yes" & ignore == "TRUE"){writeLines("
           NOTE: These files will be exluded from the analysis
           ")
 
