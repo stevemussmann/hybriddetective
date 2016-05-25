@@ -90,12 +90,12 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           }
 
         if(arethereproblems == "Yes" & ignore == "TRUE"){writeLines("
-          NOTE: These files will be exluded from the analysis
+          NOTE: You have chosen to exclude these files from the analysis
           ")
 
           ## find where values that did not pass have been made NA, and remove
           out.drop.NA <- !is.na(output[, 5])
-          output <- output[out.drop.NA]
+          output <- output[out.drop.NA,]
 
           }
 
