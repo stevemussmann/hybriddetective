@@ -44,9 +44,9 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
 
   GenePop <- read.table(GenePopData, header = FALSE, sep = "\t", quote = "", stringsAsFactors = FALSE)
 
-  GPsplit <- c(str_split(string = GenePopData, pattern = "/"))
+  GPsplit <- c(stringr::str_split(string = GenePopData, pattern = "/"))
 
-  outNameHold <- str_extract(GPsplit, paste0("[:word:]{3,}", ".txt"))
+  outNameHold <- stringr::str_extract(GPsplit, paste0("[:word:]{3,}", ".txt"))
   outNameHold <- gsub(x = outNameHold, pattern = ".txt", replacement = "")
 
 
@@ -77,7 +77,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
     #First we pull out the population data which follows "TEXT ,  "
         temp <- tidyr::separate(snpData,data,into=c("Pops","snps"),sep=",")
         temp$snps <- substring(temp$snps,3) # delete the extra spaces at the beginning
-        temp2 <- data.frame(do.call(rbind, str_extract_all(temp$snps, "[0-9]{3}")))
+        temp2 <- data.frame(do.call(rbind, stringr::str_extract_all(temp$snps, "[0-9]{3}")))
 
     ## Going to have to break the two alleles of the SNPS apart - this will thus double the number of columns
     ## SO <- will want to have SNP_A and SNP_A2
@@ -108,7 +108,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
 
     if(length(pop.groups) == 0){ ### If unique grouping IDs ≠ number of "Pop" user must give vector of groupings
                                 ### equal to number of "Pop" or else the function will fail
-    NameExtract=str_extract(NamePops, "[A-z]{3,}" ) ### if looking at higher order grouping (i.e. pops in  regions) can have more unique coding than "Pop" - will want to remove original names so can keep track of which unique groupings cross. i.e. Cross by "Pop", but remember ID of parents
+    NameExtract=stringr::str_extract(NamePops, "[A-z]{3,}" ) ### if looking at higher order grouping (i.e. pops in  regions) can have more unique coding than "Pop" - will want to remove original names so can keep track of which unique groupings cross. i.e. Cross by "Pop", but remember ID of parents
           } ## End of IF statement
 
 
@@ -127,7 +127,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
 
 
      if(length(pop.groups)!=0){
-     hold.names=str_extract(NamePops, "[A-z]{3,}" ) ## This may need to be improved in published version
+     hold.names=stringr::str_extract(NamePops, "[A-z]{3,}" ) ## This may need to be improved in published version
         for(i in 1:length(unique(PopIDs))){
           u.ID.no <- unique(PopIDs)[i]
           to <- min(which(PopIDs==u.ID.no))
@@ -337,7 +337,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
               fam.to.bind.name <- pure.name.recall[b]
               fam.to.bind <- get(fam.to.bind.name)
               indiv.hold <- fam.to.bind[,1]
-              loci.bind <- which(str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
+              loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
 
               col.out <- NULL
               for(k in 1:length(loci.bind)){
@@ -357,7 +357,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
               fam.to.remove.untyped.name <- pure.name.recall[b]
 
               fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
-              fam.to.remove.untyped[which(str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
+              fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
               assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
               } # End b loop
 
@@ -369,7 +369,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
 
         fam.to.bind <- get(fam.to.bind.name)
         indiv.hold <- fam.to.bind[,1]
-        loci.bind <- which(str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
+        loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
 
          col.out <- NULL
         for(k in 1:length(loci.bind)){
@@ -388,7 +388,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
         fam.to.remove.untyped.name <- "F1.out"
 
         fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
-        fam.to.remove.untyped[which(str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
+        fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
         assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
 
 
@@ -397,7 +397,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
 
         fam.to.bind <- get(fam.to.bind.name)
         indiv.hold <- fam.to.bind[,1]
-        loci.bind <- which(str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
+        loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
 
         col.out <- NULL
         for(k in 1:length(loci.bind)){
@@ -416,7 +416,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
       fam.to.remove.untyped.name <- "F2.out"
 
       fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
-      fam.to.remove.untyped[which(str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
+      fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
       assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
 
 
@@ -426,7 +426,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
 
         fam.to.bind <- get(fam.to.bind.name)
         indiv.hold <- fam.to.bind[,1]
-        loci.bind <- which(str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
+        loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
 
           col.out <- NULL
           for(s in 1:length(loci.bind)){
@@ -448,7 +448,7 @@ freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputN
           fam.to.remove.untyped.name <- BC.name.recall[b]
 
           fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
-          fam.to.remove.untyped[which(str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
+          fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
           assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
             }
 

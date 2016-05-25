@@ -4,7 +4,6 @@
 #' @param NHData The file path to the NewHybrids formatted dataset to be subsetted
 #' @param loci A vector of Loci names to be retained in the dataset
 #' @importFrom dplyr filter summarise ungroup group_by
-#' @importFrom grid arrow unit
 #' @importFrom stringr str_extract str_split
 #' @export
 

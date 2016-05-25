@@ -43,12 +43,12 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,Thresholds=c(0.5,0.6,0.7,0.
 
     LociandAlleles <- tempfiles[grep("LociAndAlleles", tempfiles)]
     LandAfile <- readChar(paste0(filedir, i, "/", LociandAlleles), file.info(paste0(filedir, i, "/", LociandAlleles))$size)
-    numLociExt <- str_extract(string = LandAfile, pattern = paste0("from ", "[:digit:]{1,5}", " loci"))
+    numLociExt <- stringr::str_extract(string = LandAfile, pattern = paste0("from ", "[:digit:]{1,5}", " loci"))
     numLociWorking <- gsub(x = numLociExt, pattern = "from ", replacement = "")
     numLociWorking <- as.numeric(gsub(x = numLociWorking, pattern = " loci", replacement = ""))
 
     #identify the simulation and repeat info
-    S_ident <- gsub("_","",str_extract(pzfile,paste0("_S","[:digit:]{1}","R","[:digit:]{1}","_")))
+    S_ident <- gsub("_","",stringr::str_extract(pzfile,paste0("_S","[:digit:]{1}","R","[:digit:]{1}","_")))
     tempfile$sim <- substring(S_ident,1,2)
     tempfile$rep <- substring(S_ident,3,4)
     tempfile$nLoci <- numLociWorking
@@ -94,7 +94,7 @@ hybridpower <-function(dir,filetag="",Threshold=NULL,Thresholds=c(0.5,0.6,0.7,0.
 
     ## average and SD the  replicate runs of each simulation in New Hybrids
     sim_data <- as.data.frame(output%>%group_by(sim,Indv)%>%
-                              summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
+                              dplyr::summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
                               Pure2_sd=sd(Pure2),Pure2=mean(Pure2),
                               F1_sd=sd(F1),F1=mean(F1),
                               F2_sd=sd(F2),F2=mean(F2),
@@ -228,7 +228,7 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
     }
 
 # get the mean and standard error for the estimates of assignment succes based on NH probabilty among simulations
-      FinalData <- data.frame(ProbOutput%>%group_by(level,class)%>%summarise(mprob = mean(prob,na.rm=T),
+      FinalData <- data.frame(ProbOutput%>%group_by(level,class)%>%dplyr::summarise(mprob = mean(prob,na.rm=T),
                                                                             sdprob = sd(prob,na.rm=T))%>%ungroup())
       FinalData$class <- factor(FinalData$class, levels=c("Pure1","Pure2","F1","F2","BC1","BC2")) # NH class
 
@@ -251,7 +251,7 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
       {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)}
 
       #ComboHybrids
-      FinalData2 <- data.frame(ProbOutput2%>%group_by(level,class)%>%summarise(mprob = mean(prob,na.rm=T),
+      FinalData2 <- data.frame(ProbOutput2%>%group_by(level,class)%>%dplyr::summarise(mprob = mean(prob,na.rm=T),
                                                                                sdprob = sd(prob,na.rm=T))%>%ungroup())
       FinalData2$class <- factor(FinalData2$class, levels=c("Pure1","Pure2","Hybrid")) # set plotting levels
 
@@ -282,7 +282,7 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
        if(length(Threshold)!=0){
         #calcualte the lower assignment success for each class
         lowerlim <- data.frame(FinalData%>%group_by(class)%>%
-                                 summarise(lim=min(mprob))%>%ungroup())
+                                 dplyr::summarise(lim=min(mprob))%>%ungroup())
 
         threshlimits <- filter(FinalData,level==Threshold)
         threshlimits$lower <- 0.5
@@ -325,7 +325,7 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
       if(length(Threshold)!=0){
         #calcualte the lower assignment success for each class
         lowerlim <- data.frame(FinalData2%>%group_by(class)%>%
-                                 summarise(lim=min(mprob))%>%ungroup())
+                                 dplyr::summarise(lim=min(mprob))%>%ungroup())
 
         threshlimits <- filter(FinalData2,level==Threshold)
         threshlimits$lower <- 0.5
@@ -443,7 +443,7 @@ classvec2 <- rep(c("Pure1","Pure2","F1","F2","BC1","BC2"),times=samplesize)
 
       #calcluate the means among simulations
       miss_mean <- data.frame(missout%>%group_by(level,class)
-                              %>%summarise(mprobP1 = mean(mclass_P1,na.rm=T),
+                              %>%dplyr::summarise(mprobP1 = mean(mclass_P1,na.rm=T),
                                 sdprobP1 = sd(mclass_P1,na.rm=T),
                                 mprobP2 = mean(mclass_P2,na.rm=T),
                                 sdprobP2 = sd(mclass_P2,na.rm=T),

@@ -36,12 +36,12 @@ samplesize = NULL
 
               LociandAlleles <- tempfiles[grep("LociAndAlleles", tempfiles)]
               LandAfile <- readChar(paste0(filedir, i, "/", LociandAlleles), file.info(paste0(filedir, i, "/", LociandAlleles))$size)
-              numLociExt <- str_extract(string = LandAfile, pattern = paste0("from ", "[:digit:]{1,5}", " loci"))
+              numLociExt <- stringr::str_extract(string = LandAfile, pattern = paste0("from ", "[:digit:]{1,5}", " loci"))
               numLociWorking <- gsub(x = numLociExt, pattern = "from ", replacement = "")
               numLociWorking <- as.numeric(gsub(x = numLociWorking, pattern = " loci", replacement = ""))
 
               #identify the simulation and repeat info
-                S_ident <- gsub("_","",str_extract(pzfile,paste0("_S","[:digit:]{1}","R","[:digit:]{1}","_")))
+                S_ident <- gsub("_","",stringr::str_extract(pzfile,paste0("_S","[:digit:]{1}","R","[:digit:]{1}","_")))
                 tempfile$sim <- substring(S_ident,1,2)
                 tempfile$rep <- substring(S_ident,3,4)
                 tempfile$nLoci <- numLociWorking
@@ -76,7 +76,7 @@ samplesize = NULL
 
 
     ## average and SD the  replicate runs of each simulation in New Hybrids. Filter is just a holder for the dplyr:: call
-      sim_data <- as.data.frame(dplyr::filter(output)%>%group_by(nLoci,sim,Indv)%>%summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
+      sim_data <- as.data.frame(dplyr::filter(output)%>%group_by(nLoci,sim,Indv)%>%dplyr::summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
                                                                        Pure2_sd=sd(Pure2),Pure2=mean(Pure2),
                                                                        F1_sd=sd(F1),F1=mean(F1),
                                                                        F2_sd=sd(F2),F2=mean(F2),

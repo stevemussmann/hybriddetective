@@ -14,7 +14,7 @@ nh_accuracy_checkR <- function(NHResultsDir, print.results = TRUE, all.hyb = FAL
 
 
 
-  NHResultsDir_Split <- unlist(str_split(string = NHResultsDir, pattern = "/"))
+  NHResultsDir_Split <- unlist(stringr::str_split(string = NHResultsDir, pattern = "/"))
 
   if(length(which(NHResultsDir_Split == "")) > 0){
     NHResultsDir_Split <- NHResultsDir_Split[-which(NHResultsDir_Split == "")]
@@ -27,8 +27,8 @@ nh_accuracy_checkR <- function(NHResultsDir, print.results = TRUE, all.hyb = FAL
 
   NHResults_FileList <- list.files(NHResultsDir_Dir)
 
-  NHResults_FileList_indivs <-NHResults_FileList[which(str_detect(string = NHResults_FileList, pattern = "_individuals"))]
-  NHResults_FileList_results <- NHResults_FileList[which(str_detect(string = NHResults_FileList, pattern = "PofZ"))]
+  NHResults_FileList_indivs <-NHResults_FileList[which(stringr::str_detect(string = NHResults_FileList, pattern = "_individuals"))]
+  NHResults_FileList_results <- NHResults_FileList[which(stringr::str_detect(string = NHResults_FileList, pattern = "PofZ"))]
 
   NHResults <- read.table(file = paste0(NHResultsDir, NHResults_FileList_results), header = TRUE)[,-2]
 

@@ -123,7 +123,7 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
     colnames(unknown.file) <- unknown.Loci ## now make them the column names
     unknown.inds.include <- unknown.file ### data to include
     ## if the data are read in as a NH file, then there should be an associated individual file - modify the path to the NH file to get the individual file
-    NHResultsDir_Split <- unlist(str_split(string = ReferencePopsData, pattern = "/"))
+    NHResultsDir_Split <- unlist(stringr::str_split(string = ReferencePopsData, pattern = "/"))
     NHResultsDir_Split <- NHResultsDir_Split[-grep(x = NHResultsDir_Split, pattern = ".txt")]
     NHResultsDir <- paste0(paste(NHResultsDir_Split, collapse = "/"), "/")
     get.files.list <- list.files(NHResultsDir)
