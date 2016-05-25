@@ -7,6 +7,7 @@
 #' @param samplesize The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt.
 #' @param CT The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.
 #' @param CTI The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.
+#' @param ignore A logical query if any results which fail to pass the CT and CTI thresholds should be ignored in the analysis. Default is FALSE
 #' @rdname hybridpowercomp
 #' @import ggplot2
 #' @import magrittr
@@ -17,8 +18,9 @@
 #' @importFrom  scales alpha
 #' @export
 
-hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5){
+hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5,ignore=FALSE){
 
+  dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing//NSTop48-1000-NoZed/"
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
   lfiles <- setdiff(list.files(dir),c("Figures and Data", "NewHybrids Plots")) #ignores Figures folder in case this is run more than once and in case plots made
@@ -40,12 +42,12 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
 
               LociandAlleles <- tempfiles[grep("LociAndAlleles", tempfiles)]
               LandAfile <- readChar(paste0(filedir, i, "/", LociandAlleles), file.info(paste0(filedir, i, "/", LociandAlleles))$size)
-              numLociExt <- str_extract(string = LandAfile, pattern = paste0("from ", "[:digit:]{1,5}", " loci"))
+              numLociExt <- stringr::str_extract(string = LandAfile, pattern = paste0("from ", "[:digit:]{1,5}", " loci"))
               numLociWorking <- gsub(x = numLociExt, pattern = "from ", replacement = "")
               numLociWorking <- as.numeric(gsub(x = numLociWorking, pattern = " loci", replacement = ""))
 
               #identify the simulation and repeat info
-                S_ident <- gsub("_","",str_extract(pzfile,paste0("_S","[:digit:]{1}","R","[:digit:]{1}","_")))
+                S_ident <- gsub("_","",stringr::str_extract(pzfile,paste0("_S","[:digit:]{1}","R","[:digit:]{1}","_")))
                 tempfile$sim <- substring(S_ident,1,2)
                 tempfile$rep <- substring(S_ident,3,4)
                 tempfile$nLoci <- numLociWorking
@@ -83,14 +85,24 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           }#end of for loop
 
         #If convergence issues were flagged then the process stops here.
-        if(arethereproblems == "Yes")
+        if(arethereproblems == "Yes" & ignore == "FALSE")
           {
           stop("Please remove, or re-run those results for which non-convergence was detected", call. = F)
           }
 
+        if(arethereproblems == "Yes" & ignore == "TRUE"){print("
+          NOTE: These files will be exluded from the analysis
+          ")
+
+          ## find where values that did not pass have been made NA, and remove
+          out.drop.NA <- !is.na(output[, 5])
+          output <- output[out.drop.NA]
+
+          }
+
 
     ## average and SD the  replicate runs of each simulation in New Hybrids. Filter is just a holder for the dplyr:: call
-      sim_data <- as.data.frame(dplyr::filter(output)%>%group_by(nLoci,sim,Indv)%>%summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
+      sim_data <- as.data.frame(dplyr::filter(output)%>%group_by(nLoci,sim,Indv)%>%dplyr::summarise(Pure1_sd=sd(Pure1),Pure1=mean(Pure1),
                                                                        Pure2_sd=sd(Pure2),Pure2=mean(Pure2),
                                                                        F1_sd=sd(F1),F1=mean(F1),
                                                                        F2_sd=sd(F2),F2=mean(F2),
@@ -207,7 +219,7 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
     } # end s loop
 
 # get the mean and standard error for the estimates of assignment succes based on NH probabilty among simulations
-      FinalData <- data.frame(ProbOutput%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
+      FinalData <- data.frame(ProbOutput%>%group_by(nLoci,level,class)%>%dplyr::summarise(mprob = mean(prob,na.rm=T),
                                                                             sdprob = sd(prob,na.rm=T))%>%ungroup())
       FinalData$class <- factor(FinalData$class, levels=c("Pure1","Pure2","F1","F2","BC1","BC2")) # NH class
 
@@ -233,7 +245,7 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
       {ggsave(paste0(dir,"Figures and Data/jpg/AssinmentSuccess~level-class_p3.jpg"),p3,height = 10,width = 8)}
 
       #ComboHybrids ------------
-      FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
+      FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%dplyr::summarise(mprob = mean(prob,na.rm=T),
                                                                                sdprob = sd(prob,na.rm=T))%>%ungroup())
       FinalData2$class <- factor(FinalData2$class, levels=c("Pure1","Pure2","Hybrid")) # set plotting levels
 
@@ -394,7 +406,7 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
         } # end s loop
 
     #calcluate the means among simulations
-    miss_mean <- data.frame(missout%>%group_by(nLoci,level,class)%>%summarise(mprobP1 = mean(mclass_P1,na.rm=T),
+    miss_mean <- data.frame(missout%>%group_by(nLoci,level,class)%>%dplyr::summarise(mprobP1 = mean(mclass_P1,na.rm=T),
                                                                    sdprobP1 = sd(mclass_P1,na.rm=T),
                                                                    mprobP2 = mean(mclass_P2,na.rm=T),
                                                                    sdprobP2 = sd(mclass_P2,na.rm=T),

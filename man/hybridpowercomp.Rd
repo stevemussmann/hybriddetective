@@ -5,7 +5,8 @@
 \title{Assignment power comparison among different SNP subsets using NewHybrids simulated datasets.}
 \usage{
 hybridPowerComp(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
-  addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5)
+  addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5,
+  ignore = FALSE)
 }
 \arguments{
 \item{dir}{File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.}
@@ -19,6 +20,8 @@ hybridPowerComp(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
 \item{CT}{The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.}
 
 \item{CTI}{The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.}
+
+\item{ignore}{A logical query if any results which fail to pass the CT and CTI thresholds should be ignored in the analysis. Default is FALSE}
 }
 \description{
 Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
