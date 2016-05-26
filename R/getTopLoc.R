@@ -5,6 +5,7 @@
 #' @param GPD A file path to the GENEPOP format file you wish to create your panel from
 #' @param LDpop A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
 #' @param panel.size An integer number of loci to include in the panel
+#' @param FST.threshold The minimum FST threshold required to retain a locus
 #' @param r2.threshold The minimum r^2 threshold to consider a pair of loci to be in LD
 #' @param ld.window Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which essentially asks to compare each SNP against all others
 #' @param allocate.PGD.RAM An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses.
@@ -17,7 +18,7 @@
 #' @import plyr
 
 
-getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,allocate.PGD.RAM=1,
+getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,FST.threshold = 0.05,allocate.PGD.RAM=1,
                       r2.threshold=0.2,ld.window=NULL,where.PLINK,
                       where.PGDspider, return.environment = TRUE,
                       save.LociandIndividuals = FALSE){
@@ -29,7 +30,6 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,allocate.PGD.RAM=1,
   pops.exist <- genepopedit::genepop_detective(GPD) ## see what populations are in the file
 
   ##panel.size must be an integer
-
   if(panel.size%%1 != 0){
     httr::BROWSE("https://en.wikipedia.org/wiki/Integer")
     stop("Panel size must be an integer.")
@@ -46,6 +46,11 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,allocate.PGD.RAM=1,
   }
 
   allocate.PGD.RAM <- allocate.PGD.RAM*1024
+
+  if(Sys.info()["sysname"] == "Windows" & allocate.PGD.RAM>1024){
+    allocate.PGD.RAM=1024
+    writeLines("Note that currently PGDspider can only utilize ~1 GB of ram on windows based operating systems.
+               ")}
 
   if(r2.threshold < 0 | r2.threshold > 1){
     stop("r^2 threshold must be a value between 0 and 1")
@@ -220,7 +225,15 @@ FST.df <- data.frame(colnames(for.fst)[-1], FSTs)
 names(FST.df)[1] <- "loci"
 ## reorder the dataframe from highest to lowest Fst
 FST.df <- FST.df[base::order(FST.df$FSTs, decreasing = TRUE),]
-# head(FST.df)
+
+FST.Filter.Vec <- as.character(FST.df[which(FST.df$FSTs >= FST.threshold), 1])
+
+subset_genepop(GenePop = sub_data_path, subs = FST.Filter.Vec, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
+
+
+
+
+
 
 writeLines("Calculating Linkage")
 ### convert file to .ped and .map using PGD spider
