@@ -89,13 +89,21 @@ hybridPowerComp <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addT
           stop("Please remove, or re-run those results for which non-convergence was detected", call. = F)
           }
 
-        if(arethereproblems == "Yes" & ignore == "TRUE"){writeLines("
-          NOTE: You have chosen to exclude these files from the analysis
-          ")
+        if(arethereproblems == "Yes" & ignore == "TRUE"){
 
-          ## find where values that did not pass have been made NA, and remove
-          out.drop.NA <- !is.na(output[, 5])
-          output <- output[out.drop.NA,]
+            ## find where values that did not pass have been made NA, and remove
+            out.drop.NA <- !is.na(output[, 5])
+            out.drop.NLoci <- unique(output$nLoci[!out.drop.NA])
+            out.drop.NLoci_vec <- output$nLoci %in% out.drop.NLoci
+            output <- output[!out.drop.NLoci_vec,]
+
+            out.drop.NLoci <- ordered(out.drop.NLoci)
+
+            writeLines(paste0("
+              NOTE: You have chosen to exclude analyses with ", out.drop.NLoci, " from the analysis
+              "))
+
+
 
           }
 
