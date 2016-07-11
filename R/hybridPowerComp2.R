@@ -257,8 +257,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         ## plot boxplot of accuracy at PofZ =0.5, 0.75 and 0.9
        accuracy_boxplot <- ggplot(final.stats.pofzeds, aes(x = known, y = means, fill = known)) + geom_boxplot() + facet_grid(PofZ~nloci) + labs(x = "Genotype Frequency Class", y = "Proportion of Assignments Correct") +
            scale_fill_brewer(palette = "Dark2") +
-           theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
-  legend.position = "none", strip.background = element_rect(, colour = "black", fill = "white"), strip.text.x = element_text(colour = "black"), strip.text.y = element_text(colour = "black"))
+           theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"), legend.position = "none", strip.background = element_rect(, colour = "black", fill = "white"), strip.text.x = element_text(colour = "black"), strip.text.y = element_text(colour = "black"))
 
            #     #Save plot
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyBoxPlot.pdf"), accuracy_boxplot, height = 10, width = 10)}else
@@ -280,7 +279,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         # testsum[5] <- as.numeric(as.character(testsum[5]))
         colnames(testsum)[4]= "means"
         colnames(testsum)[5]= "sd"
-        testsum$sd <- droplevels(testsum$sd)
+        # testsum$sd <- droplevels(testsum$sd)
         testsum$sdPos <- testsum$means+testsum$sd
         testsum$sdNeg <- testsum$means-testsum$sd
         testsum <- data.frame(tests)
