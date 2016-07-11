@@ -18,24 +18,24 @@
 #' @export
 
 #
-#   library(ggplot2)
-#   library(magrittr)
-#   library(dplyr)
-#   library(stringr)
-#   library(reshape2)
-#   library(grid)
-#   library(scales)
-#   library(hybriddetective)
+  library(ggplot2)
+  library(magrittr)
+  library(dplyr)
+  library(stringr)
+  library(reshape2)
+  library(grid)
+  library(scales)
+  library(hybriddetective)
 
 
 
- # dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed//"
- #  filetag=""
- #  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
- #  addThresh=FALSE
- #  samplesize=NULL
- #  CT=0.1
- #  CTI=0.5
+ dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed//"
+  filetag=""
+  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
+  addThresh=FALSE
+  samplesize=NULL
+  CT=0.1
+  CTI=0.5
 
 
 
@@ -321,6 +321,40 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
       {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}
 
 
+
+
+       accuracy_lineplot_ClassFacet_SD <- ggplot(testsum) +
+           geom_line(aes(x = PofZ, y = means, colour = nloci), lwd = 1.25) + geom_line(aes(y = sdNeg, x = PofZ, colour = nloci), linetype = 2) + geom_line(aes(y = sdPos, x = PofZ, colour = nloci), linetype = 2) +
+          facet_grid(.~known) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+          legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
+          scale_color_brewer(palette = "Dark2")+
+          labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") + ylim(0, 1)
+
+       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlot_ClassFacetSD.pdf"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
+      {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlot_ClassFacetSD.pdf"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
+
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot_ClassFacetSD.jpg"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacetSD.jpg"),accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
+
+    if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}else
+      {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}
+
+
+      accuracy_lineplot_ClassFacet <-  ggplot(testsum) +
+           geom_line(aes(x = PofZ, y = means, colour = nloci), lwd = 1.25) +
+          facet_grid(.~known) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+          legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
+          scale_color_brewer(palette = "Dark2")+
+          labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") + ylim(0, 1)
+
+       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlot_ClassFacet.pdf"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
+      {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlot_ClassFacet.pdf"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}
+
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot_ClassFacet.jpg"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
+      {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacet.jpg"),accuracy_lineplot_ClassFacet, height = 10, width = 10)}
+
+    if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}else
+      {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}
 
 
         ##################
