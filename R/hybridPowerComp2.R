@@ -568,7 +568,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
     {ggsave(paste0(dir,"Figures and Data/pdf/meanPofZ_PureHyb_BoxPlot.pdf"), meanPofZ_PureHyb_BoxPlot, height = 8, width = 8)}
 
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_meanPofZ_PureHyb_BoxPlot.jpg"), meanPofZ_PureHyb_BoxPlot, height = 8, width = 8)}else
-    {ggsave(paste0(dir,"Figures and Data/jpg/meanPofZ_PureHyb_BoxPlot.jpg"),h1,height = 8,width = 8)}
+    {ggsave(paste0(dir,"Figures and Data/jpg/meanPofZ_PureHyb_BoxPlot.jpg"),meanPofZ_PureHyb_BoxPlot,height = 8,width = 8)}
 
     if(filetag!=""){write.csv(sim_means2, paste0(dir,"Figures and Data/data/",filetag,"_meanPofZ_PureHyb_BoxPlotData.csv"), row.names = FALSE)}else
     {write.csv(sim_means2, paste0(dir,"Figures and Data/data/meanPofZ_PureHyb_BoxPlotData.csv"), row.names = FALSE)}
