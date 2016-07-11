@@ -754,7 +754,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         }
 
       if(!addThresh){
-        Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh
+        Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh <-
           ggplot(data=FinalData2)+geom_line(aes(x=level,y=mprob,col=factor(nLoci)),lwd=1.25)+
           geom_line(aes(x=level,y=mprob+sdprob,col=factor(nLoci)),lty=2)+
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
@@ -826,11 +826,21 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         ###################
 
 
+    writeLines("
+           Calculating Type II Error
+           ")
+
+
+            stat11_check_progress <- txtProgressBar(min = 0, max = length(unique(sim_means$nLoci)), style = 3)
+            prog_convert <- unique(sim_means$nLoci)
+
+
     ## Misclassification 'type II' error ------------
       classnames <- c("Pure1","Pure2","F1","F2","BC1","BC2")
         missout <- NULL
         for (s in unique(sim_means$nLoci)){
           lsub <- filter(sim_means,nLoci == s)
+          setTxtProgressBar(stat11_check_progress, which(prog_convert == s))
           for(i in unique(sim_means$sim)){
             tempsub <- filter(lsub,sim==i)
             for(q in 50:99/100){ # probability of 50 - 99%
