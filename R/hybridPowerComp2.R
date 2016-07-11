@@ -705,7 +705,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         }
 
       if(!addThresh){
-        Efficiency_AllClass_LinePlot_ClassFacet_thresh_NOthresh <-
+        Efficiency_AllClass_LinePlot_ClassFacet_NOthresh <-
           ggplot(data=FinalData)+geom_line(aes(x=level,y=mprob,col=factor(nLoci)),lwd=1.25)+
           geom_line(aes(x=level,y=mprob+sdprob,col=factor(nLoci)),lty=2)+
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
