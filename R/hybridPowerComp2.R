@@ -18,24 +18,24 @@
 #' @export
 
 #
-  library(ggplot2)
-  library(magrittr)
-  library(dplyr)
-  library(stringr)
-  library(reshape2)
-  library(grid)
-  library(scales)
-  library(hybriddetective)
-
-
-
- dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed//"
-  filetag=""
-  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
-  addThresh=FALSE
-  samplesize=NULL
-  CT=0.1
-  CTI=0.5
+ #  library(ggplot2)
+ #  library(magrittr)
+ #  library(dplyr)
+ #  library(stringr)
+ #  library(reshape2)
+ #  library(grid)
+ #  library(scales)
+ #  library(hybriddetective)
+ #
+ #
+ #
+ # dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed//"
+ #  filetag=""
+ #  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
+ #  addThresh=FALSE
+ #  samplesize=NULL
+ #  CT=0.1
+ #  CTI=0.5
 
 
 
