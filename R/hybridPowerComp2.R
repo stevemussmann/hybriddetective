@@ -282,7 +282,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         # testsum$sd <- droplevels(testsum$sd)
         testsum$sdPos <- testsum$means+testsum$sd
         testsum$sdNeg <- testsum$means-testsum$sd
-        testsum <- data.frame(tests)
+        testsum <- data.frame(testsum)
 
 
         ## line plot - accuracy with SD
