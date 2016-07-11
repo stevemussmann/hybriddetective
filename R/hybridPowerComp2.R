@@ -304,7 +304,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
     #   {write.csv(final.stats.pofzeds, paste0(dir,"Figures and Data/data/AccuracyBoxPlotData.csv"), row.names = FALSE, quote = FALSE)}
 
         ## line plot - accuracy no SD
-       accuary_lineplot <-  ggplot(testsum) +
+       accuracy_lineplot <-  ggplot(testsum) +
            geom_line(aes(x = PofZ, y = means, colour = known), lwd = 1.25) + scale_color_brewer(palette = "Dark2")+
           facet_grid(.~nloci) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
           legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
