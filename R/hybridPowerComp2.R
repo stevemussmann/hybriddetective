@@ -354,8 +354,59 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
       {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacet.jpg"),accuracy_lineplot_ClassFacet, height = 10, width = 10)}
 
     if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}else
-      {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}
+    {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}
 
+
+     Accuracy_ByThreshold_LinePlot_AllClass <-  ggplot(filter(testsum,PofZ %in% Thresholds),aes(x=factor(nloci),y=means,col=known,group=known))+
+        geom_point(size=2.5)+geom_path(lwd=0.9)+
+        geom_errorbar(aes(ymin=sdNeg,ymax=sdPos),width=0.1)+
+        facet_grid(~PofZ)+theme_bw()+
+        labs(x="Panel Size (Loci)",y=expression("Proportion of Assignments Correct "%+-%"sd"),col="Genotype Frequency Class",group="")+scale_color_brewer(palette = "Dark2")+
+        theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black"))
+
+
+     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_ByThreshold_LinePlot_AllClass.pdf"), Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}else
+      {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_ByThreshold_LinePlot_AllClass.pdf"), Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}
+
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_ByThreshold_LinePlot_AllClass.jpg"), Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}else
+      {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_ByThreshold_LinePlot_AllClass.jpg"),Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}
+
+    if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}else
+    {write.csv(testsum, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}
+
+
+       #ComboHybrids ------------
+      FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
+                                                                               sdprob = sd(prob,na.rm=T))%>%ungroup())
+      FinalData2$class <- factor(FinalData2$class, levels=c("Pure1","Pure2","Hybrid")) # set plotting levels
+
+         #ComboHybrids ------------
+      final.stats_pipe <- final.stats.2
+      final.stats_pipe$class <- as.character(final.stats.2$known)
+      final.stats_pipe$class[final.stats_pipe$class %in% c("F1", "F2", "BC1", "BC2")] = "Hybrid"
+      final.stats_pipe$class[final.stats_pipe$class == "P1"] = "Pure1"
+      final.stats_pipe$class[final.stats_pipe$class == "P2"] = "Pure2"
+
+      final.stats_pipe <- data.frame(final.stats_pipe%>%group_by(nloci,PofZ,class)%>%summarise(mprob = mean(means,na.rm=T),
+                                                                               sdprob = sd(means,na.rm=T))%>%ungroup())
+      final.stats_pipe$class <- factor(final.stats_pipe$class, levels=c("Pure1","Pure2","Hybrid")) # set plotting levels
+
+       Accuracy_ByThreshold_LinePlot_PureHyb <- ggplot(filter(final.stats_pipe,PofZ %in% Thresholds),aes(x=factor(nloci),y=mprob,col=class,group=class))+
+        geom_point(size=2.5)+geom_path(lwd=0.9)+
+        geom_errorbar(aes(ymin=(mprob - sdprob),ymax= (mprob + sdprob)),width=0.1)+
+        facet_grid(~PofZ)+theme_bw()+
+        labs(x="Panel Size (Loci)",y=expression("Proportion of Assignments Correct "%+-%"sd"),col="Genotype Frequency Class",group="")+scale_color_brewer(palette = "Dark2")+
+        theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black"))
+
+
+       if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_ByThreshold_LinePlot_PureHyb.pdf"), Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}else
+      {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_ByThreshold_LinePlot_AllClass.pdf"), Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}
+
+    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_ByThreshold_LinePlot_PureHyb.jpg"), Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}else
+      {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_ByThreshold_LinePlot_PureHyb.jpg"),Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}
+
+    if(filetag!=""){write.csv(final.stats_pipe, paste0(dir,"Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}else
+    {write.csv(final.stats_pipe, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}
 
         ##################
         ## TYPE I ERROR ##
@@ -513,7 +564,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         max.y = max(testsum_TypeI$means + testsum_TypeI$sd)
 
          ## line plot - Type I Error
-         typeI_lineplot <- ggplot(testsum_TypeI) + geom_line(aes(x = PofZ, y = means, colour = Loci), size = 2) + geom_line( aes(y = (means+sd), x = PofZ, colour = Loci), linetype = 2) +
+         typeI_lineplot <- ggplot(testsum_TypeI) + geom_line(aes(x = PofZ, y = means, group = Loci), size = 2) + geom_line( aes(y = (means+sd), x = PofZ, colour = Loci), linetype = 2) +
            geom_line( aes(y = (means-sd), x = PofZ, colour = Loci), linetype = 2) + facet_grid(.~Loci) +  ylim(ymin = 0, ymax = max.y) +
            labs(x = "Critical PofZ Threshold", y = expression("Type I Error Proportion "%+-%"sd")) +
            theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
