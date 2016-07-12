@@ -133,6 +133,7 @@ x.axis.title = "Panel Size"
 
 tmelt <- melt(data = plot.data, id.vars = c("nLoci", "sim", "Indv"), measure.vars = c("Pure1", "Pure2", "F1", "F2", "BC1", "BC2"))
 
+to.colour <- c("red", "blue", "grey", "green", "black", "yellow")
 
 delta.plot <- ggplot(tmelt, aes(x = factor(nLoci), y = as.factor(Indv))) + geom_tile(aes(fill = variable, alpha = value, height =2)) + scale_fill_manual(values = to.colour) + labs(x = x.axis.title) +
 facet_grid(.~ variable) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"),
