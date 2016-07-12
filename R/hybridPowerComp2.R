@@ -395,7 +395,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
 
 
        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_ByThreshold_LinePlot_PureHyb.pdf"), Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}else
-      {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_ByThreshold_LinePlot_AllClass.pdf"), Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}
+      {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_ByThreshold_LinePlot_PureHyb.pdf"), Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}
 
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_ByThreshold_LinePlot_PureHyb.jpg"), Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}else
       {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_ByThreshold_LinePlot_PureHyb.jpg"),Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}
