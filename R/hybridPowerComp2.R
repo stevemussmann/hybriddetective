@@ -141,6 +141,8 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
   ## Calculate ACCURACY ##
   ########################
 
+  #### CHECK HERE - ACCURACY LOOP - Can speed up???
+
     writeLines("Calculating Accuracy
         ")
 
@@ -403,6 +405,10 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
     if(filetag!=""){write.csv(final.stats_pipe, paste0(dir,"Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}else
     {write.csv(final.stats_pipe, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}
 
+
+
+       #### CHECK HERE - TYPE I ERROR LOOP - Can speed up???
+       ### CAN YOU THINK OF A WAY TO DO THIS FOR EACH CATEGORY???
         ##################
         ## TYPE I ERROR ##
         ##################
@@ -901,6 +907,8 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         {write.csv(FinalData2, paste0(dir,"Figures and Data/data/Efficiency_ByThreshold_LinePlot_PureHybData.csv"), row.names = FALSE)}
 
 
+        ### #### CHECK HERE - TYPE II ERROR LOOP - Can speed up???
+
         ###################
         ## TYPE II ERROR ##
         ###################
@@ -1008,14 +1016,37 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         theme_bw()+scale_color_brewer(palette = "Dark2")+
         theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
         labs(x="Probability threshold",y=paste0("Proportion ",i," misassigned \u00B1 sd"),col="Classification")
-temp.plot
-        # if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8)} else
-        # {ggsave(paste0(dir,paste0("Figures and Data/pdf/",i,"_MissAssignment~z-nloci.pdf"),temp.plot,height = 6,width = 8))}
-        #
-        # if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_",i,"_MissAssignment~z-nloci.jpg"),temp.plot,height = 6,width = 8)} else
-        # {ggsave(paste0(dir,paste0("Figures and Data/jpg/",i,"_MissAssignment~z-nloci.jpg"),temp.plot,height = 6,width = 8))}
+# temp.plot
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_",i,"_TypeII_nloci.pdf"),temp.plot,height = 6,width = 8)} else
+        {ggsave(paste0(dir,paste0("Figures and Data/pdf/",i,"_TypeII_nloci.pdf"),temp.plot,height = 6,width = 8))}
+
+        if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_",i,"_TypeII_nloci.jpg"),temp.plot,height = 6,width = 8)} else
+        {ggsave(paste0(dir,paste0("Figures and Data/jpg/",i,"_TypeII_nloci.jpg"),temp.plot,height = 6,width = 8))}
 
     }
+
+
+    #### CHECK HERE - this doesn't work yet
+        ## the plot names are:
+#     accuracy_boxplot
+# accuracy_lineplotSD
+# accuracy_lineplot
+# accuracy_lineplot_ClassFacet_SD
+# accuracy_lineplot_ClassFacet
+# Accuracy_ByThreshold_LinePlot_AllClass
+# Accuracy_ByThreshold_LinePlot_PureHyb
+# TypeI_BoxPlot
+# typeI_lineplot
+# meanPofZ_AllClasses_BoxPlot
+# meanPofZ_PureHyb_BoxPlot
+# Efficiency_AllClass_LinePlot
+# Efficiency_PureHyb_LinePlot
+# Efficiency_AllClass_LinePlot_ClassFacet_thresh
+# Efficiency_AllClass_LinePlot_ClassFacet_NOthresh
+# Efficiency_PureHyb_LinePlot_ClassFacet_thresh
+# Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh
+# Efficiency_ByThreshold_LinePlot_AllClass
+# Efficiency_ByThreshold_LinePlot_PureHyb
 
 
 
