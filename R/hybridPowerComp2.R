@@ -375,11 +375,6 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
     {write.csv(testsum, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}
 
 
-       #ComboHybrids ------------
-      FinalData2 <- data.frame(ProbOutput2%>%group_by(nLoci,level,class)%>%summarise(mprob = mean(prob,na.rm=T),
-                                                                               sdprob = sd(prob,na.rm=T))%>%ungroup())
-      FinalData2$class <- factor(FinalData2$class, levels=c("Pure1","Pure2","Hybrid")) # set plotting levels
-
          #ComboHybrids ------------
       final.stats_pipe <- final.stats.2
       final.stats_pipe$class <- as.character(final.stats.2$known)
