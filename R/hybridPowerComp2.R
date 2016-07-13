@@ -18,14 +18,14 @@
 #' @export
 
 #
- #  library(ggplot2)
- #  library(magrittr)
- #  library(dplyr)
- #  library(stringr)
- #  library(reshape2)
- #  library(grid)
- #  library(scales)
- #  library(hybriddetective)
+  # library(ggplot2)
+  # library(magrittr)
+  # library(dplyr)
+  # library(stringr)
+  # library(reshape2)
+  # library(grid)
+  # library(scales)
+  # library(hybriddetective)
  #
  #
  #
@@ -290,12 +290,13 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         ## line plot - accuracy with SD
        accuracy_lineplotSD <- ggplot(testsum) +
            geom_line(aes(x = PofZ, y = means, colour = known), lwd = 1.25) + geom_line(aes(y = sdNeg, x = PofZ, colour = known), linetype = 2) + geom_line(aes(y = sdPos, x = PofZ, colour = known), linetype = 2) +
-          facet_grid(.~nloci) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+          facet_wrap(~nloci, ncol = 3) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
           legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
           scale_color_brewer(palette = "Dark2")+
           labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Genotype Frequency Class") + ylim(0, 1)
 
-               #     #Save plot
+
+
     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlotSD.pdf"), accuracy_lineplotSD, height = 10, width = 10)}else
       {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlotSD.pdf"), accuracy_lineplotSD, height = 10, width = 10)}
 
@@ -308,7 +309,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         ## line plot - accuracy no SD
        accuracy_lineplot <-  ggplot(testsum) +
            geom_line(aes(x = PofZ, y = means, colour = known), lwd = 1.25) + scale_color_brewer(palette = "Dark2")+
-          facet_grid(.~nloci) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+          facet_wrap(~nloci, ncol = 3) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
           legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
           labs(x = "Critical PofZ Threshold", y = "Proportion of Assignments Correct ", col="Genotype Frequency Class") + ylim(0, 1)
 
@@ -327,7 +328,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
 
        accuracy_lineplot_ClassFacet_SD <- ggplot(testsum) +
            geom_line(aes(x = PofZ, y = means, colour = nloci), lwd = 1.25) + geom_line(aes(y = sdNeg, x = PofZ, colour = nloci), linetype = 2) + geom_line(aes(y = sdPos, x = PofZ, colour = nloci), linetype = 2) +
-          facet_grid(.~known) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+          facet_wrap(~known, nrow = 3) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
           legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
           scale_color_brewer(palette = "Dark2")+
           labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") + ylim(0, 1)
@@ -344,7 +345,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
 
       accuracy_lineplot_ClassFacet <-  ggplot(testsum) +
            geom_line(aes(x = PofZ, y = means, colour = nloci), lwd = 1.25) +
-          facet_grid(.~known) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+          facet_wrap(~known, nrow = 3) + theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
           legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
           scale_color_brewer(palette = "Dark2")+
           labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") + ylim(0, 1)
@@ -565,8 +566,8 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         max.y = max(testsum_TypeI$means + testsum_TypeI$sd)
 
          ## line plot - Type I Error
-         typeI_lineplot <- ggplot(testsum_TypeI) + geom_line(aes(x = PofZ, y = means, group = Loci), size = 2) + geom_line( aes(y = (means+sd), x = PofZ, colour = Loci), linetype = 2) +
-           geom_line( aes(y = (means-sd), x = PofZ, colour = Loci), linetype = 2) + facet_grid(.~Loci) +  ylim(ymin = 0, ymax = max.y) +
+         typeI_lineplot <- ggplot(testsum_TypeI) + geom_line(aes(x = PofZ, y = means, group = Loci), size = 2) + geom_line( aes(y = (means+sd), x = PofZ, group = Loci), linetype = 2) +
+           geom_line( aes(y = (means-sd), x = PofZ, group = Loci), linetype = 2) + facet_wrap(~Loci, ncol = 3) +  ylim(ymin = 0, ymax = max.y) +
            labs(x = "Critical PofZ Threshold", y = expression("Type I Error Proportion "%+-%"sd")) +
            theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
              legend.position = "none", strip.background = element_rect(colour = "black", fill = "white"), text = element_text(colour = "black"))
@@ -752,7 +753,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         geom_line(aes(x=level,y=mprob,col=class),lwd=1.25)+
         geom_line(aes(x=level,y=mprob+sdprob,col=class),lty=2)+
         geom_line(aes(x=level,y=mprob-sdprob,col=class),lty=2)+
-        facet_grid(~nLoci)+
+        facet_wrap(~nLoci, ncol = 3)+
         theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black"))+
         scale_color_brewer(palette = "Dark2")+
         labs(x="Critical PofZ Threshold",y=expression("Efficiency "%+-%"sd"),col="Genotype Frequency Class") + ylim(0, 1)
@@ -821,7 +822,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
           ggplot(data=FinalData2)+geom_line(aes(x=level,y=mprob,col=factor(nLoci)),lwd=1.25)+
           geom_line(aes(x=level,y=mprob+sdprob,col=factor(nLoci)),lty=2)+
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
-          theme_bw()+facet_grid(~class)+theme(strip.background = element_rect(fill="white",colour = "black"))+
+          theme_bw()+facet_grid(class~.)+theme(strip.background = element_rect(fill="white",colour = "black"))+
           scale_color_brewer(palette = "Dark2")+
           theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black")) +
           labs(x="Critical PofZ Threshold",y=expression("Efficiency "%+-%"sd"),col="Panel Size (Loci)")+
@@ -844,7 +845,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
           ggplot(data=FinalData2)+geom_line(aes(x=level,y=mprob,col=factor(nLoci)),lwd=1.25)+
           geom_line(aes(x=level,y=mprob+sdprob,col=factor(nLoci)),lty=2)+
           geom_line(aes(x=level,y=mprob-sdprob,col=factor(nLoci)),lty=2)+
-          theme_bw()+facet_grid(~class)+theme(strip.background = element_rect(fill="white",colour = "black"))+
+          theme_bw()+facet_grid(class~.)+theme(strip.background = element_rect(fill="white",colour = "black"))+
           scale_color_brewer(palette = "Dark2")+
              theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black")) +
           labs(x="Critical PofZ Threshold",y=expression("Efficiency "%+-%"sd"),col="Panel Size (Loci)")+
