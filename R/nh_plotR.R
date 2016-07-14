@@ -41,7 +41,7 @@
   ## make a nice pretty little plot
   pretty.plot <- ggplot(NH_melt, aes(x = Indv, y=CumProb, fill=PopProb))
 
-    pretty.plot+geom_bar(stat="identity", position = "stack") + scale_fill_manual(values=col.vec)+ylab("Cumulative Probability")+xlab("Individual") +
+    pretty.plot+geom_bar(stat="identity", position = "stack", width = 1) + scale_fill_manual(values=col.vec)+ylab("Cumulative Probability")+xlab("Individual") +
       scale_y_continuous(limits = c(0, 1.05), expand=c(0, 0)) +
         theme(axis.title.x = element_text(size = 20,colour = "black"), axis.text.x = element_blank(),
           axis.text.y = element_text(size = 20, colour = "black"), axis.title.y = element_text(size = 20, colour = "black"),
