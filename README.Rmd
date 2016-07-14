@@ -68,7 +68,7 @@ devtools::install_github("bwringe/hybriddetective") #package
 * Brendan Wringe <https://github.com/bwringe>; bwringe(at)gmail.com; Corresponding author  
 * Dr. Ian Bradbury <http://tinyurl.com/h3qrhkv>  
 * Dr. Nick Jeffery <https://github.com/NickJeff13>  
-* Dr. Ryan Ronald Edward Stanley <https://github.com/rystanley> 
+* Dr. Ryan Stanley <https://github.com/rystanley> 
 
 This package has been designed to work in conjunction with the packages **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>) and **genepopedit** (<https://github.com/rystanley/genepopedit>) to offer a more efficient and repeatable method of detecting hybrid individuals based on genomic data. This is accomplished by moving the workflow into the R environment. The package is open, and interested individuals are encouraged to modify the code for their purposes if needed. I will endeavour to respond in a timely manner to any and all inquiries, and will try to add requested functions, or functionality where requested.
 
