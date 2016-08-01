@@ -9,7 +9,7 @@ nh_plotR(NHResults, ColourVector = 1)
 \arguments{
 \item{NHResults}{A file path to the NewHybrids (PofZ file) result to be plotted}
 
-\item{ColourVector}{A logical which can be used to reverse the Pure1/BC1, Pure2/BC2 colours if NEWHYBRIDS switches which population is called Population1 and Population2 between analyses of the same data (allows you to make your plots the same colours)}
+\item{ColourVector}{A logical which can be used to reverse the Pure1/BC1, Pure2/BC2 colours if NEWHYBRIDS switches which population is called Population1 and Population2 between analyses of the same data (allows you to make your plots the same colours). Options are "1" or "2"}
 }
 \description{
 \code{nh_plotR} plots the cumulative probabilities of assignment for each individual

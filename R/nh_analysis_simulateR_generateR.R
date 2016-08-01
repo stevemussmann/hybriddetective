@@ -1,14 +1,14 @@
 #' @name nh_analysis_simulateR_generateR
 #' @title NewHybrids data generator
 #'
-#' @description \code{nh_analysis_data_generateR} Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.
+#' @description \code{nh_analysis_data_generateR} Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file. The simulation function is the same as in freqbasedsim
 #' @param ReferencePopsData A file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed
 #' @param UnknownIndivs A dataframe of genotypes of unknown/experimental individuals to be analyzed for hybrid category generated using the function *genepop_flatten* from the package *genepopedit*. Individuals or loci can be subsetted from this flattened data set if desired, or manipulations can conducted before flattening using the appropriate functions from *genepopedit*. Note - the number of loci in ReferencePopsData must equal the number in UnkownIndivs
-#' @param outputName outputName An optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format
+#' @param outputName outputName A character vector to be applied as the name of the output.
 #' @param pop.groups Optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB
-#' @param sample.size An integer number of simulated individuals to be created for each of the six hybrid classes (e.g. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals); default is 200
-#' @param NumSims An integer number of simulated datasets to be created; default is 1
-#' @param NumReps An integer number of replicates to be created for each of the n simulated datasets specified in NumSims; default is 1
+#' @param sample.size an integer number of simulated individuals to be created for each of the six hybrid classes (viz. Pure1, Pure2, F1, F2, BC1, BC2). The default is 200 (viz. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals)
+#' @param NumSims an integer number of simulated datasets to be created. The default is 1
+#' @param NumReps  integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1
 #' @param cats.include Optional character vector list denoting which hybrid categories should be included in the output; default is all categories.
 #' @export
 #' @importFrom tidyr separate
@@ -20,7 +20,7 @@
 
 nh_analysis_simulateR_generateR <- function(ReferencePopsData, UnknownIndvs, outputName = NULL, pop.groups = c("Pure1", "Pure2"), sample.size = 200, NumSims = 1, NumReps = 1, cats.include = c("PopA", "PopB", "F1", "F2", "BCA", "BCB")){
 
-if(length(out.name) == 0){out.name=ReferencePopsData}
+  if(length(out.name) == 0){out.name=ReferencePopsData}
 
   ## Top part of this function has been direcrtly copied from the simulate hybrids function
 
@@ -94,7 +94,7 @@ if(length(out.name) == 0){out.name=ReferencePopsData}
     #if (length(temp2)/2!=length(ColumnData)){stacks.version="No stacks version specified"}
 
     ## Get the Alpha names
-        NamePops=temp[,1] # Names of each
+    NamePops=temp[,1] # Names of each
 
     if(length(pop.groups) == 0){ ### If unique grouping IDs ≠ number of "Pop" user must give vector of groupings
                                 ### equal to number of "Pop" or else the function will fail
@@ -168,44 +168,44 @@ if(length(out.name) == 0){out.name=ReferencePopsData}
                 } ## End of I loop
 
       ##### Loooooooooooop tha Sims! #####
-sim = 1
+
                for(sim in 1:NumSims){
 
-                      ### MAKE PURE CROSS - centre the data -
-                        pure.name.recall <- NULL
-                          for(k in 1:length(pop.groups)){
-                            pop1 <- get(mat.name.recall[k])
-                            pop2 <- get(mat.name.recall[k])
+                    ### MAKE PURE CROSS - centre the data -
+                    pure.name.recall <- NULL
 
-                            off.interspersed.out <- NULL
-                                for(i in 1:sample.size){
+                      for(k in 1:length(pop.groups)){
+                          pop1 <- get(mat.name.recall[k])
+                          pop2 <- get(mat.name.recall[k])
 
-                                hold.off.pop1 <- apply(pop1, FUN = sample, 2, 1)
-                                hold.off.pop2 <- apply(pop2, FUN = sample, 2, 1)
-                                hold.off.interspersed <- data.frame(c(rbind(hold.off.pop1, hold.off.pop2)))
+                          off.interspersed.out <- NULL
+                          for(i in 1:sample.size){
 
-                          off.interspersed.out <- rbind(off.interspersed.out, t(hold.off.interspersed))
+                            hold.off.pop1 <- apply(pop1, FUN = sample, 2, 1)
+                            hold.off.pop2 <- apply(pop2, FUN = sample, 2, 1)
+                            hold.off.interspersed <- data.frame(c(rbind(hold.off.pop1, hold.off.pop2)))
+
+                            off.interspersed.out <- rbind(off.interspersed.out, t(hold.off.interspersed))
                                   } ## End of I loop
 
-                            pure.name <- paste("Pure", pop.groups[k], sep = "_")
-                            pure.name.recall <- c(pure.name.recall, pure.name)
+                          pure.name <- paste("Pure", pop.groups[k], sep = "_")
+                          pure.name.recall <- c(pure.name.recall, pure.name)
 
-                            assign(x = pure.name, value = off.interspersed.out)
-
+                          assign(x = pure.name, value = off.interspersed.out)
                               } ## End of K loop
 
 
-        inv.pure.name.recall <- NULL
-          for(i in 1:length(pop.recall)){
-              temp.mat <- data.frame(matrix(vector(), 2, length(temp2)/2))
-              pop.get <- get(pure.name.recall[i])
+              inv.pure.name.recall <- NULL
+              for(i in 1:length(pop.recall)){
+                temp.mat <- data.frame(matrix(vector(), 2, length(temp2)/2))
+                pop.get <- get(pure.name.recall[i])
 
-              temp.mat.hold <- NULL
-                for(k in 1:nrow(pop.get)){
-                  ind.hold <- pop.get[k,]
-                  temp.mat[1,] <- t(t(ind.hold[c(T,F)]))
-                  temp.mat[2,] <-  t(t(ind.hold[c(F,T)]))
-                  temp.mat.hold <- rbind(temp.mat.hold, temp.mat)
+                temp.mat.hold <- NULL
+                  for(k in 1:nrow(pop.get)){
+                    ind.hold <- pop.get[k,]
+                    temp.mat[1,] <- t(t(ind.hold[c(T,F)]))
+                    temp.mat[2,] <-  t(t(ind.hold[c(F,T)]))
+                    temp.mat.hold <- rbind(temp.mat.hold, temp.mat)
                       } ## End of K loop
 
                 inv.pure.out.name <- paste(pure.name.recall[i],"inv", sep = "_")
@@ -237,8 +237,7 @@ sim = 1
         temp.mat[1,] <- t(t(ind.hold[c(T,F)]))
         temp.mat[2,] <-  t(t(ind.hold[c(F,T)]))
         inv.F1 <- rbind(inv.F1, temp.mat)
-
-    }
+        } ## END K LOOP
 
 
         ### MAKE F2 CROSS
@@ -252,104 +251,97 @@ sim = 1
                 hold.off.interspersed <- data.frame(c(rbind(hold.off.pop1, hold.off.pop2)))
 
                 F2.out <- rbind(F2.out, t(hold.off.interspersed))
+                } ## END I LOOP
 
 
-}
+  ### MAKE Back CROSS
 
 
-### MAKE Back CROSS
+  BC.name.recall <- NULL
+  for(k in 1:length(pop.groups)){
+
+    pop1 <- get(inv.pure.name.recall[k])
+    pop2 <- inv.F1
+
+  off.interspersed.out <- NULL
+  for(i in 1:sample.size){
+
+    hold.off.pop1 <- apply(pop1, FUN = sample, 2, 1)
+    hold.off.pop2 <- apply(pop2, FUN = sample, 2, 1)
+    hold.off.interspersed <- data.frame(c(rbind(hold.off.pop1, hold.off.pop2)))
+
+    off.interspersed.out <- rbind(off.interspersed.out, t(hold.off.interspersed))
+      } ## END I LOOP
+
+    BC.name <- paste("BC", pop.groups[k], sep = "_")
+    BC.name.recall <- c(BC.name.recall, BC.name)
+
+    assign(x = BC.name, value = off.interspersed.out)
+      } ## END K LOOP
 
 
-BC.name.recall <- NULL
-for(k in 1:length(pop.groups)){
-
-pop1 <- get(inv.pure.name.recall[k])
-pop2 <- inv.F1
-off.interspersed.out <- NULL
-for(i in 1:sample.size){
-
-hold.off.pop1 <- apply(pop1, FUN = sample, 2, 1)
-hold.off.pop2 <- apply(pop2, FUN = sample, 2, 1)
-hold.off.interspersed <- data.frame(c(rbind(hold.off.pop1, hold.off.pop2)))
-
-off.interspersed.out <- rbind(off.interspersed.out, t(hold.off.interspersed))
+  for(i in 1:length(pure.name.recall)){
+    off.name <- paste(pure.name.recall[i], c(1:sample.size), sep="_")
+    hold.dat <- get(pure.name.recall[i])
+    hold.dat <- data.frame(off.name, hold.dat)
+    ColumnData.Dup.insert = c("ID", ColumnData.Dup)
+    colnames(hold.dat) = ColumnData.Dup.insert
+    assign(x = pure.name.recall[i], value = hold.dat)
+  } ## END I LOOP
 
 
-}
+  f1.off.name <- paste("F1", c(1:sample.size), sep = "_")
+  F1.out <- data.frame(f1.off.name, F1.out)
+  colnames(F1.out) <- c("ID", ColumnData.Dup)
 
-BC.name <- paste("BC", pop.groups[k], sep = "_")
-BC.name.recall <- c(BC.name.recall, BC.name)
+  f2.off.name <- paste("F2", c(1:sample.size), sep = "_")
+  F2.out <-  data.frame(f2.off.name, F2.out)
+  colnames(F2.out) <- c("ID", ColumnData.Dup)
 
-assign(x = BC.name, value = off.interspersed.out)
-
-}
-
-
-for(i in 1:length(pure.name.recall)){
-  off.name <- paste(pure.name.recall[i], c(1:sample.size), sep="_")
-  hold.dat <- get(pure.name.recall[i])
-  hold.dat <- data.frame(off.name, hold.dat)
-  ColumnData.Dup.insert = c("ID", ColumnData.Dup)
-  colnames(hold.dat) = ColumnData.Dup.insert
-  assign(x = pure.name.recall[i], value = hold.dat)
-}
-
-
-f1.off.name <- paste("F1", c(1:sample.size), sep = "_")
-F1.out <- data.frame(f1.off.name, F1.out)
-colnames(F1.out) <- c("ID", ColumnData.Dup)
-
-f2.off.name <- paste("F2", c(1:sample.size), sep = "_")
-F2.out <-  data.frame(f2.off.name, F2.out)
-colnames(F2.out) <- c("ID", ColumnData.Dup)
-
-BC.name.recall
-for(i in 1:length(BC.name.recall)){
-  off.name <- paste(BC.name.recall[i], c(1:sample.size), sep="_")
-  hold.dat <- get(BC.name.recall[i])
-  hold.dat <- data.frame(off.name, hold.dat)
-  ColumnData.Dup.insert = c("ID", ColumnData.Dup)
-  colnames(hold.dat) = ColumnData.Dup.insert
-  assign(x = BC.name.recall[i], value = hold.dat)
-}
+  BC.name.recall
+  for(i in 1:length(BC.name.recall)){
+    off.name <- paste(BC.name.recall[i], c(1:sample.size), sep="_")
+    hold.dat <- get(BC.name.recall[i])
+    hold.dat <- data.frame(off.name, hold.dat)
+    ColumnData.Dup.insert = c("ID", ColumnData.Dup)
+    colnames(hold.dat) = ColumnData.Dup.insert
+    assign(x = BC.name.recall[i], value = hold.dat)
+  }
 
 
-#pure.name.recall
-#BC.name.recall
-#b=1
-for(b in 1:length(pure.name.recall)){
+  for(b in 1:length(pure.name.recall)){
 
-  fam.to.bind.name <- pure.name.recall[b]
-  fam.to.bind <- get(fam.to.bind.name)
-  indiv.hold <- fam.to.bind[,1]
-  loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
-    col.out <- NULL
+    fam.to.bind.name <- pure.name.recall[b]
+    fam.to.bind <- get(fam.to.bind.name)
+    indiv.hold <- fam.to.bind[,1]
+    loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
+      col.out <- NULL
 
-    for(k in 1:length(loci.bind)){
-      place.1 <- (loci.bind[k]-1)
-      place.2 <- loci.bind[k]
-      hold.col <- paste0(fam.to.bind[,place.1], fam.to.bind[,place.2])
-      col.out <- cbind(col.out, hold.col)
+      for(k in 1:length(loci.bind)){
+        place.1 <- (loci.bind[k]-1)
+        place.2 <- loci.bind[k]
+        hold.col <- paste0(fam.to.bind[,place.1], fam.to.bind[,place.2])
+        col.out <- cbind(col.out, hold.col)
 
-        }
+          }
 
-  fam.reord <- cbind(indiv.hold,col.out)
-  colnames(fam.reord) <- c(colnames(fam.to.bind[1]), colnames(fam.to.bind[c((loci.bind-1))]))
-  assign(x = fam.to.bind.name, fam.reord)
+    fam.reord <- cbind(indiv.hold,col.out)
+    colnames(fam.reord) <- c(colnames(fam.to.bind[1]), colnames(fam.to.bind[c((loci.bind-1))]))
+    assign(x = fam.to.bind.name, fam.reord)
 
 
-for(b in 1:length(pure.name.recall)){
+  for(b in 1:length(pure.name.recall)){
 
-  fam.to.remove.untyped.name <- pure.name.recall[b]
+    fam.to.remove.untyped.name <- pure.name.recall[b]
 
-  fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
-  fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
-  assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
-}
+    fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
+    fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
+    assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
+  }
 
-    }
+      }
 
-## F1
+  ## F1
 
   fam.to.bind.name <- "F1.out"
 
@@ -406,115 +398,112 @@ for(b in 1:length(pure.name.recall)){
   assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
 
 
-for(b in 1:length(BC.name.recall)){
+  for(b in 1:length(BC.name.recall)){
 
-  fam.to.bind.name <- BC.name.recall[b]
+    fam.to.bind.name <- BC.name.recall[b]
 
-  fam.to.bind <- get(fam.to.bind.name)
-  indiv.hold <- fam.to.bind[,1]
-  loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
-    col.out <- NULL
+    fam.to.bind <- get(fam.to.bind.name)
+    indiv.hold <- fam.to.bind[,1]
+    loci.bind <- which(stringr::str_detect(string = colnames(fam.to.bind), pattern = "\\.2")==TRUE)
+      col.out <- NULL
 
-    for(s in 1:length(loci.bind)){
-      place.1 <- (loci.bind[s]-1)
-      place.2 <- loci.bind[s]
-      hold.col <- paste0(fam.to.bind[,place.1], fam.to.bind[,place.2])
-      col.out <- cbind(col.out, hold.col)
+      for(s in 1:length(loci.bind)){
+        place.1 <- (loci.bind[s]-1)
+        place.2 <- loci.bind[s]
+        hold.col <- paste0(fam.to.bind[,place.1], fam.to.bind[,place.2])
+        col.out <- cbind(col.out, hold.col)
 
-        }
+          }
 
-  fam.reord <- cbind(indiv.hold,col.out)
-  colnames(fam.reord) <- c(colnames(fam.to.bind[1]), colnames(fam.to.bind[c((loci.bind-1))]))
-  assign(x = fam.to.bind.name, fam.reord)
+    fam.reord <- cbind(indiv.hold,col.out)
+    colnames(fam.reord) <- c(colnames(fam.to.bind[1]), colnames(fam.to.bind[c((loci.bind-1))]))
+    assign(x = fam.to.bind.name, fam.reord)
 
-}
+  }
 
-for(b in 1:length(BC.name.recall)){
+  for(b in 1:length(BC.name.recall)){
 
-  fam.to.remove.untyped.name <- BC.name.recall[b]
+    fam.to.remove.untyped.name <- BC.name.recall[b]
 
-  fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
-  fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
-  assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
-}
+    fam.to.remove.untyped <- get(fam.to.remove.untyped.name)
+    fam.to.remove.untyped[which(stringr::str_detect(string = fam.to.remove.untyped, pattern = "000")==TRUE)] = "000000"
+    assign(x = fam.to.remove.untyped.name, value = fam.to.remove.untyped)
+  }
 
-#Now recompile the NewHybrids
-
-
-pop.names <- c(pure.name.recall, "F1.out", "F2.out", BC.name.recall)
+  #Now recompile the NewHybrids
 
 
-sim.pop.name.reference <- c("PopA", "PopB", "F1", "F2", "BCA", "BCB")
-pop.names.use <- pop.names[which(sim.pop.name.reference %in% cats.include)]
+  pop.names <- c(pure.name.recall, "F1.out", "F2.out", BC.name.recall)
 
 
-### make vector of names of simulated individuals
-popvecout <- NULL
-for(i in 1:length(pop.names.use)){
-
-  pvecmake <- paste0(pop.names.use[i], "_", c(1:nrow(get(pop.names.use[i]))))
-
-  popvecout <- c(popvecout, pvecmake)
-
-}
+  sim.pop.name.reference <- c("PopA", "PopB", "F1", "F2", "BCA", "BCB")
+  pop.names.use <- pop.names[which(sim.pop.name.reference %in% cats.include)]
 
 
-### compile simulated data
-sim.out <- NULL
-for(i in 1:length(pop.names.use)){
-  hold.pop <- get(pop.names.use[i])
-  sim.out <- rbind(sim.out, hold.pop)
-}
+  ### make vector of names of simulated individuals
+  popvecout <- NULL
+  for(i in 1:length(pop.names.use)){
+
+    pvecmake <- paste0(pop.names.use[i], "_", c(1:nrow(get(pop.names.use[i]))))
+
+    popvecout <- c(popvecout, pvecmake)
+
+  }
 
 
-sim.out[,1] <- c(1:nrow(sim.out))
-
-Loci.sim <- do.call(paste, c(data.frame(sim.out[,]), sep = " "))
-cd2 <- paste(ColumnData, collapse = " ")
-
-NumIndivs.SIM <- length(Loci.sim)
-NumIndivs.UNKOWN <- nrow(unknown.pop)
-NumIndivs <- NumIndivs.SIM + NumIndivs.UNKOWN
+  ### compile simulated data
+  sim.out <- NULL
+  for(i in 1:length(pop.names.use)){
+    hold.pop <- get(pop.names.use[i])
+    sim.out <- rbind(sim.out, hold.pop)
+  }
 
 
-unknown.indv.vec <- droplevels(unknown.pop[,1])
+  sim.out[,1] <- c(1:nrow(sim.out))
 
-## make output individual vector
+  Loci.sim <- do.call(paste, c(data.frame(sim.out[,]), sep = " "))
+  cd2 <- paste(ColumnData, collapse = " ")
 
-output.indv.vec <- c(popvecout, as.character(unknown.indv.vec))
-output.indv.df <- data.frame(c(1:length(output.indv.vec)), output.indv.vec)
-names(output.indv.df) <- c("number", "ID")
-
-unknown.pop.use <- unknown.pop
-unknown.pop.use[,1] <- c((length(Loci.sim)+1):NumIndivs)
-Loci.Unknown <- do.call(paste, c(data.frame(unknown.pop.use[,]), sep = " "))
-
-##### here is where the UnknownIndvs are added
+  NumIndivs.SIM <- length(Loci.sim)
+  NumIndivs.UNKOWN <- nrow(unknown.pop)
+  NumIndivs <- NumIndivs.SIM + NumIndivs.UNKOWN
 
 
+  unknown.indv.vec <- droplevels(unknown.pop[,1])
 
-insertNumIndivs <- paste("NumIndivs", NumIndivs)
-insertNumLoci <- paste("NumLoci", NumLoci)
-insertYourDigits <- "Digits 3"
-insertFormat <- "Format Lumped"
-insertLociName <- paste("LocusNames", cd2)
+  ## make output individual vector
 
-Loci.out <- c(insertNumIndivs, insertNumLoci, insertYourDigits, insertFormat, insertLociName,   Loci.sim, Loci.Unknown)
-#write.table(x = Loci.out, file = "NSDrop1.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+  output.indv.vec <- c(popvecout, as.character(unknown.indv.vec))
+  output.indv.df <- data.frame(c(1:length(output.indv.vec)), output.indv.vec)
+  names(output.indv.df) <- c("number", "ID")
 
- outNameGive <- out.name
+  unknown.pop.use <- unknown.pop
+  unknown.pop.use[,1] <- c((length(Loci.sim)+1):NumIndivs)
+  Loci.Unknown <- do.call(paste, c(data.frame(unknown.pop.use[,]), sep = " "))
+
+  ##### here is where the UnknownIndvs are added
+
+  insertNumIndivs <- paste("NumIndivs", NumIndivs)
+  insertNumLoci <- paste("NumLoci", NumLoci)
+  insertYourDigits <- "Digits 3"
+  insertFormat <- "Format Lumped"
+  insertLociName <- paste("LocusNames", cd2)
+
+  Loci.out <- c(insertNumIndivs, insertNumLoci, insertYourDigits, insertFormat, insertLociName,   Loci.sim, Loci.Unknown)
+  #write.table(x = Loci.out, file = "NSDrop1.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+   outNameGive <- out.name
   outNameGive <- paste0(outNameGive, "_S", sim)
 
-for(reps in 1:NumReps){
+  for(reps in 1:NumReps){
 
+    outNameGive <- paste0(outNameGive, "R", reps, "_analdata.txt")
+    write.table(x = Loci.out, file = outNameGive, row.names = FALSE, col.names = FALSE, quote = FALSE)
+    outNameGivereRef <- paste0(out.name, "_IDref.txt")
+    write.table(x = output.indv.df, file = outNameGivereRef, row.names = FALSE, col.names = FALSE, quote = FALSE)
+      } ## END REPS LOOP
 
-  outNameGive <- paste0(outNameGive, "R", reps, "_analdata.txt")
-write.table(x = Loci.out, file = outNameGive, row.names = FALSE, col.names = FALSE, quote = FALSE)
-outNameGivereRef <- paste0(out.name, "_IDref.txt")
-write.table(x = output.indv.df, file = outNameGivereRef, row.names = FALSE, col.names = FALSE, quote = FALSE)
-    }
+    } ### End of sim loop
 
-} ### End of sim loop
-
-} ## End of function
+  } ## End of function
 

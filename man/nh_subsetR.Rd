@@ -12,6 +12,6 @@ nh_subsetR(NHData, loci = NULL)
 \item{loci}{A vector of Loci names to be retained in the dataset}
 }
 \description{
-Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels
+Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels. Note, the function will create a file with your file name and "_subsetted" appended to it (viz. "YourFileName_subsetted.txt"), so this file must be renamed so it is not overwritten if multiple subsetted datasets are desired.
 }
 

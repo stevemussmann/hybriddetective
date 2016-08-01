@@ -7,10 +7,8 @@
 #' @import ggplot2
 #' @importFrom reshape2 melt
 
-nh_multiplotR <- "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NH.ResultsNS/"
 
 nh_multiplotR <- function(NHResults){
-
 
   tbPlot <- list.files(NHResults)
 

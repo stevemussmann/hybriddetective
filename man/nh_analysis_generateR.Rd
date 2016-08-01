@@ -10,11 +10,11 @@ nh_analysis_generateR(ReferencePopsData, UnknownIndivs,
 \arguments{
 \item{ReferencePopsData}{A file path to a either a NewHybrids or GENEPOP formatted file containing genotypes from the simulated ancestral populations. This can be the result of any of the freqbasedsim functions, or a file created using the function genepop_newhybrids from the package genepopedit}
 
-\item{UnknownIndivs}{A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci in ReferencePopsData must equal the number in UnkownIndivs}
+\item{UnknownIndivs}{A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci and the names of the loci in ReferencePopsData and UnknownIndivs must be the same}
 
-\item{sim.pops.include}{Optional character vector list denoting which hybrid categories from the simulatedd data should be included in the output; default is Pure Population 1 and Pure Population 2.}
+\item{sim.pops.include}{Optional character vector list denoting which hybrid categories from the simulatedd data should be included in the output. The default is Pure Population 1 and Pure Population 2.}
 
-\item{outputName}{outputName an optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format}
+\item{outputName}{A character vector to be applied as the name of the output.}
 }
 \description{
 \code{nh_analysis_GenerateR} Merges simulated genotypes with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.

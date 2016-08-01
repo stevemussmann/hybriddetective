@@ -3,17 +3,17 @@
 #'
 #' @description \code{nh_analysis_GenerateR} Merges simulated genotypes with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.
 #' @param ReferencePopsData A file path to a either a NewHybrids or GENEPOP formatted file containing genotypes from the simulated ancestral populations. This can be the result of any of the freqbasedsim functions, or a file created using the function genepop_newhybrids from the package genepopedit
-#' @param UnknownIndivs A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci in ReferencePopsData must equal the number in UnkownIndivs
-#' @param sim.pops.include Optional character vector list denoting which hybrid categories from the simulatedd data should be included in the output; default is Pure Population 1 and Pure Population 2.
-#' @param outputName outputName an optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format
+#' @param UnknownIndivs A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci and the names of the loci in ReferencePopsData and UnknownIndivs must be the same
+#' @param sim.pops.include Optional character vector list denoting which hybrid categories from the simulatedd data should be included in the output. The default is Pure Population 1 and Pure Population 2.
+#' @param outputName A character vector to be applied as the name of the output.
 #' @export
-#' @importFrom tidyr separate
-#' @importFrom stringr str_split str_extract str_detect
+#' @importFrom genepopedit subset_genepop genepop_flatten genepop_detective subset_genepop_aggregate
+#' @importFrom stringr str_split str_detect
 #' @import plyr
 
 
 nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.include = c("Pure1", "Pure2"), output.name){
-  ### read in teh simulated data
+  ### read in the simulated data
   sim.file <- read.table(ReferencePopsData, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
 
   path.start <- getwd()
@@ -95,7 +95,7 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
   unknown.file <- read.table(UnknownIndivs, header = FALSE, sep = "\t", stringsAsFactors = FALSE)
 
   header.unknown <- unknown.file[1,]
-  if(str_detect(string = header.unknown, pattern = "NumIndivs")==FALSE){ ### if a GenePop format file then will have a single entry in the first row
+  if(stringr::str_detect(string = header.unknown, pattern = "NumIndivs")==FALSE){ ### if a GenePop format file then will have a single entry in the first row
     unknown.indivs.exist <- genepopedit::genepop_detective(GenePop = UnknownIndivs, variable = "Inds") ## get a list of individuals
     pops.exist <- genepopedit::genepop_detective(GenePop = UnknownIndivs) ##
     ag.frame <- data.frame(Exits=pops.exist, ag.to = rep("Pop1", times = length(pops.exist)))
@@ -112,10 +112,8 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
 }
 
 
-
-
   #### if it is a NewHybrids format file
-  if(str_detect(string = header.unknown, pattern = "NumIndivs")==TRUE){
+  if(stringr::str_detect(string = header.unknown, pattern = "NumIndivs")==TRUE){
 
     unknown.file <- read.table(UnknownIndivs, header = FALSE, skip = 4, stringsAsFactors = FALSE) ## skip the first 4 lines, will build these after anyways
     unknown.Loci <- unknown.file[1,] ## the loci are in the first row
@@ -134,11 +132,9 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
     }
 
 
-
 ### error check that the simulated individuals and the unknown individuals have the same number of alleles - if not, fail and return error message
 
   if(length(setdiff(unknown.Loci[-1], sim.inds.Loci[-1])) > 0){stop("The Simulated and Unknown datasets must contain the same marker names.")}
-
 
 
   ###

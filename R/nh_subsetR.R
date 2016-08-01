@@ -1,6 +1,6 @@
 #' @name nh_subsetR
 #' @title Subset NewHybrids format datasets
-#' @description Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels
+#' @description Function allows the user to subset NewHybrids format datasets to explore the efficacy of variously sized panels. Note, the function will create a file with your file name and "_subsetted" appended to it (viz. "YourFileName_subsetted.txt"), so this file must be renamed so it is not overwritten if multiple subsetted datasets are desired.
 #' @param NHData The file path to the NewHybrids formatted dataset to be subsetted
 #' @param loci A vector of Loci names to be retained in the dataset
 #' @importFrom dplyr filter summarise ungroup group_by
@@ -14,11 +14,11 @@ nh_subsetR <- function(NHData, loci = NULL){
 
   NHD <- read.table(NHData, header = FALSE, quote = "", sep = "\t", stringsAsFactors = FALSE)
 
-  NHD_nometa <- NHD[-(1:5),]
+  NHD_nometa <- NHD[-(1:5),] ## remove unneeded
 
-  temp <- as.data.frame(do.call(rbind, strsplit(NHD_nometa, " ")))
+  temp <- as.data.frame(do.call(rbind, stringr::strsplit(NHD_nometa, " ")))
 
-  colnamevec <- unlist(strsplit(NHD[5,], " "))
+  colnamevec <- unlist(stringr::strsplit(NHD[5,], " "))
 
   colnames(temp) <- colnamevec
 
