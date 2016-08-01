@@ -2,7 +2,7 @@
 % Please edit documentation in R/getTopLoc.R
 \name{getTopLoc}
 \alias{getTopLoc}
-\title{Creates a panel of the top n unlinked loci, and exports the list of loci}
+\title{Creates a panel of the top n "unlinked" loci, and exports the list of loci}
 \usage{
 getTopLoc(GPD, LDpop = "Pop1", panel.size, FST.threshold = 0.05,
   allocate.PGD.RAM = 1, r2.threshold = 0.2, ld.window = NULL, where.PLINK,
@@ -29,6 +29,6 @@ getTopLoc(GPD, LDpop = "Pop1", panel.size, FST.threshold = 0.05,
 \item{where.PGDspider}{A file path to the PGDspider installation folder}
 }
 \description{
-\code{getTopLoc} Extracts the genotypes of individuals at the top n (by Fst) unlinked loci. The resultant file can then be used to simulate the panel efficacy using freqbasedsim. Alternatively, multiple panel sizes can be created by using truncated vectors of the exported loci names in the function subset_genepop from the genepopedit package (www.github.com/rystanley)
+\code{getTopLoc} Extracts the genotypes of individuals at the top n (by Fst) "unlinked" loci. The loci returned are in linkage equilibrium above a user defined r^2 threshold. The resultant file can then be used to simulate the panel efficacy using freqbasedsim. Alternatively, multiple panel sizes can be created by using truncated vectors of the exported loci names in the function subset_genepop from the genepopedit package (www.github.com/rystanley)
 }
 
