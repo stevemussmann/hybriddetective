@@ -1,20 +1,19 @@
 #' @name freqbasedsim_Advanced
-#' @title Simulate Multi-Generational Hybrids
+#' @title Simulate Multi-Generational Hybrids - advanced sample size designations
 #'
 #' @description \code{freqbasedsim_Advanced} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the genotype frequencies of two ancestral populations provided. The advanced version also allows the user to specify the number of individuals of each category to be simulated (including zero individuals should the user not wish to simulate a category).
-#' @param NumSims an integer number of simulated datasets to be created; default is 1
-#' @param NumReps an integer number of replicates to be created for each of the n simulated datasets specified
-#'    in NumSims; default is 1
-#' @param sample.sizePure an integer number of simulated Pure1 and Pure2 (centred ancestral populations) individuals to be created; default is 200
-#' @param sample.sizeF1 an integer number of simulated F1 individuals to be created; default is 200
-#' @param sample.sizeF2 an integer number of simulated F1 individuals to be created; default is 200
-#' @param sample.sizeBC an integer number of simulated Backross1 and Backcross2 (F1 X each of the Pure1 and Pure2) individuals to be created; default is 200
-#' @param outputName an optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format
+#' @param NumSims an integer number of simulated datasets to be created. The default is 1
+#' @param NumReps an integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1
+#' @param sample.sizePure an integer number of simulated Pure1 and Pure2 (centred ancestral populations) individuals to be created. The default is 200
+#' @param sample.sizeF1 an integer number of simulated F1 individuals to be created. The default is 200
+#' @param sample.sizeF2 an integer number of simulated F1 individuals to be created. The default is 200
+#' @param sample.sizeBC an integer number of simulated Backross1 and Backcross2 (F1 X each of the Pure1 and Pure2) individuals to be created. The default is 200
+#' @param outputName an optioanal character vector to be applied as the name of the output file(s). The default is NULL, in which case the output name is constructed from the name of the input file, with the suffix _SiRj_NH added. Where i is the number of simulations specified by NumSims, and j is the replicate number of the ith simulation, where j can take the values of 1:NumReps. NH refers to the fact that the output is in NewHybrids format
 #' @param GenePopData file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed
-#' @param pop.groups Optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB
+#' @param pop.groups Optional character vector denoting how the two ancestral populations should be named. The default is "PopA" and "PopB"
 #' @export
-#' @import stringr
-#' @import plyr
+#' @importFrom stringr str_extract str_extract_all str_split str_detect
+#' @importFrom tidyr separate
 
 
 freqbasedsim_Advanced <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, sample.sizePure = 200, sample.sizeF1 = 200, sample.sizeF2 = 200, sample.sizeBC = 200){

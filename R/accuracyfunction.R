@@ -29,7 +29,7 @@ accuracyfunction <- function(x){
 
   num.sims <- length(unique(x1$sim)) ### how man simulations were conducted - allows to be variable, and will be populated from the data provided
 
-  means <- apply(X = sumtable, MARGIN = 1, FUN = mean)/apply(X = sumtable2, MARGIN = 1, FUN = mean)
+  means <- apply(X = sumtable, MARGIN = 1, FUN = mean, na.rm = TRUE)/apply(X = sumtable2, MARGIN = 1, FUN = mean, na.rm = TRUE)
 
   return(data.frame(simulation=as.character(rownames(sumtable)),means=means))
 
