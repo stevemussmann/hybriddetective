@@ -17,7 +17,7 @@
 #' @param pop.groups Optional character vector denoting how the two ancestral populations should be named. The default is "PopA" and "PopB"
 #' @export
 #' @importFrom stringr str_split str_extract str_extract_all str_detect
-#' @import tidyr separate
+#' @importFrom tidyr separate
 
 freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, prop.sample = 0.9, sample.sizePure1 = NULL, sample.sizePure2 = NULL, sample.sizeF1 = NULL, sample.sizeF2 = NULL, sample.sizeBC1 = NULL, sample.sizeBC2 = NULL){
 

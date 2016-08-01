@@ -35,13 +35,13 @@ NH_Zcore <- function(GetstheZdir, multiapplyZvec=NULL, applyuniqueZvec=NULL){
 
 ## make sure that both multiapplyZvec and applyuniqueZvec haven't both been called
 
-if((length(multiapplyZvec) >0 ) && length(applyuniqueZvec) > 0){
-  stop("One or the other bud. You can have multiapplyZvec, or applyuniqueZvec. You aren't a two-year-old at their birthday, so don't get greedy")
-}
+  if((length(multiapplyZvec) >0 ) && length(applyuniqueZvec) > 0){
+    stop("One or the other bud. You can have multiapplyZvec, or applyuniqueZvec. You aren't a two-year-old at their birthday, so don't get greedy")
+  }
 
 
-## files to be converted should all be in a single folder
-## get a list of the files to be converted - then initiate a loop to change each in turn
+  ## files to be converted should all be in a single folder
+  ## get a list of the files to be converted - then initiate a loop to change each in turn
   NHdataGet <- list.files(GetstheZdir)
       ## assumes you have given files in standard NewHybrids format
 
@@ -103,24 +103,24 @@ if((length(multiapplyZvec) >0 ) && length(applyuniqueZvec) > 0){
 
   }
 
-#Zscorevector<-read.csv("/Users/brendanwringe/Desktop/DFO Aquaculture Interaction/South West Rivers Analysis/Frequency Based Sim/West/Zvector.csv")
-Zscorevector$Individual <- as.character(Zscorevector$Individual)
-#Merge
-NHfinal<- base::merge(y=Nhdata3, x=Zscorevector, by="Individual", all=TRUE)
-NHfinal <- NHfinal[order(as.numeric(NHfinal$Individual)),]
+  #Zscorevector<-read.csv("/Users/brendanwringe/Desktop/DFO Aquaculture Interaction/South West Rivers Analysis/Frequency Based Sim/West/Zvector.csv")
+  Zscorevector$Individual <- as.character(Zscorevector$Individual)
+  #Merge
+  NHfinal<- base::merge(y=Nhdata3, x=Zscorevector, by="Individual", all=TRUE)
+  NHfinal <- NHfinal[order(as.numeric(NHfinal$Individual)),]
 
-#head(NHfinal)
+  #head(NHfinal)
 
-#Now make this an actual file readable by NewHybrids
-Loci <- do.call(paste,c(NHfinal[,], sep=" "))
-Loci<-gsub("NA"," ",x = Loci)
-Loci2<-c(addbackin,Loci)
-
-
-  NHdataZed <- gsub(x = i, pattern = ".txt", replacement = "_Zed.txt")
+  #Now make this an actual file readable by NewHybrids
+  Loci <- do.call(paste,c(NHfinal[,], sep=" "))
+  Loci<-gsub("NA"," ",x = Loci)
+  Loci2<-c(addbackin,Loci)
 
 
-write.table(Loci2, file = paste0(GetstheZdir, NHdataZed),col.names=FALSE,row.names=FALSE,quote=FALSE)
+    NHdataZed <- gsub(x = i, pattern = ".txt", replacement = "_Zed.txt")
+
+
+  write.table(Loci2, file = paste0(GetstheZdir, NHdataZed),col.names=FALSE,row.names=FALSE,quote=FALSE)
 
 
   } ## End of loop
