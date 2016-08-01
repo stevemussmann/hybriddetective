@@ -1,12 +1,3 @@
----
-title: "hybriddetective"
-output:
-  html_document:
-    theme: yeti
-    highlight: tango
----
-
-
 ***
 ###***hybriddetective*** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment. It can also rapidly create multi-generation simulated hybrid datasets.
 ***
