@@ -107,7 +107,8 @@ To create a panel consisting of the top 50 Loci from the example dataset *PurePo
 
 <a name = "freqbased"/>
 <h4 class="text-primary"> freqbasedsim.R</h4>
-TEXT TEXT TEXT  
+This function will simulate multigenerational hybrids based on the allele frequencies of the two reference populations provided. The reference populations must be provided as a single *GenePop* format text file, such as the file created by **getTopLoc**.  
+The function first creates Pure1 and Pure2 populations by drawing 2 alleles from each loci, per individual, based on the allele frequencies in the two reference populations. By so doing, the genotypes of the reference populations are centred, and linkage disequilibria or deviations from Hardy-Weinberg that may have been present in the sampled individuals are eliminated. Subsequently, each F1 individual is created by drawing 1 allele per loci from the Pure1 and 1 from the Pure2 based on their allele frequencies in their respective population. F2 indivduals are created by drawning 2 alleles per loci based on the allele frequencies in the F1. Backcross individuals are created by drawing 1 allele per loci based on the allele frequencies in the F1, and one from the appropriate Pure population.
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
@@ -129,7 +130,7 @@ freqbasedsim(GenePopData = "~/ ... /YourReferenceData.txt", sample.size = 200, N
 
 <a name = "freqbasedADV"/>
 <h4 class="text-primary"> freqbasedsim_Advanced.R</h4>
-TEXT TEXT TEXT  
+This function will simulate multigenerational hybrids based on the allele frequencies of the two reference populations provided in the same manner as **freqbasedsim**. The only difference is that **freqbasedsim_Advanced** allows users greater flexibility in specifying the number of individuals in each of the hybrid genotype frequency classes to be simulated.  
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
@@ -158,7 +159,8 @@ freqbasedsim_Advanced(GenePopData = , sample.sizePure = 100, sample.sizeF1 = 50,
 
 <a name = "freqbasedUB2"/>
 <h4 class="text-primary"> freqbasedsim_UB2.R</h4>
-TEXT TEXT TEXT  
+This function will simulate multigenerational hybrids in a more unbiased fashion than the other simulation functions. The function requires that two reference populations must be provided as a single *GenePop* format text file, such as the file created by **getTopLoc**.  
+The function first creates Pure1 and Pure2 individuals by drawing 2 alleles from each loci, without replacement from the two reference populations. By so doing, the genotypes of the reference populations are centred, and linkage disequilibria or deviations from Hardy-Weinberg that may have been present in the sampled individuals are eliminated. Subsequently, each F1 individual is created by drawing 1 allele per loci withouth replacement from the Pure1 individuals and 1 loci without replacement from the Pure2 individuals. F2 indivduals are created by drawning 2 alleles per loci without replacement from the F1 indivdiuals. Backcross individuals are created by drawing 1 allele per loci withouth replacement from the F1 individuals, and one without replacement from the appropriate Pure population individuals.
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
@@ -258,7 +260,8 @@ nh_subset(NHData = "~/ ... /yourdata.txt", loci = loci.names[1:50]) ## function 
 
 <a name = "zcore"/>
 <h4 class="text-primary">nh\_zcore.R</h4>
-TEXT TEXT TEXT  
+This function will insert a column of known genotype categories <- Zvec into a NewHybrids formatted file to provide NewHybrids with prior information on the known genotype frequencies in the hybrid genotype frequency categories.The function matches a vector of categories (Zvec) to individuals, then output a NH format file, with a name indicating that the category vector has been added. The user must provide the Zvec(s) to the function in the form of a two column .csv file. The vector of genotype categories NEED NOT be the same length as the NewHybrids file - thus, time can be saved. 
+NOTE Zvec file must have column names, and the first column must be named "Individual" and contain the names of individuals to which categories must be given that match those in the first column of the NewHybrids dataset. NOTE both multiapllyZvec and applyuniqueZvec cannot be used at the same time. 
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
@@ -365,6 +368,7 @@ nh_accuracy_checkR(NHResultsDir = "~/ ... /NH.Results/YourData_Results/", print.
 <h4 class="text-primary">hybridpower</h4>
 This function will extract data from *NewHybrids* runs and evaluate the correct assignment to a given hybrid classification (i.e. Pure1, Pure2, F1, F2, BC1, and BC2). From this data, hybrid power will generate summary plots which detail assignment success (among simulations and replicates) as a function of the classification threshold (minimum probability of assignment threshold required for an individual to be assigned a hybrid class, scaling from 0.50-1.00). Diagnostic plots are also provided which detail variation among simulations, as well as to which hybrid classes individuals are _missassigned_ to. Summary data and *ggplot* objects are saved to a .RData output automatically. Outputs from this function are saved to the folder "Figures and Data" which is generated within the directory (specified by *dir*) that contains the *NewHybrids* output folders.  
 <span style = "color:red"> <strong>NOTE:</strong></span> *hybridpower* assumes all simulations and associated replicates are produced from *NewHybrids* analyses conducted on the same number of loci. Use *hybridpowercomp* if the number of loci varies among simulations.  
+
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
 *dir*| File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located. 
