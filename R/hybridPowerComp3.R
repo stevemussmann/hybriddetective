@@ -539,7 +539,7 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                   ProbOutput <- NULL
                   for (s in unique(sim_means$nLoci)){
 
-                    lsub <- stats::filter(sim_means,nLoci == s)
+                    lsub <- filter(sim_means,nLoci == s)
 
                     for(i in unique(sim_means$sim)){
                       tempsub <- stats::filter(lsub,sim==i)
