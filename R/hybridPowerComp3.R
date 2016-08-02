@@ -240,8 +240,8 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
           if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot.jpg"), accuracy_lineplot, height = 10, width = 10)}else
             {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlotSD.jpg"),accuracy_lineplotSD, height = 10, width = 10)}
 
-          if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}else
-            {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}
+          # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}else
+          #   {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}
 
 
           accuracy_lineplot_ClassFacet_SD <-
@@ -262,8 +262,8 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
             if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot_ClassFacetSD.jpg"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
               {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacetSD.jpg"),accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
 
-            if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}else
-              {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}
+            # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}else
+            #   {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}
 
 
           accuracy_lineplot_ClassFacet <-
@@ -282,8 +282,8 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
           if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot_ClassFacet.jpg"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
             {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacet.jpg"),accuracy_lineplot_ClassFacet, height = 10, width = 10)}
 
-          if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}else
-            {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}
+          # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}else
+          #   {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}
 
           get.y.min.AccuracyThreshold <- min(dplyr::filter(SummaryAccuracy,pofz %in% Thresholds)$mean-dplyr::filter(SummaryAccuracy,pofz %in% Thresholds)$sd)
 
@@ -305,8 +305,8 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
           if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_ByThreshold_LinePlot_AllClass.jpg"), Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}else
             {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_ByThreshold_LinePlot_AllClass.jpg"),Accuracy_ByThreshold_LinePlot_AllClass, height = 10, width = 10)}
 
-          if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}else
-            {write.csv(testsum, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}
+          # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}else
+          #   {write.csv(testsum, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_AllClass.csv"), row.names = FALSE, quote = FALSE)}
 
 
           #ComboHybrids ------------
