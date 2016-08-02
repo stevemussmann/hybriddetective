@@ -346,7 +346,7 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
             {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_ByThreshold_LinePlot_PureHyb.jpg"),Accuracy_ByThreshold_LinePlot_PureHyb, height = 10, width = 10)}
 
           if(filetag!=""){write.csv(final.stats_pipe, paste0(dir,"Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}else
-            {write.csv(final.stats_pipe, paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}
+            {write.csv(dplyr::filter(ComboHybridAccuracy, pofz %in% Thresholds), paste0(dir,"Figures and Data/data/Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}
 
 
               ##################
