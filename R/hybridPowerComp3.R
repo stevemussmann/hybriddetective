@@ -542,7 +542,7 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                     lsub <- filter(sim_means,nLoci == s)
 
                     for(i in unique(sim_means$sim)){
-                      tempsub <- stats::filter(lsub,sim==i)
+                      tempsub <- filter(lsub,sim==i)
 
                       for(q in 50:99/100){ # probability of 50 - 99%
 
@@ -564,11 +564,11 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                   ProbOutput2 <- NULL
                   for (s in unique(sim_means$nLoci)){
 
-                    lsub <- stats::filter(sim_means,nLoci == s)
+                    lsub <- filter(sim_means,nLoci == s)
 
                     for(i in unique(sim_means$sim)){
 
-                      tempsub <- stats::filter(lsub,sim==i)
+                      tempsub <- filter(lsub,sim==i)
                       tempsub$phyb <- rowSums(tempsub[,c("F1","F2","BC1","BC2")])
 
                       for(q in 50:99/100){ # probability of 50 - 99%
