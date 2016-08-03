@@ -31,7 +31,7 @@ type2function <- function(x){
                          mclass_P2=x4[which(x4$Var1 == "Pure2"),"Freq"],
                          mclass_F1=x4[which(x4$Var1 == "F1"),"Freq"],
                          mclass_F2=x4[which(x4$Var1 == "F2"),"Freq"],
-                         mclass_BC1=x4[which(xp4$Var1 == "BC1"),"Freq"],
+                         mclass_BC1=x4[which(x4$Var1 == "BC1"),"Freq"],
                          mclass_BC2=x4[which(x4$Var1 == "BC2"),"Freq"])
     } else
     {xout <- data.frame(class=z,
