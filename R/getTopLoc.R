@@ -72,10 +72,10 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,FST.threshold = 0.05,alloc
 
   writeLines("Creating training and working datasets")
   ### subsample to get a training and simulated dataset
-  inds.sub <- genepopedit::genepop_sample(GenePop = GPD, nsample = 0.5)
+  inds.sub <- genepopedit::genepop_sample(genepop = GPD, nsample = 0.5)
 
-  genepopedit::subset_genepop_individual(GenePop = GPD, indiv = inds.sub, keep = TRUE, path = paste0(path.start, "/", "GPD_for_sim.txt"))
-  genepopedit::subset_genepop_individual(GenePop = GPD, indiv = inds.sub, keep = FALSE, path = paste0(path.start, "/", "GPD_for_GET_TOP_LOC.txt"))
+  genepopedit::subset_genepop_individual(genepop = GPD, indiv = inds.sub, keep = TRUE, path = paste0(path.start, "/", "GPD_for_sim.txt"))
+  genepopedit::subset_genepop_individual(genepop = GPD, indiv = inds.sub, keep = FALSE, path = paste0(path.start, "/", "GPD_for_GET_TOP_LOC.txt"))
 
   sim.path <- paste0(path.start, "/", "GPD_for_sim.txt")
   GPD.Top <- paste0(path.start, "/", "GPD_for_GET_TOP_LOC.txt")
@@ -95,7 +95,7 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,FST.threshold = 0.05,alloc
   subPOP <- as.character(subPOP)
 
   ## subset out the population in which LD is to be calculated - this will make a file, which will be deleted after
-  genepopedit::subset_genepop(GenePop = GPD.Top, sPop = subPOP, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
+  genepopedit::subset_genepop(genepop = GPD.Top, spop = subPOP, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
   ## remember path to the file created by subset_genepop
   sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
 
@@ -107,11 +107,11 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,FST.threshold = 0.05,alloc
 
     popLDsubsetDF <- data.frame(op=pops.exist, rename=c("Pop1", "Pop1")) ## make a both the same
 
-    genepopedit::subset_genepop_aggregate(GenePop = GPD.Top, agPopFrame = popLDsubsetDF, path = paste0(path.start, "/", "subset_for_LD.txt"))
+    genepopedit::subset_genepop_aggregate(genepop = GPD.Top, agpopframe = popLDsubsetDF, path = paste0(path.start, "/", "subset_for_LD.txt"))
     sub_data_path <- paste0(path.start, "/", "subset_for_LD.txt")
     ## now rename
 
-    genepopedit::subset_genepop_rename(GenePop = sub_data_path, path = sub_data_path, nameframe = popLDsubsetDF)
+    genepopedit::subset_genepop_rename(genepop = sub_data_path, path = sub_data_path, nameframe = popLDsubsetDF)
 
   }
 
@@ -230,7 +230,7 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,FST.threshold = 0.05,alloc
 
   FST.Filter.Vec <- as.character(FST.df[which(FST.df$FSTs >= FST.threshold), 1])
 
-  subset_genepop(GenePop = sub_data_path, subs = FST.Filter.Vec, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
+  genepopedit::subset_genepop(genepop = sub_data_path, subs = FST.Filter.Vec, keep = TRUE, path = paste0(path.start, "/", "subset_for_LD.txt"))
 
 
   writeLines("Calculating Linkage")
@@ -455,7 +455,7 @@ getTopLoc <- function(GPD, LDpop = "Pop1", panel.size,FST.threshold = 0.05,alloc
 
   outName <- paste0(GPD.path, outNameHold, "_", panel.size, "_Loci_Panel.txt")
 
- genepopedit::subset_genepop(GenePop = sim.path,
+ genepopedit::subset_genepop(genepop = sim.path,
                              subs = as.character(your.panel_unlinked$loci),
                              keep = TRUE, path = outName)
 
