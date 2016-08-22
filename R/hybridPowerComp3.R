@@ -21,24 +21,24 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
 
 
 
- # library(ggplot2)
- # library(magrittr)
- # library(dplyr)
- # library(stringr)
- # library(reshape2)
- # library(grid)
- # library(scales)
- # library(hybriddetective)
- #
- #
- #
- # dir = "~/Desktop/DFO Aquaculture Interaction/South West Rivers Analysis/South Coast - Proportional Sampling Analysis/NL South West Fixed Linkages NH/NH.Results/"
- #  filetag=""
- #  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
- #  addThresh=FALSE
- #  samplesize=NULL
- #  CT=0.1
- #  CTI=0.5
+ library(ggplot2)
+ library(magrittr)
+ library(dplyr)
+ library(stringr)
+ library(reshape2)
+ library(grid)
+ library(scales)
+ library(hybriddetective)
+
+
+
+ dir = "~/Desktop/DFO Aquaculture Interaction/South West Rivers Analysis/South Coast - Proportional Sampling Analysis/NL South West Fixed Linkages NH/NH.Results/"
+  filetag=""
+  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
+  addThresh=FALSE
+  samplesize=NULL
+  CT=0.1
+  CTI=0.5
 
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
@@ -888,7 +888,57 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                       }
 
 
-    #### CHECK HERE - this doesn't work yet  -- fix the plot names.
+                  ####################################
+                  ### CALCULATE OVERALL PERFORMANCE ##
+                  ####################################
+
+
+                    ### OVERALL PERFORMANCE = EFFICIENCY * ACCURACY
+
+                    ## Efficiency = ProbOutput
+                    ## Accuracy = AccuracyData
+
+                    head(ProbOutput)
+  nLoci sim level      prob class
+1    48  S1   0.5 0.9473684 Pure1
+2    48  S1   0.5 0.8461538 Pure2
+3    48  S1   0.5 0.7532468    F1
+4    48  S1   0.5 0.6493506    F2
+5    48  S1   0.5 0.7368421   BC1
+6    48  S1   0.5 0.6666667   BC2
+
+head(AccuracyData)
+  pofz nLoci max.class simulation     means
+1  0.5    48       BC1         S1 0.8484848
+2  0.5    48       BC1         S2 0.7297297
+3  0.5    48       BC1         S3 0.7009346
+4  0.5    48       BC2         S1 0.7878788
+5  0.5    48       BC2         S2 0.8275862
+6  0.5    48       BC2         S3 0.6052632
+
+
+performance_efficiency <- ProbOutput
+performance_accuracy <- AccuracyData
+
+
+performance_efficiency$class <- as.character(performance_efficiency$class)
+performance_efficiency$class[which(performance_efficiency$class =="Pure1")] = "P1"
+performance_efficiency$class[which(performance_efficiency$class =="Pure2")] = "P2"
+
+performance_accuracy$to.merge <- interaction(performance_accuracy$max.class, performance_accuracy$simulation, performance_accuracy$nLoci, performance_accuracy$pofz)
+performance_efficiency$to.merge <- interaction(performance_efficiency$class, performance_efficiency$sim, performance_efficiency$nLoci, performance_efficiency$level)
+
+
+performance_merge <- merge(x = performance_accuracy, y = performance_efficiency, by = "to.merge")
+
+performance_merge$performance <- performance_merge$means*performance_merge$prob
+
+
+ggplot(performance_merge, aes(y = performance))
+
+
+
+#### CHECK HERE - this doesn't work yet  -- fix the plot names.
         ## the plot names are:
 #     accuracy_boxplot
 # accuracy_lineplotSD

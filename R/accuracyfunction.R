@@ -6,13 +6,13 @@
 #'
 
 accuracyfunction <- function(x){
-  x=data.frame(ungroup(x))
-  x[which(as.character(x[, "known"]) == as.character(x[, "max.class"])),"domatch"]=TRUE
-  x$whichmax <- apply(x[,5:10],1,function(x){x[which.max(x)]})
-  x[which(as.numeric(x$whichmax) < as.numeric(x$pofz)),"isgood"]=FALSE
+  x = data.frame(ungroup(x))
+  x[which(as.character(x[, "known"]) == as.character(x[, "max.class"])), "domatch"] = TRUE
+  x$whichmax <- apply(x[, 5:10], 1, function(x){x[which.max(x)]})
+  x[which(as.numeric(x$whichmax) < as.numeric(x$pofz)), "isgood"] = FALSE
 
   ## filter to retain only instances where assignment matches known category, and the PofZ is greater than the critical
-  x1 <- x[x$isgood & x$domatch,]
+  x1 <- x[x$isgood & x$domatch, ]
   x1$known <- factor(x = x1$known, levels = c("P1", "P2", "F1", "F2", "BC1", "BC2")) ## change factor levels
 
   ## filter so the assignment is retained (above PofZ), no matter if it is correct (matches known) or not
@@ -31,6 +31,6 @@ accuracyfunction <- function(x){
 
   means <- apply(X = sumtable, MARGIN = 1, FUN = mean, na.rm = TRUE)/apply(X = sumtable2, MARGIN = 1, FUN = mean, na.rm = TRUE)
 
-  return(data.frame(simulation=as.character(rownames(sumtable)),means=means))
+  return(data.frame(simulation=as.character(rownames(sumtable)), means = means))
 
 }
