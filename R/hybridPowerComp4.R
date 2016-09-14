@@ -20,6 +20,28 @@
 hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5){
 
 
+
+ library(ggplot2)
+ library(magrittr)
+ library(dplyr)
+ library(stringr)
+ library(reshape2)
+ library(grid)
+ library(scales)
+ library(hybriddetective)
+
+
+
+ dir = "~/Desktop/DFO Aquaculture Interaction/South West Rivers Analysis/South Coast - Proportional Sampling Analysis/NL South West Fixed Linkages NH/NH.Results/"
+
+ dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed/"
+  filetag=""
+  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
+  addThresh=FALSE
+  samplesize=NULL
+  CT=0.1
+  CTI=0.5
+
   #set directory for which holds the New Hybrids output folders
   filedir <- dir
   lfiles <- setdiff(list.files(dir),c("Figures and Data", "NewHybrids Plots")) #ignores Figures folder in case this is run more than once and in case plots made
@@ -160,11 +182,11 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
               strip.text.x = element_text(colour = "black"), strip.text.y = element_text(colour = "black"))
 
           #Save plot and data
-          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyBoxPlot.pdf"), accuracy_boxplot, height = 10, width = 10)}else
-            {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyBoxPlot.pdf"), accuracy_boxplot, height = 10, width = 10)}
+          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_BoxPlot.pdf"), accuracy_boxplot, height = 10, width = 10)}else
+            {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_BoxPlot.pdf"), accuracy_boxplot, height = 10, width = 10)}
 
-          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyBoxPlot.jpg"), accuracy_boxplot, height = 10, width = 10)}else
-            {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyBoxPlot.jpg"),accuracy_boxplot,height = 10,width = 10)}
+          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_BoxPlot.jpg"), accuracy_boxplot, height = 10, width = 10)}else
+            {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_BoxPlot.jpg"),accuracy_boxplot,height = 10,width = 10)}
 
           if(filetag!=""){write.csv(AccuracyData, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyBoxPlotData.csv"), row.names = FALSE, quote = FALSE)}else
             {write.csv(AccuracyData, paste0(dir,"Figures and Data/data/AccuracyBoxPlotData.csv"), row.names = FALSE, quote = FALSE)}
@@ -179,7 +201,7 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
 
           get.y.min.AccuracyLine <- min((SummaryAccuracy$mean - SummaryAccuracy$sd), na.rm = TRUE)
 
-          ## line plot - accuracy with SD
+          ## line plot - accuracy with SD - Plots accuracy with facets for panel size, genotype frequency classes as colours
           accuracy_lineplotSD <-
             ggplot(SummaryAccuracy) +
             geom_line(aes(x = pofz, y = mean, colour = max.class), lwd = 1.25) +
@@ -193,16 +215,16 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
             ylim(get.y.min.AccuracyLine, 1)
 
             ##Save plot
-            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlotSD.pdf"), accuracy_lineplotSD, height = 10, width = 10)}else
-              {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlotSD.pdf"), accuracy_lineplotSD, height = 10, width = 10)}
+            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_LinePlotSD.pdf"), accuracy_lineplotSD, height = 10, width = 10)}else
+              {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_LinePlotSD.pdf"), accuracy_lineplotSD, height = 10, width = 10)}
 
-            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlotSD.jpg"), accuracy_lineplotSD, height = 10, width = 10)}else
-              {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlotSD.jpg"),accuracy_lineplotSD, height = 10, width = 10)}
+            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_LinePlotSD.jpg"), accuracy_lineplotSD, height = 10, width = 10)}else
+              {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_LinePlotSD.jpg"),accuracy_lineplotSD, height = 10, width = 10)}
 
             if(filetag!=""){write.csv(SummaryAccuracy, paste0(dir,"Figures and Data/data/", filetag,"_SummaryAccuracy.csv"), row.names = FALSE, quote = FALSE)}else
               {write.csv(SummaryAccuracy, paste0(dir,"Figures and Data/data/SummaryAccuracy.csv"), row.names = FALSE, quote = FALSE)}
 
-          ## line plot - accuracy no SD
+          ## line plot - accuracy no SD - Plots accuracy with facets for panel size, genotype frequency classes as colours
           accuracy_lineplot <-
             ggplot(SummaryAccuracy) +
             geom_line(aes(x = pofz, y = mean, colour = max.class), lwd = 1.25) +
@@ -214,16 +236,16 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
             ylim(get.y.min.AccuracyLine, 1)
 
 
-          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlot.pdf"), accuracy_lineplot, height = 10, width = 10)}else
-            {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlot.pdf"), accuracy_lineplot, height = 10, width = 10)}
+          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_LinePlot.pdf"), accuracy_lineplot, height = 10, width = 10)}else
+            {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_LinePlot.pdf"), accuracy_lineplot, height = 10, width = 10)}
 
-          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot.jpg"), accuracy_lineplot, height = 10, width = 10)}else
-            {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlotSD.jpg"),accuracy_lineplotSD, height = 10, width = 10)}
+          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_LinePlot.jpg"), accuracy_lineplot, height = 10, width = 10)}else
+            {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLine_PlotSD.jpg"),accuracy_lineplot, height = 10, width = 10)}
 
           # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}else
           #   {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlotData.csv"), row.names = FALSE, quote = FALSE)}
 
-
+          ## line plot - accuracy with SD - Plots accuracy with facets for genotype frequency class, panel sizes as colours
           accuracy_lineplot_ClassFacet_SD <-
             ggplot(SummaryAccuracy) +
             geom_line(aes(x = pofz, y = mean, colour = nLoci), lwd = 1.25) +
@@ -236,16 +258,17 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
             labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") +
             ylim(get.y.min.AccuracyLine, 1)
 
-            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlot_ClassFacetSD.pdf"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
-              {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlot_ClassFacetSD.pdf"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
+            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_LinePlot_ClassFacetSD.pdf"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
+              {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_LinePlot_ClassFacetSD.pdf"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
 
-            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot_ClassFacetSD.jpg"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
-              {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacetSD.jpg"),accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
+            if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_LinePlot_ClassFacetSD.jpg"), accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}else
+              {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_LinePlot_ClassFacetSD.jpg"),accuracy_lineplot_ClassFacet_SD, height = 10, width = 10)}
 
             # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}else
             #   {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetSDData.csv"), row.names = FALSE, quote = FALSE)}
 
 
+          ## line plot - accuracy no SD - Plots accuracy with facets for genotype frequency class, panel sizes as colours
           accuracy_lineplot_ClassFacet <-
             ggplot(SummaryAccuracy) +
             geom_line(aes(x = pofz, y = mean, colour = nLoci), lwd = 1.25) +
@@ -256,17 +279,18 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
             labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") +
             ylim(get.y.min.AccuracyLine, 1)
 
-          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_AccuracyLinePlot_ClassFacet.pdf"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
-            {ggsave(paste0(dir, "Figures and Data/pdf/AccuracyLinePlot_ClassFacet.pdf"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}
+          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_Accuracy_LinePlot_ClassFacet.pdf"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
+            {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_LinePlot_ClassFacet.pdf"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}
 
-          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_AccuracyLinePlot_ClassFacet.jpg"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
-            {ggsave(paste0(dir,"Figures and Data/jpg/AccuracyLinePlot_ClassFacet.jpg"),accuracy_lineplot_ClassFacet, height = 10, width = 10)}
+          if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_Accuracy_LinePlot_ClassFacet.jpg"), accuracy_lineplot_ClassFacet, height = 10, width = 10)}else
+            {ggsave(paste0(dir,"Figures and Data/jpg/Accuracy_LinePlot_ClassFacet.jpg"),accuracy_lineplot_ClassFacet, height = 10, width = 10)}
 
           # if(filetag!=""){write.csv(testsum, paste0(dir,"Figures and Data/data/", filetag,"_AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}else
           #   {write.csv(testsum, paste0(dir,"Figures and Data/data/AccuracyLinePlot_ClassFacetData.csv"), row.names = FALSE, quote = FALSE)}
 
           get.y.min.AccuracyThreshold <- min(dplyr::filter(SummaryAccuracy,pofz %in% Thresholds)$mean-dplyr::filter(SummaryAccuracy,pofz %in% Thresholds)$sd)
 
+          ## joined X-Y plot - accuracy with SD - Plots accuracy at critical PofZ values of 0.5, 0.6, 0.7, 0.8 and 0.9 as facets. Points are the accuracy at those thresholds for the panel sizes. Individually coloured lines are the genotype frequency classes
           Accuracy_ByThreshold_LinePlot_AllClass <-
             ggplot(dplyr::filter(SummaryAccuracy,pofz %in% Thresholds), aes(x=factor(nLoci),y=mean,col=max.class,group=max.class))+
             geom_point(size=2.5)+geom_path(lwd=0.9) +
@@ -374,11 +398,11 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                   legend.position = "none", strip.background = element_rect(colour = "black", fill = "white")) +
                 labs(x = "Critical PofZ Threshold", y = "Type I Error Proportion")
 
-              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_TypeIBoxPlot.pdf"), TypeI_BoxPlot, height = 10, width = 10)}else
-                {ggsave(paste0(dir, "Figures and Data/pdf/TypeIBoxPlot.pdf"), TypeI_BoxPlot, height = 10, width = 10)}
+              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_TypeI_BoxPlot.pdf"), TypeI_BoxPlot, height = 10, width = 10)}else
+                {ggsave(paste0(dir, "Figures and Data/pdf/TypeI_BoxPlot.pdf"), TypeI_BoxPlot, height = 10, width = 10)}
 
-              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_TypeIBoxPlot.jpg"), TypeI_BoxPlot, height = 10, width = 10)}else
-                {ggsave(paste0(dir,"Figures and Data/jpg/TypeIBoxPlot.jpg"), TypeI_BoxPlot, height = 10, width = 10)}
+              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_TypeI_BoxPlot.jpg"), TypeI_BoxPlot, height = 10, width = 10)}else
+                {ggsave(paste0(dir,"Figures and Data/jpg/TypeI_BoxPlot.jpg"), TypeI_BoxPlot, height = 10, width = 10)}
 
               if(filetag!=""){write.csv(TypeIout.PofZeds, paste0(dir,"Figures and Data/data/", filetag,"_TypeIBoxPlotData.csv"), row.names = FALSE, quote = FALSE)}else
                 {write.csv(TypeIout.PofZeds, paste0(dir,"Figures and Data/data/TypeIBoxPlotData.csv"), row.names = FALSE, quote = FALSE)}
@@ -408,11 +432,11 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                   legend.position = "none", strip.background = element_rect(colour = "black", fill = "white"),
                   text = element_text(colour = "black"))
 
-              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_TypeILinePlot.pdf"), typeI_lineplot, height = 10, width = 10)}else
-                {ggsave(paste0(dir, "Figures and Data/pdf/TypeILinePlot.pdf"), typeI_lineplot, height = 10, width = 10)}
+              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/", filetag, "_TypeI_LinePlot.pdf"), typeI_lineplot, height = 10, width = 10)}else
+                {ggsave(paste0(dir, "Figures and Data/pdf/TypeI_LinePlot.pdf"), typeI_lineplot, height = 10, width = 10)}
 
-              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_TypeILinePlot.jpg"), typeI_lineplot, height = 10, width = 10)}else
-                {ggsave(paste0(dir,"Figures and Data/jpg/TypeILinePlot.jpg"), typeI_lineplot, height = 10, width = 10)}
+              if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/", filetag, "_TypeI_LinePlot.jpg"), typeI_lineplot, height = 10, width = 10)}else
+                {ggsave(paste0(dir,"Figures and Data/jpg/TypeI_LinePlot.jpg"), typeI_lineplot, height = 10, width = 10)}
 
               if(filetag!=""){write.csv(testsum_TypeI, paste0(dir,"Figures and Data/data/", filetag,"_TypeILinePlotData.csv"), row.names = FALSE, quote = FALSE)}else
                 {write.csv(testsum_TypeI, paste0(dir,"Figures and Data/data/TypeILinePlotData.csv"), row.names = FALSE, quote = FALSE)}
@@ -667,14 +691,14 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                       labs(x="Critical PofZ Threshold",y=expression("Efficiency "%+-%"sd"),col="Panel Size (Loci)")+
                       ylim(0, 1)
 
-                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_Efficiency_AllClass_LinePlot_ClassFacet_NOthresh.pdf"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
-                      {ggsave(paste0(dir,"Figures and Data/pdf/Efficiency_AllClass_LinePlot_ClassFacet_NOthresh.pdf"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
+                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_Efficiency_AllClass_LinePlot_ClassFacet_NoThresh.pdf"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
+                      {ggsave(paste0(dir,"Figures and Data/pdf/Efficiency_AllClass_LinePlot_ClassFacet_NoThresh.pdf"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
 
-                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_Efficiency_AllClass_LinePlot_ClassFacet_NOthresh.jpg"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
-                      {ggsave(paste0(dir,"Figures and Data/jpg/Efficiency_AllClass_LinePlot_ClassFacet_NOthresh.jpg"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
+                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_Efficiency_AllClass_LinePlot_ClassFacet_NoThresh.jpg"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
+                      {ggsave(paste0(dir,"Figures and Data/jpg/Efficiency_AllClass_LinePlot_ClassFacet_NoThresh.jpg"), Efficiency_AllClass_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
 
-                    if(filetag!=""){write.csv(FinalData, paste0(dir,"Figures and Data/data/", filetag ,"_Efficiency_AllClass_LinePlot_ClassFacet_NOthreshData.csv"), row.names = FALSE)}else
-                      {write.csv(FinalData, paste0(dir,"Figures and Data/data/Efficiency_AllClass_LinePlot_ClassFacet_NOthreshData.csv"), row.names = FALSE)}
+                    if(filetag!=""){write.csv(FinalData, paste0(dir,"Figures and Data/data/", filetag ,"_Efficiency_AllClass_LinePlot_ClassFacet_NoThreshData.csv"), row.names = FALSE)}else
+                      {write.csv(FinalData, paste0(dir,"Figures and Data/data/Efficiency_AllClass_LinePlot_ClassFacet_NoThreshData.csv"), row.names = FALSE)}
 
                     }
 
@@ -719,14 +743,14 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                       labs(x="Critical PofZ Threshold",y=expression("Efficiency "%+-%"sd"),col="Panel Size (Loci)")+
                       ylim(0, 1)
 
-                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh.pdf"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
-                      {ggsave(paste0(dir,"Figures and Data/pdf/Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh.pdf"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
+                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_Efficiency_PureHyb_LinePlot_ClassFacet_NoThresh.pdf"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
+                      {ggsave(paste0(dir,"Figures and Data/pdf/Efficiency_PureHyb_LinePlot_ClassFacet_NoThresh.pdf"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
 
-                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh.jpg"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
-                      {ggsave(paste0(dir,"Figures and Data/jpg/Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh.jpg"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
+                    if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_Efficiency_PureHyb_LinePlot_ClassFacet_NoThresh.jpg"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)} else
+                      {ggsave(paste0(dir,"Figures and Data/jpg/Efficiency_PureHyb_LinePlot_ClassFacet_NoThresh.jpg"), Efficiency_PureHyb_LinePlot_ClassFacet_NOthresh, height = 8, width = 10)}
 
-                    if(filetag!=""){write.csv(FinalData2, paste0(dir,"Figures and Data/data/", filetag ,"_Efficiency_PureHyb_LinePlot_ClassFacet_NOthreshData.csv"), row.names = FALSE)}else
-                      {write.csv(FinalData2, paste0(dir,"Figures and Data/data/Efficiency_PureHyb_LinePlot_ClassFacet_NOthreshData.csv"), row.names = FALSE)}
+                    if(filetag!=""){write.csv(FinalData2, paste0(dir,"Figures and Data/data/", filetag ,"_Efficiency_PureHyb_LinePlot_ClassFacet_NoThreshData.csv"), row.names = FALSE)}else
+                      {write.csv(FinalData2, paste0(dir,"Figures and Data/data/Efficiency_PureHyb_LinePlot_ClassFacet_NoThreshData.csv"), row.names = FALSE)}
 
                     }
 
@@ -853,17 +877,17 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                       geom_line(aes(x=level,y=value-sd,col=variable),lty=2)+
                       facet_grid(~nLoci,scales="free_y")+
                       scale_color_brewer(palette = "Dark2")+
-                      theme(legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"))+
+                      theme(panel.background = element_rect(fille = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"), legend.position="bottom", strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black"))+
                       labs(x="Critical PofZ Threshold",y=paste0("Proportion ",i," misassigned \u00B1 sd"),col="Genotype Frequency Class") +
                         expand_limits(y = 0)
 
                       # temp.plot
 
-                      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_",i,"_TypeII_nloci.pdf"),temp.plot,height = 6,width = 8)} else
-                        {ggsave(paste0(dir,paste0("Figures and Data/pdf/",i,"_TypeII_nloci.pdf")),temp.plot,height = 6,width = 8)}
+                      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_",i,"_TypeII_LinePlot_nloci.pdf"),temp.plot,height = 6,width = 8)} else
+                        {ggsave(paste0(dir,paste0("Figures and Data/pdf/",i,"_TypeII_LinePlot_nloci.pdf")),temp.plot,height = 6,width = 8)}
 
-                      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_",i,"_TypeII_nloci.jpg"),temp.plot,height = 6,width = 8)} else
-                      {ggsave(paste0(dir,paste0("Figures and Data/jpg/",i,"_TypeII_nloci.jpg")),temp.plot,height = 6,width = 8)}
+                      if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_",i,"_TypeII_LinePlot_nloci.jpg"),temp.plot,height = 6,width = 8)} else
+                      {ggsave(paste0(dir,paste0("Figures and Data/jpg/",i,"_TypeII_LinePlot_nloci.jpg")),temp.plot,height = 6,width = 8)}
 
                       }
 
@@ -878,47 +902,86 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                     ## Efficiency = ProbOutput
                     ## Accuracy = AccuracyData
 
-                    head(ProbOutput)
-  nLoci sim level      prob class
-1    48  S1   0.5 0.9473684 Pure1
-2    48  S1   0.5 0.8461538 Pure2
-3    48  S1   0.5 0.7532468    F1
-4    48  S1   0.5 0.6493506    F2
-5    48  S1   0.5 0.7368421   BC1
-6    48  S1   0.5 0.6666667   BC2
 
-head(AccuracyData)
-  pofz nLoci max.class simulation     means
-1  0.5    48       BC1         S1 0.8484848
-2  0.5    48       BC1         S2 0.7297297
-3  0.5    48       BC1         S3 0.7009346
-4  0.5    48       BC2         S1 0.7878788
-5  0.5    48       BC2         S2 0.8275862
-6  0.5    48       BC2         S3 0.6052632
+                    performance_efficiency <- FinalData
+                    performance_accuracy <- SummaryAccuracy
 
 
-performance_efficiency <- ProbOutput
-performance_accuracy <- AccuracyData
+                    performance_efficiency$class <- as.character(performance_efficiency$class)
+                    performance_efficiency$class[which(performance_efficiency$class =="Pure1")] = "P1"
+                    performance_efficiency$class[which(performance_efficiency$class =="Pure2")] = "P2"
+
+                    performance_accuracy$to.merge <- interaction(performance_accuracy$max.class, performance_accuracy$nLoci, performance_accuracy$pofz)
+                    performance_efficiency$to.merge <- interaction(performance_efficiency$class, performance_efficiency$nLoci, performance_efficiency$level)
 
 
-performance_efficiency$class <- as.character(performance_efficiency$class)
-performance_efficiency$class[which(performance_efficiency$class =="Pure1")] = "P1"
-performance_efficiency$class[which(performance_efficiency$class =="Pure2")] = "P2"
+                    performance_merge <- merge(x = performance_accuracy, y = performance_efficiency, by = "to.merge")
 
-performance_accuracy$to.merge <- interaction(performance_accuracy$max.class, performance_accuracy$simulation, performance_accuracy$nLoci, performance_accuracy$pofz)
-performance_efficiency$to.merge <- interaction(performance_efficiency$class, performance_efficiency$sim, performance_efficiency$nLoci, performance_efficiency$level)
+                    performance_merge$performance <- performance_merge$mean*performance_merge$mprob
 
-
-performance_merge <- merge(x = performance_accuracy, y = performance_efficiency, by = "to.merge")
-
-performance_merge$performance <- performance_merge$means*performance_merge$prob
-
-
-ggplot(performance_merge, aes(y = performance))
+                    performance_merge$class <- factor(performance_merge$class, levels = c("P1", "P2", "F1", "F2", "BC1", "BC2"))
 
 
 
-#### CHECK HERE - this doesn't work yet  -- fix the plot names.
+                    performance_plot_AllClass <- ggplot(performance_merge) + geom_line(aes(y = performance, x = level, col = factor(nLoci.x)), lwd = 1.25) + facet_wrap(~class, nrow = 3, scales = "free_y") +
+                      scale_color_brewer(palette = "Dark2") +
+                       theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"),
+                                            panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black"))+
+                                          labs(x="Critical PofZ Threshold",y="Overall Performance",col="Panel Size (Loci)")+
+                                          ylim(0, 1)
+
+                  if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_Performance_LinePlot_AllClass.pdf"), performance_plot_AllClass, height = 8, width = 10)} else
+                    {ggsave(paste0(dir,"Figures and Data/pdf/Performance_LinePlot_AllClass.pdf"), performance_plot_AllClass, height = 8, width = 10)}
+
+                  if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_Performance_LinePlot_AllClass.jpg"), performance_plot_AllClass, height = 8, width = 10)} else
+                    {ggsave(paste0(dir,"Figures and Data/jpg/Performance_LinePlot_AllClass.jpg"), performance_plot_AllClass, height = 8, width = 10)}
+
+                  if(filetag!=""){write.csv(performance_merge, paste0(dir,"Figures and Data/data/", filetag ,"_performance_plot_AllClassData.csv"), row.names = FALSE)}else
+                  {write.csv(performance_merge, paste0(dir,"Figures and Data/data/performance_plot_AllClassData.csv"), row.names = FALSE)}
+
+
+                     performance_efficiency_Hyb <- FinalData2
+                     performance_accuracy_Hyb <- ComboHybridAccuracy
+
+
+                     performance_efficiency_Hyb$class <- as.character(performance_efficiency_Hyb$class)
+                    # performance_efficiency_Hyb$class[which(performance_efficiency_Hyb$class =="Pure1")] = "P1"
+                    # performance_efficiency_Hyb$class[which(performance_efficiency_Hyb$class =="Pure2")] = "P2"
+
+                    performance_accuracy_Hyb$to.merge <- interaction(performance_accuracy_Hyb$class, performance_accuracy_Hyb$nLoci, performance_accuracy_Hyb$pofz)
+                    performance_efficiency_Hyb$to.merge <- interaction(performance_efficiency_Hyb$class, performance_efficiency_Hyb$nLoci, performance_efficiency_Hyb$level)
+
+
+                    performance_merge_Hyb <- merge(x = performance_accuracy_Hyb, y = performance_efficiency_Hyb, by = "to.merge")
+
+                    performance_merge_Hyb$performance <- performance_merge_Hyb$mprob.x*performance_merge_Hyb$mprob.y
+
+                    performance_merge_Hyb$class <- factor(performance_merge_Hyb$class.x, levels = c("Pure1", "Pure2", "Hybrid"))
+
+
+                    performance_plot_PureHyb <- ggplot(performance_merge_Hyb) + geom_line(aes(y = performance, x = level, col = factor(nLoci.x)), lwd = 1.25) + facet_wrap(~class, nrow = 3, scales = "free_y") +
+                      scale_color_brewer(palette = "Dark2") +
+                       theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"),
+                                            panel.grid.major = element_line(colour = "grey90"),legend.position="bottom",strip.background = element_rect(fill="white",colour = "black"), text = element_text(colour = "black"))+
+                                          labs(x="Critical PofZ Threshold",y="Overall Performance",col="Panel Size (Loci)")+
+                                          ylim(0, 1)
+
+
+                     if(filetag!=""){ggsave(paste0(dir,"Figures and Data/pdf/",filetag,"_Performance_LinePlot_PureHyb.pdf"), performance_plot_PureHyb, height = 8, width = 10)} else
+                    {ggsave(paste0(dir,"Figures and Data/pdf/Performance_LinePlot_PureHyb.pdf"), performance_plot_PureHyb, height = 8, width = 10)}
+
+                  if(filetag!=""){ggsave(paste0(dir,"Figures and Data/jpg/",filetag,"_Performance_LinePlot_PureHyb.jpg"), performance_plot_PureHyb, height = 8, width = 10)} else
+                    {ggsave(paste0(dir,"Figures and Data/jpg/Performance_LinePlot_PureHyb.jpg"), performance_plot_PureHyb, height = 8, width = 10)}
+
+                  if(filetag!=""){write.csv(performance_merge_Hyb, paste0(dir,"Figures and Data/data/", filetag ,"_performance_plot_PureHyb.csv"), row.names = FALSE)}else
+                  {write.csv(performance_merge_Hyb, paste0(dir,"Figures and Data/data/performance_plot_PureHyb.csv"), row.names = FALSE)}
+
+
+
+
+
+
+                     #### CHECK HERE - this doesn't work yet  -- fix the plot names.
         ## the plot names are:
 #     accuracy_boxplot
 # accuracy_lineplotSD
