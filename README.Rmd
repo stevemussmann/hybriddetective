@@ -1,16 +1,16 @@
 ***
-###***hybriddetective*** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment. It can also rapidly create multi-generation simulated hybrid datasets.
+###***hybriddetective*** is an R package designed to streamline, and where possible automate, the detection of hybrids by moving the entire process into the R environment. This includes the development and testing of diagnostic panels of markers including measures of their accuracy and efficiency and the creation of multi-generation simulated hybrid datasets.
 ***
 
 
 ### Preamble  
 **hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** and **genepopedit**, to bring the entire hybrid detection workflow into the R environment.  
 
-By using **hybriddetective**, together with the packages **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis starting with genotypic data through to identification of hybrid individuals, with quantifiable levels of certainty of assignment. These packages facilitate the manipulation of genotype files, the identification of panels of unlinked markers based on the highest loci-specific Fst, the simulation of multi-generation hybrids and subsequent quantification of the efficacy and accuracy of panels to identify hybrids, and the determination of hybrid category of experimental data.  
+By using **hybriddetective**, together with the packages **parallelnewhybrid** and **genepopedit** the user is able to complete the entire hybrid detection analysis starting with genotypic/genomic data through to identification of hybrid individuals, with quantifiable levels of certainty of assignment. These packages facilitate the manipulation of genotype files, the development of panels of markers not in linkage disequilibrium that have the highest loci-specific Fst, the simulation of multi-generation hybrids and subsequent quantification of the efficacy and accuracy (Vaha and Primmer 2006) of panels to identify hybrids, and the determination of hybrid category of experimental data.  
     
 In addition, **hybriddetective** includes plotting functionality to generate both exploratory and publishable figures.  
     
-**hybriddetective** and **parrallelnewhybrid** were designed primarily to work with the Bayesian model-based genetic hybrid detection programme *NewHybrids* (Anderson and Thompson 2002). However by using the format interconversion tools provided in **hybriddetective** and **genepopedit**, users are able to analyze simulated and experimental datasets in other programmes such as *STRUCTURE*.  
+**hybriddetective** and **parrallelnewhybrid** were designed primarily to work with the Bayesian model-based genetic hybrid detection programme *NewHybrids* (Anderson and Thompson 2002). However by using the format interconversion tools provided in **hybriddetective** and **genepopedit**, users are able to analyze simulated and experimental datasets in other programmes such as *STRUCTURE* (Pritchard et al. 2000).  
 
 ***
 
@@ -405,6 +405,22 @@ This function will replicate the analysis of *hybridpower* but will partition th
 *CT*| The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.   
 *CTI*| The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5. 
 
+Plots Created
+
+**Plot Name** | **Plot Description**
+------------|---------------------------------------------------------------  
+*Accuracy_ByThreshold_LinePlot_AllClass*| NULL
+*Accuracy_ByThreshold_LinePlot_PureHyb*| NULL
+*Accuracy_BoxPlot*| NULL
+*Accuracy_LinePlot_ClassFacet*| NULL
+*Accuracy_LinePlot_ClassFacetSD*| NULL
+*Efficiency_ByThreshold_LinePlot_AllClass*| NULL
+*Efficiency_ByThreshold_LinePlot_PureHyb*| NULL
+*E*| NULL
+*E*| NULL
+*E*| NULL
+*E*| NULL
+
 ####Usage
 
 ```r
@@ -442,5 +458,7 @@ nh_panel_delta_plotR(GPD = "~/ ... /NH.Results/", return.workspace = TRUE, save.
 
 Anderson, E.C. 2010. Assessing the power of informative subsets of loci for population assignment: standard methods are upwardly biased. Molecular Ecology Resources. 10(4): 701-710.  
 
+Pritchard, J.K., Stephens, M., and Donnelly, P. 2000. Inference of population structure using multilocus genotype data. Genetics 155(2): 945-959.
 
+Vaha, J.P. and Primmer, C.R. 2006. Efficiency of model-based Bayesian methods for detecting hybrid individuals under different hybridization scenarios and with different numbers of loci. Molecular Ecology. 15(1): 63-72
 
