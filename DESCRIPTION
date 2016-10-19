@@ -18,5 +18,7 @@ Imports:
     tidyr,
     stringr,
     ggplot2,
-    reshape2
+    reshape2,
+    genepopedit,
+    parallelnewhybrid
 RoxygenNote: 5.0.1
