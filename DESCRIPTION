@@ -18,8 +18,5 @@ Imports:
     tidyr,
     stringr,
     ggplot2,
-    reshape2,
-    genepopedit,
-    parallelnewhybrid
-Remotes: github::rystanley/genepopedit, github::bwringe/parallelnewhybrid
+    reshape2
 RoxygenNote: 5.0.1
