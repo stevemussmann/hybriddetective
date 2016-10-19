@@ -12,21 +12,21 @@ nh_analysis_simulateR_generateR(ReferencePopsData, UnknownIndvs,
 \arguments{
 \item{ReferencePopsData}{A file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed}
 
-\item{outputName}{outputName An optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format}
+\item{outputName}{outputName A character vector to be applied as the name of the output.}
 
 \item{pop.groups}{Optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB}
 
-\item{sample.size}{An integer number of simulated individuals to be created for each of the six hybrid classes (e.g. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals); default is 200}
+\item{sample.size}{an integer number of simulated individuals to be created for each of the six hybrid classes (viz. Pure1, Pure2, F1, F2, BC1, BC2). The default is 200 (viz. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals)}
 
-\item{NumSims}{An integer number of simulated datasets to be created; default is 1}
+\item{NumSims}{an integer number of simulated datasets to be created. The default is 1}
 
-\item{NumReps}{An integer number of replicates to be created for each of the n simulated datasets specified in NumSims; default is 1}
+\item{NumReps}{integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1}
 
 \item{cats.include}{Optional character vector list denoting which hybrid categories should be included in the output; default is all categories.}
 
 \item{UnknownIndivs}{A dataframe of genotypes of unknown/experimental individuals to be analyzed for hybrid category generated using the function *genepop_flatten* from the package *genepopedit*. Individuals or loci can be subsetted from this flattened data set if desired, or manipulations can conducted before flattening using the appropriate functions from *genepopedit*. Note - the number of loci in ReferencePopsData must equal the number in UnkownIndivs}
 }
 \description{
-\code{nh_analysis_data_generateR} Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.
+\code{nh_analysis_data_generateR} Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file. The simulation function is the same as in freqbasedsim
 }
 

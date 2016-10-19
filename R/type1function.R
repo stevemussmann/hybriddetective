@@ -40,7 +40,7 @@ type1function <- function(x){
   temp.hold.matrix[2, ] <- 0
 
   match.cols.bad <- which(colnames(good.temp)%in%colnames(bad.temp))
-  match.cols.good <- which(colnames(good.temp)%in%unique(y$sim))
+  match.cols.good <- which(colnames(good.temp)%in%unique(x$sim))
 
   bad.table.dims <- dim(bad.temp)[2]
 

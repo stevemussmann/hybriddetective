@@ -14,6 +14,6 @@ preCheckR(PreDir, propCutOff = 0.5, PofZCutOff = 0.1)
 \item{PofZCutOff}{The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.}
 }
 \description{
-\code{preCheckR} detects cases where the NewHybrids MCMC chains fail to converge, and warns the user that the identified analyses should be repeated. When NewHybrids fails to converge, it is generally visible in cumulative probability plots (see nh_plotR) and identifiable in the PofZ file as an excess of F2 posterior probability. This function checks that the proportion of known Pure Population 1 or Pure Population 2 individuals assigned at least a
+\code{preCheckR} detects cases where the NewHybrids MCMC chains fail to converge, and warns the user that the identified analyses should be repeated. When NewHybrids fails to converge, it is generally visible in cumulative probability plots (see nh_multiplotR) and identifiable in the PofZ file as an excess of F2 posterior probability. This function checks that the proportion of known Pure Population 1 or Pure Population 2 individuals assigned at least a
 }
 

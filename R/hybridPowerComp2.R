@@ -17,26 +17,26 @@
 #' @importFrom  scales alpha
 #' @export
 
+# #
+#  library(ggplot2)
+#  library(magrittr)
+#  library(dplyr)
+#  library(stringr)
+#  library(reshape2)
+#  library(grid)
+#  library(scales)
+#  library(hybriddetective)
 #
-  # library(ggplot2)
-  # library(magrittr)
-  # library(dplyr)
-  # library(stringr)
-  # library(reshape2)
-  # library(grid)
-  # library(scales)
-  # library(hybriddetective)
- #
- #
- #
- # dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed//"
- #  filetag=""
- #  Thresholds=c(0.5,0.6,0.7,0.8,0.9)
- #  addThresh=FALSE
- #  samplesize=NULL
- #  CT=0.1
- #  CTI=0.5
-
+#
+#
+#  dir = "~/Desktop/DFO Aquaculture Interaction/Nova Scotia hybrid Analysis/Nova Scotia Analysis and R integration testing/NSTop48-1000-WithZed/"
+#   filetag=""
+#   Thresholds=c(0.5,0.6,0.7,0.8,0.9)
+#   addThresh=FALSE
+#   samplesize=NULL
+#   CT=0.1
+#   CTI=0.5
+#
 
 
 hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),addThresh=FALSE,samplesize=NULL,CT=0.1,CTI=0.5){
@@ -99,13 +99,14 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
               #Filter for convervence issues. Based on the 'convergence filter (CT) and % of indviduals permited to fail (CTI)
               #Here we look at the "pure 1 and 2 populations for
                 if(length(which(tempfile[1:samplesize[1],"F2"]>CT))/length(1:samplesize[1])>CTI &
-                        length(which(tempfile[(samplesize[1]+1):samplesize[2],"F2"]>CT))/length((samplesize[1]+1):samplesize[2])>CTI){
 
-                      tempfile[,5:length(tempfile)]=NA #replace data with NAs
-                      print(paste("Possible non-convergence detected in", pzfile))
-                      arethereproblems = "Yes"}
+                    length(which(tempfile[(samplesize[1]+1):samplesize[2],"F2"]>CT))/length((samplesize[1]+1):samplesize[2])>CTI){
 
-              output <- rbind(output,tempfile)
+                    tempfile[,5:length(tempfile)]=NA #replace data with NAs
+                    print(paste("Possible non-convergence detected in", pzfile))
+                    arethereproblems = "Yes"}
+
+                    output <- rbind(output,tempfile)
 
           }#end of for loop
 
@@ -155,11 +156,11 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
   temp2 <- temp
   final.stats.1 <- NULL
   for(l in 50:99/100){
+
     # i = 0.75
     setTxtProgressBar(stat1_check_progress, l) ## call progress bar
     temp2$isgood <- "YES" ## set all isgood to "YES" - default is correct <- will switch to "NO" if PofZ value < critical value
     temp2$domatch <- "NO" ## set all domatch to "NO" -  default is incorrect <- will swith to "YES" if they match
-
 
     ### Check if the assignment matches the known class, and if the PofZ value for the assignment is greater than threshold
     for(m in 1:nrow(temp2)){
@@ -257,7 +258,7 @@ hybridPowerComp2 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
         final.stats.pofzeds <- final.stats.2[pofzeds, ]
 
         ## plot boxplot of accuracy at PofZ =0.5, 0.75 and 0.9
-       accuracy_boxplot <- ggplot(final.stats.pofzeds, aes(x = known, y = means, fill = known)) + geom_boxplot() + facet_grid(PofZ~nloci) + labs(x = "Genotype Frequency Class", y = "Proportion of Assignments Correct") +
+       accuracy_boxplot <- ggplot2::ggplot(final.stats.pofzeds, aes(x = known, y = means, fill = known)) + geom_boxplot() + facet_grid(PofZ~nloci) + labs(x = "Genotype Frequency Class", y = "Proportion of Assignments Correct") +
            scale_fill_brewer(palette = "Dark2") +
            theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"), legend.position = "none", strip.background = element_rect(, colour = "black", fill = "white"), strip.text.x = element_text(colour = "black"), strip.text.y = element_text(colour = "black"))
 

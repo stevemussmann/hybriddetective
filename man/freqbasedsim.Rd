@@ -10,17 +10,15 @@ freqbasedsim(GenePopData, pop.groups = c("PopA", "PopB"), outputName = NULL,
 \arguments{
 \item{GenePopData}{file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed}
 
-\item{pop.groups}{Optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB}
+\item{pop.groups}{Optional character vector denoting how the two ancestral populations should be named. default is "PopA" and "PopB"}
 
-\item{outputName}{an optioanal character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format}
+\item{outputName}{an optioanal character vector to be applied as the name of the output file(s). The default is NULL, in which case the output name is constructed from the name of the input file, with the suffix _SiRj_NH added. Where i is the number of simulations specified by NumSims, and j is the replicate number of the ith simulation, where j can take the values of 1:NumReps. NH refers to the fact that the output is in NewHybrids format}
 
-\item{sample.size}{an integer number of simulated individuals to be created for each of the six hybrid classes
-(e.g. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals); default is 200}
+\item{sample.size}{an integer number of simulated individuals to be created for each of the six hybrid classes (viz. Pure1, Pure2, F1, F2, BC1, BC2). The default is 200 (viz. 200 * each of Pure1, Pure2, F1, F2, BC1 and BC2 = 1200 total simulated individuals)}
 
-\item{NumSims}{an integer number of simulated datasets to be created; default is 1}
+\item{NumSims}{an integer number of simulated datasets to be created. The default is 1}
 
-\item{NumReps}{an integer number of replicates to be created for each of the n simulated datasets specified
-in NumSims; default is 1}
+\item{NumReps}{an integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1}
 }
 \description{
 \code{freqbasedsim} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the

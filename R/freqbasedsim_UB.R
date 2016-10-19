@@ -1,11 +1,11 @@
 #' @name freqbasedsim_UB
-#' @title Simulate Multi-Generational Hybrids Unbiased(?)
+#' @title Simulate Multi-Generational Hybrids - Proportional Sampling
 #'
 #' @description \code{freqbasedsim} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the
-#'  genotype frequencies of two ancestral populations provided
-#' @param NumSims an integer number of simulated datasets to be created; default is 1
-#' @param NumReps an integer number of replicates to be created for each of the n simulated datasets specified in NumSims; default is 1
-#' @param prop.sample The proportion of individuals in both ancestral PopA and PopB to sample to create the simulated hybrids (Pure1, Pure2, F1, F2, BC1, and BC2)
+#'  genotype frequencies of two ancestral populations provided. Centred Pure1 and Pure2 created by sampling a proportion of indivduals that comprise the known reference samples.
+#' @param NumSims an integer number of simulated datasets to be created. The default is 1
+#' @param NumReps an integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1
+#' @param prop.sample The proportion of individuals in both ancestral PopA and PopB to sample to create the simulated, centred Pure1 and Pure2. The default is 0.9
 #' @param sample.sizePure1  An optional integer to specify the number of simulated Pure1 individuals (centred ancestral PopA) to be output when the desired number is less than the number of individuals in Ancestral Population 1 * prop.sample. The default is NULL, where the number output = number of individuals in Ancestral Population 1 * prop.sample. If a number greater than number of individuals in Ancestral Population 1 * prop.sample is requested, the number of individuals in Ancestral Population 1 * prop.sample are output.
 #' @param sample.sizePure2 An optional integer to specify the number of specify the number of simulated Pure2 individuals (centred ancestral PopB) to be output when the desired number is less than the number of individuals in Ancestral Population 2 * prop.sample. The default is NULL, where the number output = number of individuals in Ancestral Population 2 * prop.sample. If a number greater than number of individuals in Ancestral Population 2 * prop.sample is requested, the number of individuals in Ancestral Population 2 * prop.sample are output.
 #' @param sample.sizeF1 An optional integer to specify the number of simulated F1 individuals to be output when the desired number of simulated F1 individuals is less than (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample. The default is NULL where the number returned = (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample. Unless sample.sizeF1 is explicitly stated, even when sample.sizePure1 and sample.sizePure2 are specified, the number of simulated F1 individuals returned will be equal to (number of individuals in Ancestral PopA + number of individuals in Ancestral PopB) * prop.sample.
@@ -14,10 +14,10 @@
 #' @param sample.sizeBC2 An optional integer to specify the number of simulated BC2 (PopB X F1) individuals to be output when the desired number of simulated BC2 individuals is less than the number of individuals in Ancestral PopB * prop.sample. The default is NULL where the number returned = number of individuals in Ancestral PopB * prop.sample. Unless sample.sizeBC2 is explicitly stated, even when sample.sizePure2 and sample.sizeF1 are specified, the number of simulated BC2 individuals returned will be equal to number of individuals in Ancestral PopB * prop.sample.
 #' @param outputName an optional character vector to be applied as the name of the output. The default is NULL, in which case the output name is constructed from the name of the input, with the suffix _SiRj_NH added where i is the number of simulations corresponding to the output, and j is the number of replicates of the ith simulation. NH refers to the fact that the output is in NewHybrids format
 #' @param GenePopData file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed
-#' @param pop.groups Optional character vector denoting how the two ancestral populations should be named; default is PopA and PopB
+#' @param pop.groups Optional character vector denoting how the two ancestral populations should be named. The default is "PopA" and "PopB"
 #' @export
-#' @import stringr
-#' @import plyr
+#' @importFrom stringr str_split str_extract str_extract_all str_detect
+#' @importFrom tidyr separate
 
 freqbasedsim_UB <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, prop.sample = 0.9, sample.sizePure1 = NULL, sample.sizePure2 = NULL, sample.sizeF1 = NULL, sample.sizeF2 = NULL, sample.sizeBC1 = NULL, sample.sizeBC2 = NULL){
 

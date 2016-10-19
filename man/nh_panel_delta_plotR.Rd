@@ -8,7 +8,7 @@ nh_panel_delta_plotR(GPD, return.workspace, save.plot = FALSE,
   plot.filetype = "png")
 }
 \arguments{
-\item{GPD}{Filepath to the directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NH) note that this directory should only hold the output folders.}
+\item{GPD}{Filepath to the directory which holds the output from different runs through New Hybrids (e.g. 3 simulations with 3 replicate runs each through NewHybrids) note that this directory should only hold the output folders.}
 
 \item{return.workspace}{A logical query of whether the ggplot2 object should be returned to the workspace for further editing or formatting. Can take values of "TRUE" or "FALSE". NOTE: if return.workspace = TRUE, the user must assign a variable to the function (i.e. mydata <- nh_ind_panel_delta(...))}
 
@@ -17,6 +17,6 @@ nh_panel_delta_plotR(GPD, return.workspace, save.plot = FALSE,
 \item{plot.filetype}{If save.plot = TRUE, plot.filetype specifies the filetype to save the plot as. The default is "png", with the option of "pdf".}
 }
 \description{
-Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
+Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets of different panel sizes. The code will write optionally write graphical results to the directory provided by the user.
 }
 
