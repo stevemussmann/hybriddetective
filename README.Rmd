@@ -54,6 +54,55 @@ devtools::install_github("bwringe/hybriddetective") #package
 
 ***
 
+***  
+###Example datasets:
+Example datasets have been provided as R images (.rda files). These can be loaded into your workspace using the ``data()`` function  
+
+**Example dataset** | **Contents**  
+------------|---------------------------------------------------------------  
+*PurePops* | A *GENEPOP* format file containing SNP genotypes of 150 individuals in each of two populations at 100 loci. To use this example data it must first be saved with the extension ".txt" to an empty folder on your hard drive.
+*PurePops_Zeds* | A data frame of known genotype category assignments (Zeds) and the indviduals to which to match them in the *NewHybrids* format files created in the examples. Refer to Anderson 2002 and the function *nh_zcore* for more information.
+
+```r
+
+### PREPARATION OF EXAMPLE DATA
+
+## Get the file path to the working directory, will be used to allow a universal example
+path.hold <- getwd()
+
+## Get the genotype file included along with the hybriddetective package and make it an object
+sim_PurePops <- hbyriddetective::PurePops
+
+## Get the Zeds data file included along with the hybriddetective package and make it an object
+sim_Zeds <- hybriddetective::PurePops_Zeds
+
+## Save the genotype data to the working directory as a file called "SimPurePops.txt"
+write.table(x = sim_PurePops, file = paste0(path.hold, "/SimPurePops.txt"), row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+## Save the Zeds data to the working directory as a file called "SimZeds.txt"
+write.table(x = sim_Zeds, file = paste0(path.hold, "/SimZeds.txt"), row.names = FALSE, col.names = TRUE, quote = FALSE)
+
+## Create an empty folder within the working directory. This will be the directory for all examples.
+dir.create(paste0(path.hold, "/hybriddetective example"))
+
+## Copy the genotype file to the new folder
+file.copy(from = paste0(path.hold, "/SimPurePops.txt"), to = paste0(path.hold, "/hybriddetective example"))
+
+## Copy the Zeds data file to the new folder
+file.copy(from = paste0(path.hold, "/SimZeds.txt"), to = paste0(path.hold, "/hybriddtective example"))
+
+
+## Clean up the working directory by deleting the two files
+file.remove(paste0(path.hold, "/SimPurePops.txt"))
+
+file.remove(paste0(path.hold, "/SimZeds.txt"))
+
+## NOTE: You must recall the file path to the hybriddetective example folder you created to use in the examples below!!!
+
+your.path = paste0(path.hold, "/hybriddetective example/")
+
+```
+
 ### **hybriddetective** Contributors
 
 * Brendan Wringe <https://github.com/bwringe>; bwringe(at)gmail.com; Corresponding author  
@@ -92,15 +141,34 @@ This function is designed to produce panels of the *n* unlinked loci with the hi
 *GPD*| A file path to the GENEPOP format file you wish to create your panel from
 *LDpop*| A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
 *panel.size*| An integer number of loci to include in the panel
+*FST.threshold*| The minimum Fst threshold required to retain a locus. This value is used where there are a large number of relatively uninformative (i.e. low Fst) loci to improve the speed of the function.
+*r2.threshold*| The minimum r^2 threshold to consider a pair of loci to be in linkage disequilibrium.
+*ld.window*| Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which essentially allows for all pairwise comparisons.
+*allocate.PGD.RAM*| An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses. Note: This option cannot be changed on Windows (refer to PGDSpider help file for more information)
 *where.PLINK*| A file path to the PLINK installation folder
 *where.PGDspider*| A file path to the PGDspider installation folder
 
 
 ####Usage
 
-To create a panel consisting of the top 50 Loci from the example dataset *PurePops* (Note:)
+To create a panel consisting of the top 50 Loci from the example dataset *PurePops* (Note: There are only 100 loci total in the example data, so the requested panel size may not exceed 100)
 ```r
-## 
+## There is no need with the example dataset to alter any function parameters apart from providing the required file paths and the desired panel size
+
+## recall the filpath to the hybriddetective example folder
+path.hold <- getwd()
+your_example_data_path = paste0(path.hold, "/hybriddetective example/SimPurePops.txt")
+
+### assume PGDSpider and PLINK are both installed in a folder called "software"
+your_plink_path = "~/ ... /software/PLINK Folder/"
+your_pgdspider_path = "~/ ... /software/PGDSpider Folder/"
+
+getTopLoc(GPD = your_example_data_path, panel.size = 50, where.PLINK = your_plink_path, where.PGDspider = your_pgdspider_path)
+
+### This will create a file containing the 50 loci with the greatest Fst values, that are not in LD above an r^2 of 0.2. 
+
+### Note: The file "SimPurePops_50_Loci_Panel.txt" is the file to be used for the simulations
+
 ```
 
 ***
@@ -122,6 +190,10 @@ The function first creates Pure1 and Pure2 populations by drawing 2 alleles from
 ####Usage
 ```r
 ### Create a simulated dataset comprised of 200 individuals in each of the six genotype frequency classes (i.e. Pure1, Pure2, F1, F2, BC1 and BC2)
+### Use the output from getTopLoc
+
+### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
+  ## if you going throug the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
 
 freqbasedsim(GenePopData = "~/ ... /YourReferenceData.txt", sample.size = 200, NumSims = 3, NumReps = 3)
 ```
@@ -150,7 +222,10 @@ This function will simulate multigenerational hybrids based on the allele freque
 
 ### Suppose you expect that the majority of individuals in will be pure, with the numbers of Pure > F1 > F2 >= BC
 
-freqbasedsim_Advanced(GenePopData = , sample.sizePure = 100, sample.sizeF1 = 50, sample.sizeF2 = 10, sample.sizeBC = 10, NumSims = 3, NumReps = 3)
+### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
+  ## if you going throug the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
+
+freqbasedsim_Advanced(GenePopData = "~/ ... /YourReferenceData.txt", sample.sizePure = 100, sample.sizeF1 = 50, sample.sizeF2 = 10, sample.sizeBC = 10, NumSims = 3, NumReps = 3)
 
 ## This will create three independent simulations, each replicated three times.
 ```
@@ -181,6 +256,9 @@ The function first creates Pure1 and Pure2 individuals by drawing 2 alleles from
 ```r
 ## This function is designed to be more unbiased than the other simulation functions. This is accomplished by sampling, without replacement, only a proportion (specified by prop.sample) of the individuals provided (Anderson 2010). 
 
+### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
+  ## if you going throug the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
+
 freqbasedsim_UB2(GPD = "~/ ... /YourReferenceData.txt")
 ```
 
@@ -207,6 +285,9 @@ This function quickly creates files to be used to detect hybridization within ex
 ```r
 ### This function will create simulated reference data using the algorithm from "freqbasedsim" based on the genotypes of two reference populations provided by the user, and then combines these with unknown/experimental data
 
+### NOTE: "TwoReferencePops.txt" data to be simulated and "GenotypesOfUnknownInds.txt" are genotypes of unknown/experimental individuals at the same loci
+  ## if you going throug the package example,"SimPurePops_50_Loci_Panel.txt" can be used for both "GenotypesOfUnknownInds.txt" and "TwoReferencePops.txt"
+
 nh_analysis_data_generateR(ReferencePopsData = "~/ ... /TwoReferencePops.txt", UnknownIndvs = "~/ ... /GenotypesOfUnknownInds.txt", sample.size = 50, NumSims = 3, NumReps = 3) ### create reference populations comprised of 50 individuals. Make 3 independent simulations, and 3 replicates of each.
 ```
 
@@ -226,7 +307,11 @@ This function combines pre-simulated datasets with experimental/unknown data. Bo
 ####Usage
 
 ```r
-### This function will combine pre-create simulated reference with unknown/experimental data. 
+### This function will combine pre-created simulated reference with unknown/experimental data. 
+
+## Note "PreSimulatedData.txt" is the results of any of the multi-generational simulation functions, and "GenotypesOfUnknownInds.txt" are genotypes of unknown/experimental individuals at the same loci
+  ## if you going throug the package example,"SimPurePops_50_Loci_Panel.txt" can be used for "GenotypesOfUnknownInds.txt" and the results of any of the multi-generational simulation functions
+can be used for "PreSimulatedData.txt"
 
 nh_analysis_GenerateR(ReferencePopsData = "~/ ... /PreSimulatedData.txt", UnknownIndivs = "~/ ... /GenotypesOfUnknownInds.txt")
 ```
