@@ -12,9 +12,9 @@ nh_analysis_generateR(ReferencePopsData, UnknownIndivs,
 
 \item{UnknownIndivs}{A file path to a file containing the genotypes of the individuals to be analyzed for possible hybrid ancestry. This can either be a genepop format file, or a NewHybrids format file. Note - the number of loci and the names of the loci in ReferencePopsData and UnknownIndivs must be the same}
 
-\item{sim.pops.include}{Optional character vector list denoting which hybrid categories from the simulatedd data should be included in the output. The default is Pure Population 1 and Pure Population 2.}
+\item{sim.pops.include}{Optional character vector list denoting which hybrid categories from the simulated data should be included in the output. The default is Pure Population 1 and Pure Population 2.}
 
-\item{outputName}{A character vector to be applied as the name of the output.}
+\item{output.name}{A character vector to be applied as the name of the output.}
 }
 \description{
 \code{nh_analysis_GenerateR} Merges simulated genotypes with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file.
