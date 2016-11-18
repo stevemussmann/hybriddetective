@@ -71,7 +71,7 @@ Example datasets have been provided as R images (.rda files). These can be loade
 path.hold <- getwd()
 
 ## Get the genotype file included along with the hybriddetective package and make it an object
-sim_PurePops <- hbyriddetective::PurePops
+sim_PurePops <- hybriddetective::PurePops
 
 ## Get the Zeds data file included along with the hybriddetective package and make it an object
 sim_Zeds <- hybriddetective::PurePops_Zeds
@@ -155,7 +155,7 @@ To create a panel consisting of the top 50 Loci from the example dataset *PurePo
 ```r
 ## There is no need with the example dataset to alter any function parameters apart from providing the required file paths and the desired panel size
 
-## recall the filpath to the hybriddetective example folder
+## recall the filepath to the hybriddetective example folder
 path.hold <- getwd()
 your_example_data_path = paste0(path.hold, "/hybriddetective example/SimPurePops.txt")
 
@@ -193,7 +193,7 @@ The function first creates Pure1 and Pure2 populations by drawing 2 alleles from
 ### Use the output from getTopLoc
 
 ### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
-  ## if you going throug the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
+  ## if you going through the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
 
 freqbasedsim(GenePopData = "~/ ... /YourReferenceData.txt", sample.size = 200, NumSims = 3, NumReps = 3)
 ```
@@ -223,7 +223,7 @@ This function will simulate multigenerational hybrids based on the allele freque
 ### Suppose you expect that the majority of individuals in will be pure, with the numbers of Pure > F1 > F2 >= BC
 
 ### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
-  ## if you going throug the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
+  ## if you going through the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
 
 freqbasedsim_Advanced(GenePopData = "~/ ... /YourReferenceData.txt", sample.sizePure = 100, sample.sizeF1 = 50, sample.sizeF2 = 10, sample.sizeBC = 10, NumSims = 3, NumReps = 3)
 
@@ -257,7 +257,7 @@ The function first creates Pure1 and Pure2 individuals by drawing 2 alleles from
 ## This function is designed to be more unbiased than the other simulation functions. This is accomplished by sampling, without replacement, only a proportion (specified by prop.sample) of the individuals provided (Anderson 2010). 
 
 ### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
-  ## if you going throug the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
+  ## if you going through the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
 
 freqbasedsim_UB2(GPD = "~/ ... /YourReferenceData.txt")
 ```
@@ -286,7 +286,7 @@ This function quickly creates files to be used to detect hybridization within ex
 ### This function will create simulated reference data using the algorithm from "freqbasedsim" based on the genotypes of two reference populations provided by the user, and then combines these with unknown/experimental data
 
 ### NOTE: "TwoReferencePops.txt" data to be simulated and "GenotypesOfUnknownInds.txt" are genotypes of unknown/experimental individuals at the same loci
-  ## if you going throug the package example,"SimPurePops_50_Loci_Panel.txt" can be used for both "GenotypesOfUnknownInds.txt" and "TwoReferencePops.txt"
+  ## if you going through the package example,"SimPurePops_50_Loci_Panel.txt" can be used for both "GenotypesOfUnknownInds.txt" and "TwoReferencePops.txt"
 
 nh_analysis_data_generateR(ReferencePopsData = "~/ ... /TwoReferencePops.txt", UnknownIndvs = "~/ ... /GenotypesOfUnknownInds.txt", sample.size = 50, NumSims = 3, NumReps = 3) ### create reference populations comprised of 50 individuals. Make 3 independent simulations, and 3 replicates of each.
 ```
@@ -310,8 +310,7 @@ This function combines pre-simulated datasets with experimental/unknown data. Bo
 ### This function will combine pre-created simulated reference with unknown/experimental data. 
 
 ## Note "PreSimulatedData.txt" is the results of any of the multi-generational simulation functions, and "GenotypesOfUnknownInds.txt" are genotypes of unknown/experimental individuals at the same loci
-  ## if you going throug the package example,"SimPurePops_50_Loci_Panel.txt" can be used for "GenotypesOfUnknownInds.txt" and the results of any of the multi-generational simulation functions
-can be used for "PreSimulatedData.txt"
+  ## if you going through the package example,"SimPurePops_50_Loci_Panel.txt" can be used for "GenotypesOfUnknownInds.txt" and the results of any of the multi-generational simulation functions can be used for "PreSimulatedData.txt"
 
 nh_analysis_GenerateR(ReferencePopsData = "~/ ... /PreSimulatedData.txt", UnknownIndivs = "~/ ... /GenotypesOfUnknownInds.txt")
 ```
