@@ -878,23 +878,23 @@ hybridPowerComp3 <-function(dir,filetag="",Thresholds=c(0.5,0.6,0.7,0.8,0.9),add
                     ## Efficiency = ProbOutput
                     ## Accuracy = AccuracyData
 
-                    head(ProbOutput)
-  nLoci sim level      prob class
-1    48  S1   0.5 0.9473684 Pure1
-2    48  S1   0.5 0.8461538 Pure2
-3    48  S1   0.5 0.7532468    F1
-4    48  S1   0.5 0.6493506    F2
-5    48  S1   0.5 0.7368421   BC1
-6    48  S1   0.5 0.6666667   BC2
-
-head(AccuracyData)
-  pofz nLoci max.class simulation     means
-1  0.5    48       BC1         S1 0.8484848
-2  0.5    48       BC1         S2 0.7297297
-3  0.5    48       BC1         S3 0.7009346
-4  0.5    48       BC2         S1 0.7878788
-5  0.5    48       BC2         S2 0.8275862
-6  0.5    48       BC2         S3 0.6052632
+#                     head(ProbOutput)
+#   nLoci sim level      prob class
+# 1    48  S1   0.5 0.9473684 Pure1
+# 2    48  S1   0.5 0.8461538 Pure2
+# 3    48  S1   0.5 0.7532468    F1
+# 4    48  S1   0.5 0.6493506    F2
+# 5    48  S1   0.5 0.7368421   BC1
+# 6    48  S1   0.5 0.6666667   BC2
+#
+# head(AccuracyData)
+#   pofz nLoci max.class simulation     means
+# 1  0.5    48       BC1         S1 0.8484848
+# 2  0.5    48       BC1         S2 0.7297297
+# 3  0.5    48       BC1         S3 0.7009346
+# 4  0.5    48       BC2         S1 0.7878788
+# 5  0.5    48       BC2         S2 0.8275862
+# 6  0.5    48       BC2         S3 0.6052632
 
 
 performance_efficiency <- ProbOutput
