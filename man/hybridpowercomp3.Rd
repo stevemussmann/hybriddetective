@@ -2,12 +2,13 @@
 % Please edit documentation in R/hybridPowerComp3.R, R/hybridPowerComp4.R
 \name{hybridPowerComp3}
 \alias{hybridPowerComp3}
+\alias{hybridPowerComp4}
 \title{Assignment power comparison among different SNP subsets using NewHybrids simulated datasets3.}
 \usage{
 hybridPowerComp3(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
   addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5)
 
-hybridPowerComp3(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
+hybridPowerComp4(dir, filetag = "", Thresholds = c(0.5, 0.6, 0.7, 0.8, 0.9),
   addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5)
 }
 \arguments{
