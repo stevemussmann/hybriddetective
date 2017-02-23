@@ -23,16 +23,16 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
   header.sim <- sim.file[1,] ## if it is genepop, it will have a single entry in the first position
 
   if(str_detect(string = header.sim, pattern = "NumIndivs")==FALSE){
-    cats <- genepopedit::genepop_detective(GenePop = ReferencePopsData) ### get the names of the populations -- not sure if strictly needed - ask Ryan if can use numeric pop ID
+    cats <- genepopedit::genepop_detective(genepop = ReferencePopsData) ### get the names of the populations -- not sure if strictly needed - ask Ryan if can use numeric pop ID
     writeLines("GENEPOP format detected for SIMULATED DATA. Assuming hybrid category order = Pure 1, Pure 2, F1, F2, Back Cross to Pure 1, Back Cross to Pure 2") ### warn that assuming this order
 
     pop.no.convert <- c("Pure1", "Pure2", "F1", "F2", "BC1", "BC2") ### make a dataframe that matches up to the order of hybrid categories assumed
 
     inds.get <- which(pop.no.convert %in% sim.pops.include) ### numeric value of which pops assumed match those requested
 
-    genepopedit::subset_genepop(GenePop = ReferencePopsData, keep = TRUE, sPop = inds.get, path = paste0(path.start, "/", "sim.subset.txt")) ## subset
+    genepopedit::subset_genepop(genepop = ReferencePopsData, keep = TRUE, sPop = inds.get, path = paste0(path.start, "/", "sim.subset.txt")) ## subset
 
-    sim.inds.include <- genepopedit::genepop_flatten(GenePop = paste0(path.start, "/", "sim.subset.txt")) ### read back in and flatten
+    sim.inds.include <- genepopedit::genepop_flatten(genepop = paste0(path.start, "/", "sim.subset.txt")) ### read back in and flatten
     sim.inds.include <- sim.inds.include[,-c(2,3)]
     file.remove(paste0(path.start, "/", "sim.subset.txt"))  ### remove the file that was made by subset_genepop
     sim.inds.include.vector <- sim.inds.include[,1] ### get a vector of individual IDs
@@ -96,13 +96,13 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
 
   header.unknown <- unknown.file[1,]
   if(stringr::str_detect(string = header.unknown, pattern = "NumIndivs")==FALSE){ ### if a GenePop format file then will have a single entry in the first row
-    unknown.indivs.exist <- genepopedit::genepop_detective(GenePop = UnknownIndivs, variable = "Inds") ## get a list of individuals
-    pops.exist <- genepopedit::genepop_detective(GenePop = UnknownIndivs) ##
+    unknown.indivs.exist <- genepopedit::genepop_detective(genepop = UnknownIndivs, variable = "Inds") ## get a list of individuals
+    pops.exist <- genepopedit::genepop_detective(genepop = UnknownIndivs) ##
     ag.frame <- data.frame(Exits=pops.exist, ag.to = rep("Pop1", times = length(pops.exist)))
 
-    genepopedit::subset_genepop_aggregate(GenePop = UnknownIndivs, keep = TRUE, agPopFrame = ag.frame, path = paste0(path.start, "/", "unknown.agged.txt"))
+    genepopedit::subset_genepop_aggregate(genepop = UnknownIndivs, keep = TRUE, agPopFrame = ag.frame, path = paste0(path.start, "/", "unknown.agged.txt"))
 
-    unknown.flattened <- genepopedit::genepop_flatten(GenePop = paste0(path.start, "/", "unknown.agged.txt"))
+    unknown.flattened <- genepopedit::genepop_flatten(genepop = paste0(path.start, "/", "unknown.agged.txt"))
     unknown.flattened <- unknown.flattened[,-c(2,3)]
     unknown.inds.include <- unknown.flattened
     unknown.Loci <- colnames(unknown.flattened)

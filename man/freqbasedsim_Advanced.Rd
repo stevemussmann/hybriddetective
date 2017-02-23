@@ -11,9 +11,9 @@ freqbasedsim_Advanced(GenePopData, pop.groups = c("PopA", "PopB"),
 \arguments{
 \item{GenePopData}{file path to a GenePop formatted file containing genotypes from two (2) ancestral populations. This is the data from which the simulated hybrids will be constructed}
 
-\item{pop.groups}{Optional character vector denoting how the two ancestral populations should be named. The default is "PopA" and "PopB"}
+\item{pop.groups}{Optional character vector denoting how the individuals in the two ancestral populations should be named. The default is "PopA" and "PopB"}
 
-\item{outputName}{an optioanal character vector to be applied as the name of the output file(s). The default is NULL, in which case the output name is constructed from the name of the input file, with the suffix _SiRj_NH added. Where i is the number of simulations specified by NumSims, and j is the replicate number of the ith simulation, where j can take the values of 1:NumReps. NH refers to the fact that the output is in NewHybrids format}
+\item{outputName}{an optional character vector to be applied as the name of the output file(s). The default is NULL, in which case the output name is constructed from the name of the input file, with the suffix _SiRj_NH added. Where i is the number of simulations specified by NumSims, and j is the replicate number of the ith simulation, where j can take the values of 1:NumReps. NH refers to the fact that the output is in NewHybrids format}
 
 \item{NumSims}{an integer number of simulated datasets to be created. The default is 1}
 
