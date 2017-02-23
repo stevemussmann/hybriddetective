@@ -1,4 +1,4 @@
-#' @name hybridPowerComp3
+#' @name hybridPowerComp4
 #' @title Assignment power comparison among different SNP subsets using NewHybrids simulated datasets3.
 #' @description Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (PofZ). The code will write graphical and numerical results to the directory provided by the user.
 #' @param dir File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
@@ -7,7 +7,7 @@
 #' @param samplesize The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt.
 #' @param CT The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.
 #' @param CTI The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.
-#' @rdname hybridpowercomp3
+#' @rdname hybridpowercomp4
 #' @import ggplot2
 #' @import magrittr
 #' @importFrom dplyr filter summarise ungroup group_by do
@@ -17,7 +17,7 @@
 #' @importFrom  scales alpha
 #' @export
 #'
-hybridPowerComp3 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.9), addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5){
+hybridPowerComp4 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.9), addThresh = FALSE, samplesize = NULL, CT = 0.1, CTI = 0.5){
 
 
 
@@ -933,7 +933,7 @@ hybridPowerComp3 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.
                       geom_line(aes(x = level, y = value - sd, col = variable), lty = 2) +
                       facet_grid(~nLoci, scales = "free_y") +
                       scale_color_brewer(palette = "Dark2") +
-                      theme(panel.background = element_rect(fille = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+                      theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
                         legend.position="bottom", strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                       labs(x = "Critical PofZ Threshold", y = paste0("Proportion ", i," misassigned \u00B1 sd"), col="Genotype Frequency Class") +
                       expand_limits(y = 0)
