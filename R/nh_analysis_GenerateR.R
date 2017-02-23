@@ -30,7 +30,7 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
 
     inds.get <- which(pop.no.convert %in% sim.pops.include) ### numeric value of which pops assumed match those requested
 
-    genepopedit::subset_genepop(genepop = ReferencePopsData, keep = TRUE, sPop = inds.get, path = paste0(path.start, "/", "sim.subset.txt")) ## subset
+    genepopedit::subset_genepop(genepop = ReferencePopsData, keep = TRUE, spop = inds.get, path = paste0(path.start, "/", "sim.subset.txt")) ## subset
 
     sim.inds.include <- genepopedit::genepop_flatten(genepop = paste0(path.start, "/", "sim.subset.txt")) ### read back in and flatten
     sim.inds.include <- sim.inds.include[,-c(2,3)]
@@ -100,7 +100,7 @@ nh_analysis_generateR <- function(ReferencePopsData, UnknownIndivs, sim.pops.inc
     pops.exist <- genepopedit::genepop_detective(genepop = UnknownIndivs) ##
     ag.frame <- data.frame(Exits=pops.exist, ag.to = rep("Pop1", times = length(pops.exist)))
 
-    genepopedit::subset_genepop_aggregate(genepop = UnknownIndivs, keep = TRUE, agPopFrame = ag.frame, path = paste0(path.start, "/", "unknown.agged.txt"))
+    genepopedit::subset_genepop_aggregate(genepop = UnknownIndivs, keep = TRUE, agpopframe = ag.frame, path = paste0(path.start, "/", "unknown.agged.txt"))
 
     unknown.flattened <- genepopedit::genepop_flatten(genepop = paste0(path.start, "/", "unknown.agged.txt"))
     unknown.flattened <- unknown.flattened[,-c(2,3)]
