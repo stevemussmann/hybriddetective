@@ -31,6 +31,6 @@ accuracyfunction <- function(x){
 
   means <- apply(X = sumtable, MARGIN = 1, FUN = mean, na.rm = TRUE)/apply(X = sumtable2, MARGIN = 1, FUN = mean, na.rm = TRUE)
 
-  return(data.frame(simulation=as.character(rownames(sumtable)), means = means))
+  return(data.frame(simulation=as.character(rownames(sumtable)), means = means,stringsAsFactors = F))
 
 }
