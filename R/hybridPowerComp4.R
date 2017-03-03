@@ -71,7 +71,7 @@ hybridPowerComp4 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.
               numLociWorking <- as.numeric(gsub(x = numLociWorking, pattern = " loci", replacement = "")) ### This is how many loci there are
 
               #identify the simulation and repeat info
-              S_ident <- gsub("_", "", str_extract(pzfile, paste0("_S", "[:digit:]{1}", "R", "[:digit:]{1}", "_"))) ### if used hybriddetective, will have S#_R# - exctract
+              S_ident <- gsub("_", "", stringr::str_extract(pzfile, paste0("_S", "[:digit:]{1}", "R", "[:digit:]{1}", "_"))) ### if used hybriddetective, will have S#_R# - exctract
               tempfile$sim <- substring(S_ident, 1, 2)
               tempfile$rep <- substring(S_ident, 3, 4)
               tempfile$nLoci <- numLociWorking
@@ -354,6 +354,46 @@ hybridPowerComp4 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.
 
           if(filetag != ""){write.csv(final.stats_pipe, paste0(dir, "Figures and Data/data/", filetag,"_Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}else
             {write.csv(dplyr::filter(ComboHybridAccuracy, pofz %in% Thresholds), paste0(dir, "Figures and Data/data/Accuracy_ByThreshold_LinePlot_PureHyb.csv"), row.names = FALSE, quote = FALSE)}
+
+
+          ## grouped accuracy lineplot
+
+          ## line plot - accuracy no SD - Plots accuracy with facets for genotype frequency class, panel sizes as colours
+          accuracy_lineplot_GroupFacet <-
+            ggplot(ComboHybridAccuracy) +
+            geom_line(aes(x = pofz, y = mprob, colour = nLoci), lwd = 1.25) +
+            facet_wrap(~class, nrow = 3) +
+            theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+                  legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
+            scale_color_brewer(palette = "Dark2") +
+            labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") +
+            ylim(get.y.min.AccuracyLine, 1)
+
+          if(filetag != ""){ggsave(paste0(dir, "Figures and Data/pdf/", filetag, "_Accuracy_LinePlot_GroupFacet.pdf"), accuracy_lineplot_GroupFacet, height = 10, width = 10)}else
+          {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_LinePlot_GroupFacet.pdf"), accuracy_lineplot_GroupFacet, height = 10, width = 10)}
+
+          if(filetag != ""){ggsave(paste0(dir, "Figures and Data/jpg/", filetag, "_Accuracy_LinePlot_GroupFacet.jpg"), accuracy_lineplot_GroupFacet, height = 10, width = 10)}else
+          {ggsave(paste0(dir, "Figures and Data/jpg/Accuracy_LinePlot_GroupFacet.jpg"), accuracy_lineplot_GroupFacet, height = 10, width = 10)}
+
+
+          ## line plot - accuracy + SD - Plots accuracy with facets for genotype frequency class, panel sizes as colours
+          accuracy_lineplot_GroupFacet_SD <-
+            ggplot(ComboHybridAccuracy) +
+            geom_line(aes(x = pofz, y = mprob, colour = nLoci), lwd = 1.25) +
+            geom_line(aes(y = mprob - sdprob, x = pofz, colour = nLoci), linetype = 2) +
+            geom_line(aes(y = mprob + sdprob, x = pofz, colour = nLoci), linetype = 2) +
+            facet_wrap(~class, nrow = 3) +
+            theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
+                  legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
+            scale_color_brewer(palette = "Dark2") +
+            labs(x = "Critical PofZ Threshold", y = expression("Proportion of Assignments Correct "%+-%"sd"), col="Panel Size (Loci)") +
+            ylim(get.y.min.AccuracyLine, 1)
+
+          if(filetag != ""){ggsave(paste0(dir, "Figures and Data/pdf/", filetag, "_Accuracy_LinePlot_GroupFacetSD.pdf"), accuracy_lineplot_GroupFacet_SD, height = 10, width = 10)}else
+          {ggsave(paste0(dir, "Figures and Data/pdf/Accuracy_LinePlot_GroupFacetSD.pdf"), accuracy_lineplot_GroupFacet_SD, height = 10, width = 10)}
+
+          if(filetag != ""){ggsave(paste0(dir, "Figures and Data/jpg/", filetag, "_Accuracy_LinePlot_GroupFacetSD.jpg"), accuracy_lineplot_GroupFacet_SD, height = 10, width = 10)}else
+          {ggsave(paste0(dir, "Figures and Data/jpg/Accuracy_LinePlot_GroupFacetSD.jpg"), accuracy_lineplot_GroupFacet_SD, height = 10, width = 10)}
 
 
               ##################
