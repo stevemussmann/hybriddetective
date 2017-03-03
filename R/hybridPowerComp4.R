@@ -362,7 +362,7 @@ hybridPowerComp4 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.
           accuracy_lineplot_GroupFacet <-
             ggplot(ComboHybridAccuracy) +
             geom_line(aes(x = pofz, y = mprob, colour = nLoci), lwd = 1.25) +
-            facet_wrap(~class, nrow = 3) +
+            facet_wrap(~class, ncol = 3) +
             theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
                   legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
             scale_color_brewer(palette = "Dark2") +
@@ -382,7 +382,7 @@ hybridPowerComp4 <-function(dir, filetag = "", Thresholds = c(0.5,0.6,0.7,0.8,0.
             geom_line(aes(x = pofz, y = mprob, colour = nLoci), lwd = 1.25) +
             geom_line(aes(y = mprob - sdprob, x = pofz, colour = nLoci), linetype = 2) +
             geom_line(aes(y = mprob + sdprob, x = pofz, colour = nLoci), linetype = 2) +
-            facet_wrap(~class, nrow = 3) +
+            facet_wrap(~class, ncol = 3) +
             theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
                   legend.position="bottom", strip.background = element_rect(colour = "black", fill = "white")) +
             scale_color_brewer(palette = "Dark2") +
