@@ -4,6 +4,7 @@
 #' @param dir File path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
 #' @param save_output A logical indicating whether the plots and plotting data should be saved to the hard drive. The default is TRUE
 #' @param return_workspace A logical indicating whether the plots and plotting data should be returned to the workspace as a list object. The default is FALSE
+#' @param Thresholds A vector of critical posterior probability thresholds by which to facet plots. The default is c(0.5,0.6,0.7,0.8,0.9)
 #' @param samplesize The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt.
 #' @param CT The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.
 #' @param CTI The proportion of individuals in either Pure Population 1 OR Pure Population 2 allowed to exceed the F2 assignment threshold (PofZCutOff). The default is 0.5.
@@ -237,7 +238,7 @@ stop("You have asked me to not return any results. If you're not going to look a
           AccuracyData2$class[AccuracyData2$class == "P2"] = "Pure2"
 
           SummaryAccuracy2 <- AccuracyData2%>%
-                            dplyr::group_by(pofz,nLoci,max.class)%>%
+                            dplyr::group_by(pofz,nLoci,class)%>%
                             dplyr::summarise(mean=mean(means,na.rm=T),
                             sd=sd(means,na.rm=T))%>%
                             dplyr::ungroup()%>%data.frame()
@@ -814,9 +815,9 @@ stop("You have asked me to not return any results. If you're not going to look a
                       # Accuracy Lineplot - by pure classes and all hybrids, faceted by panel size
                       Plot_10 <-
                         ggplot2::ggplot(SummaryAccuracy2) +
-                          geom_line(aes(x = pofz, y = mean, colour = max.class), lwd = 1.25) +
-                          geom_line(aes(y = mean+sd, x = pofz, colour = max.class), linetype = 2) +
-                          geom_line(aes(y = mean-sd, x = pofz, colour = max.class), linetype = 2) +
+                          geom_line(aes(x = pofz, y = mean, colour = class), lwd = 1.25) +
+                          geom_line(aes(y = mean+sd, x = pofz, colour = class), linetype = 2) +
+                          geom_line(aes(y = mean-sd, x = pofz, colour = class), linetype = 2) +
                           facet_wrap(~nLoci, ncol = 3) +
                           theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"), panel.grid.major = element_line(colour = "grey90"),
                             legend.position="bottom", legend.key = element_blank(),
@@ -1205,7 +1206,7 @@ HybridPower_Plots <- list(Plot_1, Plot_2, Plot_3, Plot_4, Plot_5, Plot_6, Plot_7
                 Plot_9_Data <- data.frame(x = Plot_9_Data$level, y = Plot_9_Data$meanPower, sd.upper = (Plot_9_Data$meanPower + Plot_9_Data$sdPower), sd.lower = (Plot_9_Data$meanPower - Plot_9_Data$sdPower), colour = Plot_9_Data$class, facet = as.factor(Plot_9_Data$nLoci))
 
                 Plot_10_Data <- SummaryAccuracy2
-                Plot_10_Data <- data.frame(x = Plot_10_Data$pofz, y = Plot_10_Data$mean, sd.upper = (Plot_10_Data$mean + Plot_10_Data$sd), sd.lower = (Plot_10_Data$mean - Plot_10_Data$sd), colour = Plot_10_Data$max.class, facet = as.factor(Plot_10_Data$nLoci))
+                Plot_10_Data <- data.frame(x = Plot_10_Data$pofz, y = Plot_10_Data$mean, sd.upper = (Plot_10_Data$mean + Plot_10_Data$sd), sd.lower = (Plot_10_Data$mean - Plot_10_Data$sd), colour = Plot_10_Data$class, facet = as.factor(Plot_10_Data$nLoci))
 
                 Plot_11_Data <- FinalData2
                 Plot_11_Data <- data.frame(x = Plot_11_Data$level, y = Plot_11_Data$mprob, sd.upper = (Plot_11_Data$mprob + Plot_11_Data$sdprob), sd.lower = (Plot_11_Data$mprob - Plot_11_Data$sdprob), colour = Plot_11_Data$class, facet = as.factor(Plot_11_Data$nLoci))
