@@ -14,4 +14,3 @@ nh_plotR(NHResults, ColourVector = 1)
 \description{
 \code{nh_plotR} plots the cumulative probabilities of assignment for each individual
 }
-

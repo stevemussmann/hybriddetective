@@ -29,4 +29,3 @@ nh_analysis_simulateR_generateR(ReferencePopsData, UnknownIndvs,
 \description{
 \code{nh_analysis_data_generateR} Quickly creates simulated reference populations from user provided data, and merges these with the genotypes of unknown/experimental individuals, producing a file to be analyzed by NewHybrids. Will also output a dataframe containing the names of the individuals (including those that were simulated) in the NewHybrids formatted file. The simulation function is the same as in freqbasedsim
 }
-

@@ -12,4 +12,3 @@ nh_multiplotR(NHResults)
 \description{
 \code{nh_plotR} plots the cumulative probabilities of assignment for each individual for multiple NewHybrids results
 }
-

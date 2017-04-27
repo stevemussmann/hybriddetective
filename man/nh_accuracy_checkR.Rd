@@ -16,4 +16,3 @@ nh_accuracy_checkR(NHResultsDir, print.results = TRUE, all.hyb = FALSE)
 \description{
 \code{nh_accuracy_checkR} calcultes the accuracy with which NewHybrids assigns (simulated) individuals to their known genotype frequency category. That is, what proportion of all individuals that are known to belong to a given category were classified as belonging to that category by NH. The proportion correct will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired
 }
-

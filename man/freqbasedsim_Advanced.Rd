@@ -30,4 +30,3 @@ freqbasedsim_Advanced(GenePopData, pop.groups = c("PopA", "PopB"),
 \description{
 \code{freqbasedsim_Advanced} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the genotype frequencies of two ancestral populations provided. The advanced version also allows the user to specify the number of individuals of each category to be simulated (including zero individuals should the user not wish to simulate a category).
 }
-

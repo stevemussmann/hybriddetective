@@ -37,4 +37,3 @@ freqbasedsim_UB2(GPD, pop.groups = c("PopA", "PopB"), outputName = NULL,
 \description{
 \code{freqbasedsim_UB2} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the genotype frequencies of two ancestral populations provided. Centred Pure1 and Pure2 created by sampling a proportion of indivduals that comprise the known reference samples. Alleles are sampled without replacement
 }
-

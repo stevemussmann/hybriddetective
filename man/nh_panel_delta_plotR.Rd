@@ -19,4 +19,3 @@ nh_panel_delta_plotR(GPD, return.workspace, save.plot = FALSE,
 \description{
 Evaluates the accuracy with which NewHybrids assigns individuals of known hybrid class to the correct hybrid class in simulated datasets of different panel sizes. The code will write optionally write graphical results to the directory provided by the user.
 }
-

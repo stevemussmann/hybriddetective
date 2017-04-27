@@ -9,4 +9,3 @@ accuracyfunction(x)
 \description{
 Subordinate function to hybridpowercomp used in dplyr::do(.) when evaluating simulation accuracy.
 }
-

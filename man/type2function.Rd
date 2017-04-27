@@ -9,4 +9,3 @@ type2function(x)
 \description{
 Subordinate function to hybridpowercomp used in dplyr::do(.) when evaluating simulation type II error.
 }
-

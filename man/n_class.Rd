@@ -13,4 +13,3 @@ n_class(x)
 \description{
 \code{n_class} will provide a count of each class according to vector of sample names specified in the *_individuals.txt output from  \code{nh_analysis_data_generatoR}
 }
-
