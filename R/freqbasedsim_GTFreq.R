@@ -1,7 +1,7 @@
-#' @name freqbasedsim_Advanced
-#' @title Simulate Multi-Generational Hybrids - advanced sample size designations
+#' @name freqbasedsim_GTFreq
+#' @title Simulate Multi-Generational Hybrids - samples based on genotype frequency
 #'
-#' @description \code{freqbasedsim_Advanced} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the genotype frequencies of two ancestral populations provided. The advanced version also allows the user to specify the number of individuals of each category to be simulated (including zero individuals should the user not wish to simulate a category).
+#' @description \code{freqbasedsim_GTFreq} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based solely on the genotype frequencies of two ancestral populations provided. Allows the user to specify the number of individuals of each category to be simulated (including zero individuals should the user not wish to simulate a category).
 #' @param NumSims an integer number of simulated datasets to be created. The default is 1
 #' @param NumReps an integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1
 #' @param sample.sizePure an integer number of simulated Pure1 and Pure2 (centred ancestral populations) individuals to be created. The default is 200
@@ -16,7 +16,7 @@
 #' @importFrom tidyr separate
 
 
-freqbasedsim_Advanced <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, sample.sizePure = 200, sample.sizeF1 = 200, sample.sizeF2 = 200, sample.sizeBC = 200){
+freqbasedsim_GTFreq <- function(GenePopData, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, sample.sizePure = 200, sample.sizeF1 = 200, sample.sizeF2 = 200, sample.sizeBC = 200){
 
 
   max.ss <- max(sample.sizePure, sample.sizePure, sample.sizeF1, sample.sizeF2, sample.sizeBC, sample.sizeBC)

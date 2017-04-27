@@ -1,7 +1,7 @@
-#' @name freqbasedsim_UB2
+#' @name freqbasedsim_AlleleSample
 #' @title Simulate Multi-Generational Hybrids - Proportional Sampling, Alleles Sampled Without Replacement
 #'
-#' @description \code{freqbasedsim_UB2} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the genotype frequencies of two ancestral populations provided. Centred Pure1 and Pure2 created by sampling a proportion of indivduals that comprise the known reference samples. Alleles are sampled without replacement
+#' @description \code{freqbasedsim_AlleleSample} generates simulated, centred Pure1, Pure2, F1, F2, BC1 and BC2 offspring based on the genotype frequencies of two ancestral populations provided by sampling alleles without replacement. Centred Pure1 and Pure2 created by sampling a proportion of indivduals that comprise the known reference samples. Alleles are sampled without replacement
 #' @param NumSims an integer number of simulated datasets to be created. The default is 1
 #' @param NumReps an integer number of replicates of each of the NumSims simulated dataset to be created. The default is 1
 #' @param prop.sample The proportion of individuals in both ancestral PopA and PopB to sample to create the simulated, centred Pure1 and Pure2. The default is 0.9
@@ -18,7 +18,7 @@
 #' @importFrom  stringr str_extract str_extract_all str_split str_detect
 #' @importFrom tidyr separate
 
-freqbasedsim_UB2 <- function(GPD, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, prop.sample = 0.9, sample.sizePure1 = NULL, sample.sizePure2 = NULL, sample.sizeF1 = NULL, sample.sizeF2 = NULL, sample.sizeBC1 = NULL, sample.sizeBC2 = NULL){
+freqbasedsim_AlleleSample <- function(GPD, pop.groups = c("PopA", "PopB"), outputName = NULL, NumSims = 1, NumReps = 1, prop.sample = 0.9, sample.sizePure1 = NULL, sample.sizePure2 = NULL, sample.sizeF1 = NULL, sample.sizeF2 = NULL, sample.sizeBC1 = NULL, sample.sizeBC2 = NULL){
 
 
    GenePop <- read.table(GPD, header = FALSE, sep = "\t", quote = "", stringsAsFactors = FALSE)
