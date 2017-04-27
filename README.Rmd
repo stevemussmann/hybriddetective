@@ -30,8 +30,9 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 **nh_plotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual | [_Error Checking and Diagnostics_](#plotR)
 **nh_multiplotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual for all results within a given folder | [_Error Checking and Diagnostics_](#multiplotR)
 **nh_accuracy_checkR.R** | Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ >= 0.5, 0.75 and 0.9) | [_Error Checking and Diagnostics_](#accuracy)
-**hybridpowercomp.R** |  Replicates the functionality of *hybridpower*, but allows the efficacy of multiple panels of varying numbers of markers to be compared.| [_Quantification and Analysis_](#powercomp)
+**hybridpowercomp.R** |  Evaluates the accuracy, efficiency, and power of panels. Allows the efficacy of multiple panels of varying numbers of markers to be compared.| [_Quantification and Analysis_](#powercomp)
 **nh_panel_delta_plotR.R** |  Plots the change in individual genotype class probability of assignment for different panel sizes.| [_Quantification and Analysis_](#deltaplot)
+**nh_build_Example_Data.R** |  Writes example *NewHybrids* results to be evaluated with the function *hybridpowercomp*
 
 
 ***  
@@ -60,6 +61,7 @@ Example datasets have been provided as R images (.rda files). These can be loade
 ------------|---------------------------------------------------------------  
 *PurePops* | A *GENEPOP* format file containing SNP genotypes of 150 individuals in each of two populations at 100 loci. To use this example data it must first be saved with the extension ".txt" to an empty folder on your hard drive.
 *PurePops_Zeds* | A data frame of known genotype category assignments (Zeds) and the indviduals to which to match them in the *NewHybrids* format files created in the examples. Refer to Anderson 2002 and the function *nh_zcore* for more information.
+*nh.results* | The output of *NewHybrids* analyses of two independently simulated datasets, each analyzed three times. This data can be prepared using the function *nh_build_Example_Results* and then evaluated using the function *hybridpowercomp*
 
 ```r
 
@@ -98,6 +100,13 @@ file.remove(paste0(path.hold, "/SimZeds.txt"))
 ## NOTE: You must recall the file path to the hybriddetective example folder you created to use in the examples below!!!
 
 your.path = paste0(path.hold, "/hybriddetective example/")
+
+
+To install the Example Results to be evaluated using "hybridpowercomp" simply run the function "nh_build_Example_Data"
+
+Note: If no 'dir' is specified, the function will write the data to the working directory
+
+nh_build_Example_Data()
 
 ```
 
