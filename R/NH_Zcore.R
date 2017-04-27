@@ -1,7 +1,7 @@
-#' @name NH_Zcore
+#' @name nh_Zcore
 #' @title Annotate Classes
 #'
-#' @description \code{NH_Zcore} adds the Zed to ....
+#' @description \code{nh_Zcore} adds the Zed to ....
 #' @param GetstheZdir A file path to the folder in which the files to be annotated reside
 #' @param multiapplyZvec IF a single file of Zvecs is to be applied to each file, USE multiapplyZvec multiapplyZvec must be specified as a file path + file name (e.g. "~/HoldenUniversity/CoolEthansComputer/HairDolls/Zvexxx.csv")
 #' @param applyuniqueZvec IF each NewHybrids file is to be given a UNIQUE vector of Zvecs use applyuniqueZvec ---- NOTE <- to apply UNIQUE Zvecs, the Zvec files must all be placed in a single folder separate from the NewHybrids files AND they MUST follow the file name convention "NHFileName_Zvec.csv" where NHFileName is the same name as the file to which the Zvec is to be applied - consequently, the number of NewHybrids files = number of Zvec files applyuniqueZvec must be spedifed as a file path to the folder in which the Zvec files live (e.g. "~/HarrisonUniversity/DEANGordonPritchard/LettersOfRecommendation/")
@@ -11,7 +11,7 @@
 
 
 
-NH_Zcore <- function(GetstheZdir, multiapplyZvec=NULL, applyuniqueZvec=NULL){
+nh_Zcore <- function(GetstheZdir, multiapplyZvec=NULL, applyuniqueZvec=NULL){
 
   ## this function will insert a column of known genotype categories <- Zvec into a NewHybrids formatted dataset
       ## for information on the known genotype categories, refer to the NewHybrids documentation (e.g.. Pure1 = z0, Pure2 = z1, F1 = z2 etc. [numbering follows that of NewHybrids])
