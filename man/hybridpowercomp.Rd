@@ -15,6 +15,8 @@ hybridPowerComp(dir, save_output = TRUE, return_workspace = FALSE,
 
 \item{return_workspace}{A logical indicating whether the plots and plotting data should be returned to the workspace as a list object. The default is FALSE}
 
+\item{Thresholds}{A vector of critical posterior probability thresholds by which to facet plots. The default is c(0.5,0.6,0.7,0.8,0.9)}
+
 \item{samplesize}{The number of individuals per NewHybrids class. By (default: NULL) this data will be extracted from the "*individuals.txt" output from parallelnewhybrids if present in the same folder as the PofZ file. This can also explicitly defined as a vector (6 values corresponding to # in P1,P2,F1,F2,BC1,BC2) or a path to a *_Individuals.txt.}
 
 \item{CT}{The threshold posterior probability of assignment (PofZ) to F2 above which Pure Population 1 or Pure Population 2 individuals are flagged to indicate possible non-convergence. The default is 0.1.}
