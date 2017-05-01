@@ -210,13 +210,17 @@ $(document).ready(function () {
 </tr>
 <tr class="odd">
 <td><strong>hybridpowercomp.R</strong></td>
-<td>Replicates the functionality of <em>hybridpower</em>, but allows the efficacy of multiple panels of varying numbers of markers to be compared.</td>
+<td>Evaluates the accuracy, efficiency, and power of panels. Allows the efficacy of multiple panels of varying numbers of markers to be compared.</td>
 <td><a href="#powercomp"><em>Quantification and Analysis</em></a></td>
 </tr>
 <tr class="even">
 <td><strong>nh_panel_delta_plotR.R</strong></td>
 <td>Plots the change in individual genotype class probability of assignment for different panel sizes.</td>
 <td><a href="#deltaplot"><em>Quantification and Analysis</em></a></td>
+</tr>
+<tr class="odd">
+<td><strong>nh_build_Example_Data.R</strong></td>
+<td>Writes example <em>NewHybrids</em> results to be evaluated with the function <em>hybridpowercomp</em></td>
 </tr>
 </tbody>
 </table>
@@ -257,6 +261,10 @@ devtools::install_github(&quot;bwringe/hybriddetective&quot;) #package</code></p
 <td><em>PurePops_Zeds</em></td>
 <td>A data frame of known genotype category assignments (Zeds) and the indviduals to which to match them in the <em>NewHybrids</em> format files created in the examples. Refer to Anderson 2002 and the function <em>nh_zcore</em> for more information.</td>
 </tr>
+<tr class="odd">
+<td><em>nh.results</em></td>
+<td>The output of <em>NewHybrids</em> analyses of two independently simulated datasets, each analyzed three times. This data can be prepared using the function <em>nh_build_Example_Results</em> and then evaluated using the function <em>hybridpowercomp</em></td>
+</tr>
 </tbody>
 </table>
 <pre class="r"><code>
@@ -295,6 +303,13 @@ file.remove(paste0(path.hold, &quot;/SimZeds.txt&quot;))
 ## NOTE: You must recall the file path to the hybriddetective example folder you created to use in the examples below!!!
 
 your.path = paste0(path.hold, &quot;/hybriddetective example/&quot;)
+
+
+To install the Example Results to be evaluated using &quot;hybridpowercomp&quot; simply run the function &quot;nh_build_Example_Data&quot;
+
+Note: If no 'dir' is specified, the function will write the data to the working directory
+
+nh_build_Example_Data()
 </code></pre>
 </div>
 <div id="hybriddetective-contributors" class="section level3">
@@ -1007,103 +1022,103 @@ hybridpowercomp
 </tr>
 <tr class="odd">
 <td><em>Plot_7</em></td>
-<td>Accuracy lineplot - lines are coloured by hybrid class and represent the accuracy at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
+<td>Accuracy lineplot - lines are coloured by hybrid class and represent the accuracy ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
 </tr>
 <tr class="even">
 <td><em>Plot_8</em></td>
-<td>Efficiency lineplot - lines are coloured by hybrid class and represent the efficiency at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
+<td>Efficiency lineplot - lines are coloured by hybrid class and represent the efficiency ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_9</em></td>
-<td>Power lineplot - lines are coloured by hybrid class and represent the power at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
+<td>Power lineplot - lines are coloured by hybrid class and represent the power ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
 </tr>
 <tr class="even">
 <td><em>Plot_10</em></td>
-<td>Accuracy lineplot - lines are coloured by pure population 1, pure population 2 and all hybrids, and represent the accuracy at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
+<td>Accuracy lineplot - lines are coloured by pure population 1, pure population 2 and all hybrids, and represent the accuracy ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_11</em></td>
-<td>Efficiency lineplot - lines are coloured by pure population 1, pure population 2 and all hybrids, and represent the efficiency at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
+<td>Efficiency lineplot - lines are coloured by pure population 1, pure population 2 and all hybrids, and represent the efficiency ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
 </tr>
 <tr class="even">
 <td><em>Plot_12</em></td>
-<td>Power lineplot - lines are coloured by pure population 1, pure population 2 and all hybrids, and represent the power at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
+<td>Power lineplot - lines are coloured by pure population 1, pure population 2 and all hybrids, and represent the power ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot may be facted by panel size</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_13</em></td>
-<td>Accuracy lineplot - lines are coloured by hybrid class and represent the accuracy at critical posterior probabilities from 0.5 to 1.0, and the plot is facted by grouping the hybrid classes into pure groups, F1 and F2, and backcrosses as well as panel size</td>
+<td>Accuracy lineplot - lines are coloured by hybrid class and represent the accuracy ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot is facted by grouping the hybrid classes into pure groups, F1 and F2, and backcrosses as well as panel size</td>
 </tr>
 <tr class="even">
 <td><em>Plot_14</em></td>
-<td>Efficiency lineplot - lines are coloured by hybrid class and represent the efficiency at critical posterior probabilities from 0.5 to 1.0, and the plot is facted by grouping the hybrid classes into pure groups, F1 and F2, and backcrosses as well as panel size</td>
+<td>Efficiency lineplot - lines are coloured by hybrid class and represent the efficiency ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot is facted by grouping the hybrid classes into pure groups, F1 and F2, and backcrosses as well as panel size</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_15</em></td>
-<td>Power lineplot - lines are coloured by hybrid class and represent the power at critical posterior probabilities from 0.5 to 1.0, and the plot is facted by grouping the hybrid classes into pure groups, F1 and F2, and backcrosses as well as panel size</td>
+<td>Power lineplot - lines are coloured by hybrid class and represent the power ± sd at critical posterior probabilities from 0.5 to 1.0, and the plot is facted by grouping the hybrid classes into pure groups, F1 and F2, and backcrosses as well as panel size</td>
 </tr>
 <tr class="even">
 <td><em>Plot_16</em></td>
-<td>Accuracy lineplot - lines are coloured by panel size and represent the accuracy at critical posterior probabilities from 0.5 to 1.0, and each hybrid class is depicted in a separate facet</td>
+<td>Accuracy lineplot - lines are coloured by panel size and represent the accuracy ± sd at critical posterior probabilities from 0.5 to 1.0, and each hybrid class is depicted in a separate facet</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_17</em></td>
-<td>Efficiency lineplot - lines are coloured by panel size and represent the efficiency at critical posterior probabilities from 0.5 to 1.0, and each hybrid class is depicted in a separate facet</td>
+<td>Efficiency lineplot - lines are coloured by panel size and represent the efficiency ± sd at critical posterior probabilities from 0.5 to 1.0, and each hybrid class is depicted in a separate facet</td>
 </tr>
 <tr class="even">
 <td><em>Plot_18</em></td>
-<td>Power lineplot - lines are coloured by panel size and represent the power at critical posterior probabilities from 0.5 to 1.0, and each hybrid class is depicted in a separate facet</td>
+<td>Power lineplot - lines are coloured by panel size and represent the power ± sd at critical posterior probabilities from 0.5 to 1.0, and each hybrid class is depicted in a separate facet</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_19</em></td>
-<td>Accuracy lineplot - lines are coloured by panel size and represent the accuracy at critical posterior probabilities from 0.5 to 1.0, and the two pure populations, and all hybrids are depicted in separate facets</td>
+<td>Accuracy lineplot - lines are coloured by panel size and represent the accuracy ± sd at critical posterior probabilities from 0.5 to 1.0, and the two pure populations, and all hybrids are depicted in separate facets</td>
 </tr>
 <tr class="even">
 <td><em>Plot_20</em></td>
-<td>Efficiency lineplot - lines are coloured by panel size and represent the efficiency at critical posterior probabilities from 0.5 to 1.0, and the two pure populations, and all hybrids are depicted in separate facets</td>
+<td>Efficiency lineplot - lines are coloured by panel size and represent the efficiency ± sd at critical posterior probabilities from 0.5 to 1.0, and the two pure populations, and all hybrids are depicted in separate facets</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_21</em></td>
-<td>Power lineplot - lines are coloured by panel size and represent the power at critical posterior probabilities from 0.5 to 1.0, and the two pure populations, and all hybrids are depicted in separate facets</td>
+<td>Power lineplot - lines are coloured by panel size and represent the power ± sd at critical posterior probabilities from 0.5 to 1.0, and the two pure populations, and all hybrids are depicted in separate facets</td>
 </tr>
 <tr class="even">
 <td><em>Plot_22</em></td>
-<td>Accuracy dotplot - points are the accuracy ± sd</td>
+<td>Accuracy dotplot - points are the accuracy ± sd and are coloured by hybrid class at the critical posterior probabilities specified by <em>Thresholds</em>. The plot is facted by the values specified in <em>Thresholds</em></td>
 </tr>
 <tr class="odd">
 <td><em>Plot_23</em></td>
-<td>NULL</td>
+<td>Efficiency dotplot - points are the accuracy ± sd and are coloured by hybrid class at the critical posterior probabilities specified by <em>Thresholds</em>. The plot is facted by the values specified in <em>Thresholds</em></td>
 </tr>
 <tr class="even">
 <td><em>Plot_24</em></td>
-<td>NULL</td>
+<td>Power dotplot - points are the accuracy ± sd and are coloured by hybrid class at the critical posterior probabilities specified by <em>Thresholds</em>. The plot is facted by the values specified in <em>Thresholds</em></td>
 </tr>
 <tr class="odd">
 <td><em>Plot_25</em></td>
-<td>NULL</td>
+<td>Accuracy dotplot - points are the accuracy ± sd and are coloured by pure population 1, pure population 2 and all hybrids at the critical posterior probabilities specified by <em>Thresholds</em>. The plot is facted by the values specified in <em>Thresholds</em></td>
 </tr>
 <tr class="even">
 <td><em>Plot_26</em></td>
-<td>NULL</td>
+<td>Efficiency dotplot - points are the accuracy ± sd and are coloured by pure population 1, pure population 2 and all hybrids at the critical posterior probabilities specified by <em>Thresholds</em>. The plot is facted by the values specified in <em>Thresholds</em></td>
 </tr>
 <tr class="odd">
 <td><em>Plot_27</em></td>
-<td>NULL</td>
+<td>Power dotplot - points are the accuracy ± sd and are coloured by pure population 1, pure population 2 and all hybrids at the critical posterior probabilities specified by <em>Thresholds</em>. The plot is facted by the values specified in <em>Thresholds</em></td>
 </tr>
 <tr class="even">
 <td><em>Plot_28</em></td>
-<td>NULL</td>
+<td>Type I Error boxplot - boxes are hybrid classes at critical posterior probability thresholds specified in <em>Thresholds</em> and the plot may be faceted by panel size</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_29</em></td>
-<td>NULL</td>
+<td>Type I Error lineplot - the line is the overall rate of Type I error in all hybrid classes across a range of posterior probability thresholds from 0.5 to 1.0. The plot may also be facted by panel size.</td>
 </tr>
 <tr class="even">
 <td><em>Plot_30</em></td>
-<td>NULL</td>
+<td>Mean Posterior Probability boxplot - The mean posterior probability score for each hybrid class is per simulation is plotted.</td>
 </tr>
 <tr class="odd">
 <td><em>Plot_31</em></td>
-<td>NULL</td>
+<td>Mean Posterior Probability boxplot - The mean posterior probability score for pure population 1, pure population 2 and all hybrids per simulation is plotted.</td>
 </tr>
 </tbody>
 </table>

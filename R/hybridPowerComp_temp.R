@@ -1310,7 +1310,7 @@ HybridPower_Output <- list(legend = Plot.Legend, plots = HybridPower_Plots, data
                   }
 
                 ## Return plots and data
-                if(return_output == TRUE){
+                if(return_workspace == TRUE){
                   return(HybridPower_Output)
                   }
 
