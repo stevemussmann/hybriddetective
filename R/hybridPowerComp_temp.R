@@ -934,13 +934,13 @@ stop("You have asked me to not return any results. If you're not going to look a
                           geom_line(aes(x = level, y = mprob, col = factor(nLoci)), lwd = 1.25) +
                           geom_line(aes(x = level, y = mprob + sdprob, col = factor(nLoci)), lty = 2) +
                           geom_line(aes(x = level, y = mprob - sdprob, col = factor(nLoci)), lty = 2) +
-                          facet_wrap(~class, nrow = 3, scales = "free_y") +
+                          facet_wrap(~class, nrow = 3) +
                           scale_color_brewer(palette = "Dark2") +
                           theme(panel.background = element_rect(fill = "white", colour = "black"), plot.background = element_rect(colour = "white"),
                             panel.grid.major = element_line(colour = "grey90"), legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Efficiency "%+-%"sd"), col = "Panel Size (Loci)")  +
-                          coord_cartesian(ylim = c(0, 1))
+                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob), 1))
 
 
 
