@@ -50,7 +50,7 @@ devtools::install_github("bwringe/hybriddetective") #package
 
 <span style = "color:red"> <strong>NOTE:</strong></span> **hybriddetective** also relies on functions from the packages *dplyr*, *ggplot2*, *grid*, *parallel*, *plyr*, *stringr*, *scales*, *reshape2* and *tidyr*. The user should ensure these installed from CRAN prior to installing **hybriddetective**.  
 
-<span style = "color:red"> <strong>NOTE:</strong></span> certain functions in **hybriddetective** rely on the programmes **PGDSpider** and **PLINK**. These can be downloaded from <http://www.cmpg.unibe.ch/software/PGDSpider/> and <https://www.cog-genomics.org/plink2> respectively, and must be installed prior to running **hybriddetective**.
+<span style = "color:red"> <strong>NOTE:</strong></span> certain functions in **hybriddetective** rely on the programmes **PGDSpider version 2.1.1.0** and **PLINK version 1.90 beta**. These can be downloaded from <http://www.cmpg.unibe.ch/software/PGDSpider/> and <https://www.cog-genomics.org/plink2> respectively, and must be installed prior to running **hybriddetective**.
 
 ***
 
