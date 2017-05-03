@@ -1,12 +1,13 @@
-#' @name nh_build_Example_Results
+#' @name nh_build_example_results
 #' @title Creates a folder containing example NewHybrids analyses which can be evaluated using hybridpowercomp
 #' @description Creates a folder containing example NewHybrids analyses which can be evaluated using hybridpowercomp
 #' @param dir File path to the directory in write the NewHybrids results (in individual folders as returned by parallelNH_XX). The default is NULL, in which case the folder will be written to the working directory
 #' @param remove_example A logical indicating if the example data should be removed from the users hard drive. Default = FALSE. NOTE: If a dir was previously specified, it must be specified again
-#' @rdname nh_build_Example_Results
+#' @rdname nh_build_example_results
+#' @export
 
 
-nh__build_Example_Results <- function(dir1 = NULL, remove_example = FALSE){
+nh_build_example_results <- function(dir = NULL, remove_example = FALSE){
 
   ## If the directory is not speficied, set dir to the working directory
   if(length(dir1) < 1){
