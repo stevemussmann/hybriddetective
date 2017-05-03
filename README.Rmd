@@ -35,7 +35,7 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 **nh_accuracy_checkR.R** | Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ >= 0.5, 0.75 and 0.9) | [_Error Checking and Diagnostics_](#accuracy)
 **hybridpowercomp.R** |  Evaluates the accuracy with which *NewHybrids* assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (critical posterior probability thresholds). Will also write graphical and numerical results to a directory provided by the user. Also allows the efficacy of multiple panels of varying numbers of markers to be compared.| [_Quantification and Analysis_](#power)
 **nh_panel_delta_plotR.R** |  Plots the change in individual genotype class probability of assignment for different panel sizes.| [_Quantification and Analysis_](#deltaplot)
-**nh_build_example_results.R** |  Installs pre-analyzed example data to be used familiarize oneself with the functions *nh_preCheckR*, *nh_multiplotR*, and *hybridpowercomp* | [_Example_Data_](#example)
+**nh_build_example_results.R** |  Installs pre-analyzed example data to be used familiarize oneself with the functions *nh_preCheckR*, *nh_multiplotR*, and *hybridpowercomp* | [_Example Data_](#example)
 
 ***  
 ###Package Installation
@@ -58,7 +58,7 @@ devtools::install_github("bwringe/hybriddetective") #This package
 ***
 
 ***  
-###[_Example Data_](#example):
+###Example Data:
 Example datasets have been provided as R images (.rda files). These can be loaded into your workspace using the ``data()`` function  
 
 **Example dataset** | **Contents**  
