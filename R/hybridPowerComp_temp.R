@@ -909,7 +909,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           scale_color_brewer(palette = "Dark2") +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Power "%+-%"sd"), col = "Genotype Frequency Class") +
-                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE)), 1))
+                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE), 1))
 
 min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE)
 
