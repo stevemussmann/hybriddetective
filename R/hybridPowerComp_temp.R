@@ -19,7 +19,7 @@
 #' @export
 #'
 
-# dir <- "~/Dropbox/DFO Aquaculture Interaction/Word Documents/hybriddetective/hybriddetective_example/Example_NewHybrids_Results/"
+# dir <- "~/Dropbox/DFO Aquaculture Interaction/South West Rivers Analysis/South Coast - Proportional Sampling Analysis/NL South West Fixed Linkages NH/NH.Results/"
 # save_output = TRUE
 # return_workspace = FALSE
 # Thresholds = c(0.5,0.6,0.7,0.8,0.9)
@@ -808,9 +808,10 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           scale_color_brewer(palette = "Dark2") +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Power "%+-%"sd"), col = "Genotype Frequency Class") +
-                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower), 1))
+                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE), 1))
 
 
+                      min(Final_Power[!is.na(Final_Power$meanPower) & !is.na(Final_Power$sdPower),]$meanPower - Final_Power[!is.na(Final_Power$meanPower) & !is.na(Final_Power$sdPower),]$sdPower)
 
                       # Accuracy Lineplot - by pure classes and all hybrids, faceted by panel size
                       Plot_10 <-
@@ -841,7 +842,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           scale_color_brewer(palette = "Dark2") +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Efficiency "%+-%"sd"), col = "Genotype Frequency Class") +
-                          coord_cartesian(ylim = c(0, 1))
+                          coord_cartesian(ylim = c(min(FinalData2$mprob - FinalData2$sdprob, na.rm = TRUE), 1))
 
 
 
@@ -858,7 +859,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                         scale_color_brewer(palette = "Dark2") +
                         labs(x = "Critical Posterior Probability Threshold", y = expression("Power "%+-%"sd"), col = "Genotype Frequency Class") +
-                        coord_cartesian(ylim = c(min(Final_Power2$meanPower - Final_Power2$sdPower), 1))
+                        coord_cartesian(ylim = c(min(Final_Power2$meanPower - Final_Power2$sdPower, na.rm = TRUE), 1))
 
 
 
@@ -891,7 +892,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                         scale_color_brewer(palette = "Dark2") +
                         labs(x = "Critical Posterior Probability Threshold", y = expression("Efficiency "%+-%"sd"), col = "Genotype Frequency Class") +
-                        coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob), 1))
+                        coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob, na.rm = TRUE), 1))
 
 
 
@@ -908,9 +909,9 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           scale_color_brewer(palette = "Dark2") +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Power "%+-%"sd"), col = "Genotype Frequency Class") +
-                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower), 1))
+                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE)), 1))
 
-
+min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE)
 
                       # Accuracy Lineplot - by panel size, faceted by hybrid class"
                       Plot_16 <-
@@ -940,7 +941,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             panel.grid.major = element_line(colour = "grey90"), legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Efficiency "%+-%"sd"), col = "Panel Size (Loci)")  +
-                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob), 1))
+                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob, na.rm = TRUE), 1))
 
 
 
@@ -958,7 +959,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           scale_color_brewer(palette = "Dark2") +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Power "%+-%"sd"), col = "Panel Size (Loci)") +
-                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower), 1))
+                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE), 1))
 
 
 
@@ -990,7 +991,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             panel.grid.major = element_line(colour = "grey90"), legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Efficiency "%+-%"sd"), col = "Panel Size (Loci)") +
-                          coord_cartesian(ylim = c(min(FinalData2$mprob), 1))
+                          coord_cartesian(ylim = c(min(FinalData2$mprob, na.rm = TRUE), 1))
 
 
 
@@ -1007,7 +1008,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
                           scale_color_brewer(palette = "Dark2") +
                           labs(x = "Critical Posterior Probability Threshold", y = expression("Power "%+-%"sd"), col = "Panel Size (Loci)") +
-                          coord_cartesian(ylim = c(min(Final_Power$meanPower), 1))
+                          coord_cartesian(ylim = c(min(Final_Power$meanPower, na.rm = TRUE), 1))
 
 
 
@@ -1039,7 +1040,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             panel.grid.major = element_line(colour = "grey90"),
                             legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
-                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob), 1))
+                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob, na.rm = TRUE), 1))
 
 
 
@@ -1056,7 +1057,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             panel.grid.major = element_line(colour = "grey90"),
                             legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
-                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower), 1))
+                          coord_cartesian(ylim = c(min(Final_Power$meanPower - Final_Power$sdPower, na.rm = TRUE), 1))
 
 
 
@@ -1074,7 +1075,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"),
                             text = element_text(colour = "black")) +
-                          coord_cartesian(ylim = c(min(ComboHybridAccuracy$mprob - ComboHybridAccuracy$sdprob), 1))
+                          coord_cartesian(ylim = c(min(ComboHybridAccuracy$mprob - ComboHybridAccuracy$sdprob, na.rm = TRUE), 1))
 
 
 
@@ -1090,7 +1091,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             panel.grid.major = element_line(colour = "grey90"),
                             legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
-                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob), 1))
+                          coord_cartesian(ylim = c(min(FinalData$mprob - FinalData$sdprob, na.rm = TRUE), 1))
 
 
 
@@ -1106,7 +1107,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                             panel.grid.major = element_line(colour = "grey90"),
                             legend.position = "bottom", legend.key = element_blank(),
                             strip.background = element_rect(fill = "white", colour = "black"), text = element_text(colour = "black")) +
-                          coord_cartesian(ylim = c(min(Final_Power2$meanPower - Final_Power2$sdPower), 1))
+                          coord_cartesian(ylim = c(min(Final_Power2$meanPower - Final_Power2$sdPower, na.rm = TRUE), 1))
 
 
                       ## Type I Error Boxplot - by hybrid class and panel size
