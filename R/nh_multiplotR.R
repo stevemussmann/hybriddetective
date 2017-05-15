@@ -11,6 +11,8 @@
 
 nh_multiplotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "green", "black", "yellow")){
 
+  col.vec.multi <- ColourVector
+
   tbPlot <- list.files(NHResults)
 
   if(length(grep(x = tbPlot, pattern = "Figures and Data")) > 0){tbPlot = tbPlot[-which(tbPlot == "Figures and Data")]}
@@ -34,7 +36,7 @@ nh_multiplotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "gr
 
     png(filename = paste0(where.to, i, ".png"), width = 2400, height = 2400, res = 300)
 
-    print(hybriddetective::nh_plotR(paste0(NHResults, i, "/", pzPlotingFind)), ColourVector = ColourVector)
+    print(hybriddetective::nh_plotR(NHResults = paste0(NHResults, i, "/", pzPlotingFind)), ColourVector = col.vec.multi)
       dev.off()
 
   }
