@@ -5,7 +5,7 @@
 \title{NewHybrids Multi-Plot}
 \usage{
 nh_multiplotR(NHResults, ColourVector = c("red", "blue", "grey", "green",
-  "black", "yellow", "brown"))
+  "black", "yellow"))
 }
 \arguments{
 \item{NHResults}{the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.}

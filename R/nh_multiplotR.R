@@ -9,7 +9,7 @@
 #' @importFrom reshape2 melt
 
 
-nh_multiplotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "green", "black", "yellow", "brown")){
+nh_multiplotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "green", "black", "yellow")){
 
   tbPlot <- list.files(NHResults)
 

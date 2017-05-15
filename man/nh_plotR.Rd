@@ -5,7 +5,7 @@
 \title{NewHybrids Plot}
 \usage{
 nh_plotR(NHResults, ColourVector = c("red", "blue", "grey", "green", "black",
-  "yellow", "brown"), ReversePure = 1)
+  "yellow"), ReversePure = 1)
 }
 \arguments{
 \item{NHResults}{A file path to the NewHybrids (PofZ file) result to be plotted}

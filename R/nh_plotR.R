@@ -10,7 +10,7 @@
 #' @importFrom reshape2 melt
 
 
- nh_plotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "green", "black", "yellow", "brown"), ReversePure = 1){ ## this function plots the Q-value output from New Hybrids
+ nh_plotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "green", "black", "yellow"), ReversePure = 1){ ## this function plots the Q-value output from New Hybrids
 
 
    nh_output <- read.table(file = NHResults, header = TRUE)[,-2]
