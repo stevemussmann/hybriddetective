@@ -36,7 +36,7 @@ nh_multiplotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "gr
 
     png(filename = paste0(where.to, i, ".png"), width = 2400, height = 2400, res = 300)
 
-    print(hybriddetective::nh_plotR(NHResults = paste0(NHResults, i, "/", pzPlotingFind)), ColourVector = col.vec.multi)
+    print(hybriddetective::nh_plotR(NHResults = paste0(NHResults, i, "/", pzPlotingFind), ColourVector = col.vec.multi))
       dev.off()
 
   }
