@@ -4,10 +4,13 @@
 \alias{nh_multiplotR}
 \title{NewHybrids Multi-Plot}
 \usage{
-nh_multiplotR(NHResults)
+nh_multiplotR(NHResults, ColourVector = c("red", "blue", "grey", "green",
+  "black", "yellow", "brown"))
 }
 \arguments{
 \item{NHResults}{the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.}
+
+\item{ColourVector}{A vector of six colours to be plotted as Pure1, Pure2, F1, F2, BC1, and BC2 respectively}
 }
 \description{
 \code{nh_plotR} plots the cumulative probabilities of assignment for each individual for multiple NewHybrids results

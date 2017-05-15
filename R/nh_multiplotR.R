@@ -3,12 +3,13 @@
 #'
 #' @description \code{nh_plotR} plots the cumulative probabilities of assignment for each individual for multiple NewHybrids results
 #' @param NHResults the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located.
+#' @param ColourVector A vector of six colours to be plotted as Pure1, Pure2, F1, F2, BC1, and BC2 respectively
 #' @export
 #' @import ggplot2
 #' @importFrom reshape2 melt
 
 
-nh_multiplotR <- function(NHResults){
+nh_multiplotR <- function(NHResults, ColourVector = c("red", "blue", "grey", "green", "black", "yellow", "brown")){
 
   tbPlot <- list.files(NHResults)
 
@@ -33,7 +34,7 @@ nh_multiplotR <- function(NHResults){
 
     png(filename = paste0(where.to, i, ".png"), width = 2400, height = 2400, res = 300)
 
-    print(hybriddetective::nh_plotR(paste0(NHResults, i, "/", pzPlotingFind)))
+    print(hybriddetective::nh_plotR(paste0(NHResults, i, "/", pzPlotingFind)), ColourVector = ColourVector)
       dev.off()
 
   }
