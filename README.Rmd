@@ -1,3 +1,8 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
 ***
 ###**hybriddetective** is an R package designed to streamline, and where possible automate, the detection of hybrids using **NewHybrids** (Anderson and Thompson 2002) (available at <https://github.com/eriqande/newhybrids>) by moving the entire process into the R environment. This includes the development and testing of diagnostic panels of markers including measures of their accuracy and efficiency and the creation of multi-generation simulated hybrid datasets.
 ***
@@ -264,7 +269,7 @@ freqbasedsim_UB2(GPD = "~/ ... /YourReferenceData.txt")
 ***
 
 <a name = "nhdatageneratR"/>
-<h4 class="text-primary"> nh\_analysis\_simulateR\_generateR.R</h4>
+<h4 class="text-primary"> nh_analysis_simulateR_generateR.R</h4>
 This function quickly creates files to be used to detect hybridization within experimental data. It does so by creating simulated reference populations from user provided data, and then merging the simulated data with the genotypes of unknown/experimental individuals. The user is able to specify which hybrid categories to include in the simulated data, as well as the number of individuals per category to simulate. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of the individuals included (including those that were simulated) in the *NewHybrids* formatted file.  
 <span style = "color:red"> <strong>NOTE:</strong></span> *nh_analysis_data_generatoR.R* creates a unique simulated data set each time it is run.   
 
@@ -293,7 +298,7 @@ nh_analysis_simulateR_generateR(ReferencePopsData = "~/ ... /TwoReferencePops.tx
 ***
 
 <a name = "nhanalysisdata"/>
-<h4 class="text-primary"> nh\_analysis\_generateR.R</h4>
+<h4 class="text-primary"> nh_analysis_generateR.R</h4>
 This function combines pre-simulated datasets with experimental/unknown data. Both the simulated and experimental datasets can be in *GENEPOP* or *NewHybrids* formats. This function also allows the user to specify which hybrid categories to include from the simulated dataset. The function will save a *NewHybrids* format file for analysis, along with a dataframe containing the names of all individuals included in the *NewHybrids* formatted file.
 
 **Parameter** | **Description**
@@ -317,7 +322,7 @@ nh_analysis_generateR(ReferencePopsData = "~/ ... /PreSimulatedData.txt", Unknow
 ***
 
 <a name = "nhsubset"/>
-<h4 class="text-primary"> nh\_subsetR.R</h4>
+<h4 class="text-primary"> nh_subsetR.R</h4>
 This function allows the user to subset markers out of *NewHybrids* formatted data files to test the efficacy of different panel sizes.  
 
 **Parameter** | **Description**
@@ -342,7 +347,7 @@ nh_subsetR(NHData = "~/ ... /yourdata.txt", loci = loci.names[1:50]) ## function
 ***
 
 <a name = "zcore"/>
-<h4 class="text-primary"> nh\_Zcore.R</h4>
+<h4 class="text-primary"> nh_Zcore.R</h4>
 This function will insert a column of known genotype categories <- Zvec into a NewHybrids formatted file to provide NewHybrids with prior information on the known genotype frequencies in the hybrid genotype frequency categories.The function matches a vector of categories (Zvec) to individuals, then output a NH format file, with a name indicating that the category vector has been added. The user must provide the Zvec(s) to the function in the form of a two column .csv file. The vector of genotype categories NEED NOT be the same length as the NewHybrids file - thus, time can be saved. 
 NOTE Zvec file must have column names, and the first column must be named "Individual" and contain the names of individuals to which categories must be given that match those in the first column of the NewHybrids dataset. NOTE both multiapllyZvec and applyuniqueZvec cannot be used at the same time. 
 
@@ -426,7 +431,7 @@ nh_multiplotR(NHResults = "~/ ... /NH.Results/") ## the function will create a f
 ***
 
 <a name = "accuracy"/>
-<h4 class="text-primary"> nh\_accuracy\_checkR.R</h4>
+<h4 class="text-primary"> nh_accuracy_checkR.R</h4>
 This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by *NewHybrids* at three probability of assignment thresholds (PofZ >= 0.5, 0.75 and 0.9). The proportion of individuals for each hybrid category correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired (print.results = TRUE). The user also has the option to check the proportion of individuals in all hybrid categories correctly identified as being of hybrid ancestry (i.e. proportion of F1, F2, BC1, and BC2 individuals given the greatest PofZ in an any of those categories as opposed to Pure1 or Pure2). *nh_accuracy_checkR.R* is intended primarily for exploratory analysis, and it's functionality is expanded upon in the functions *hybridpower* and *hybridpowercomp*.  
 
 **Parameter** | **Description**
@@ -476,7 +481,7 @@ hybridpowercomp(dir = "~/ ... /NH.Results/") ## Defaults appropriate for analysi
 
 
 <a name = "deltaplot"/>
-<h4 class="text-primary"> nh\_panel\_delta\_plotR.R</h4>
+<h4 class="text-primary"> nh_panel_delta_plotR.R</h4>
 This function is designed to illustrate the changes in individual probability of assignment to each of the six genotype frequency classes when analyzed using panels of differing numbers of markers. The user can specify if they would like the plot to be saved, or returned as a **ggplot2** object for further formatting.  
 
 **Parameter** | **Description**
@@ -504,6 +509,8 @@ Anderson, E.C., and Thompson, E.A. 2002. A model-based method for identifying sp
 Anderson, E.C. 2010. Assessing the power of informative subsets of loci for population assignment: standard methods are upwardly biased. Molecular Ecology Resources. 10(4): 701-710.  
 
 Pritchard, J.K., Stephens, M., and Donnelly, P. 2000. Inference of population structure using multilocus genotype data. Genetics 155(2): 945-959.
+
+Stanley, R.R.E., Jeffery, N.W., Wringe, B.F., DiBacco, C., and Bradbury, I.R. 2017. genepopedit: a simple and flexible tool for manipulating multilocus molecular data in R. Molecular Ecology Resources. 17(1): 12-18.
 
 Vaha, J.P. and Primmer, C.R. 2006. Efficiency of model-based Bayesian methods for detecting hybrid individuals under different hybridization scenarios and with different numbers of loci. Molecular Ecology. 15(1): 63-72.
 
