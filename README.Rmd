@@ -1,6 +1,6 @@
----
-title: "hybriddetective README"
----
+
+# hybriddetective README
+
 ***
 ### **hybriddetective** is an R package designed to streamline, and where possible automate, the detection of hybrids using **NewHybrids** (Anderson and Thompson 2002) (available at <https://github.com/eriqande/newhybrids>) by moving the entire process into the R environment. This includes the development and testing of diagnostic panels of markers including measures of their accuracy and efficiency and the creation of multi-generation simulated hybrid datasets.
 ***
