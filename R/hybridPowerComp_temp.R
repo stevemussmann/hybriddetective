@@ -447,7 +447,7 @@ stop("You have asked me to not return any results. If you're not going to look a
                 ############################
 
                 writeLines("
-                  Calculatng Mean Posterior Probabilities
+                  Calculating Mean Posterior Probabilities
                   ")
 
                 ## average and SD the  replicate runs of each simulation in New Hybrids. Filter is just a holder for the dplyr:: call
