@@ -1,3 +1,8 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
 
 # hybriddetective README
 
@@ -24,7 +29,6 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 **Function name** | **Synopsis** | **Main use**  
 ------------|------------------------------------------|------------------------------------------------------------------
 **getTopLoc.R**  | Creates a panel comprised of the top *n* unlinked loci. Exports a list of loci, and a dataset to be used in the simulation functions in [parallelnewhybrid](https://github.com/bwringe/parallelnewhybrid), or another program.| [_Data Preparation_](#gettoploc)
-**freqbasedsim.R**  | Creates simulated hybrid datasets comprised of *two pure parental groups*, *F1*, *F2*, and *backcrosses to both parentals* .| [_Data Preparation_](#freqbased)
 **freqbasedsim_GTFreq.R**  | Creates simulated hybrid datasets comprised of *two pure parental groups*, *F1*, *F2*, and *backcrosses to both ancestral groups*. Samples based solely on allele frequencies in the provided populations. Alleles are sampled without replacement from the two populations. Allows the number of individuals of each genotype frequency category output to be specified by the user.| [_Data Preparation_](#freqbasedADV)
 **freqbasedsim_AlleleSample.R**  | Creates simulated hybrid datasets comprised of *two pure parental groups*, *F1*, *F2*, and *backcrosses to both ancestral groups*. Samples by taking one allele at each locus from each of the two parental populations in each generation. Alleles are sampled without replacement from the two populations.. Also allows the number of individuals of each genotype frequency category output to be specified by the user.| [_Data Preparation_](#freqbasedUB2)
 **nh_analysis_generateR.R** |   Merges specified simulated reference datasets with the genotypes of unknown/experimental individuals, producing a file to be analyzed by [NewHybrids](https://github.com/eriqande/newhybrids) | [_Data Preparation_](#nhdatageneratR)
@@ -36,9 +40,9 @@ In addition, **hybriddetective** includes plotting functionality to generate bot
 **nh_plotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual | [_Error Checking and Diagnostics_](#plotR)
 **nh_multiplotR.R** |  Plots cumulative probability of assignments from *NewHybrids* results for each individual for all results within a given folder | [_Error Checking and Diagnostics_](#multiplotR)
 **nh_accuracy_checkR.R** | Calculates and can print to screen the proportion of simulated individuals assigned to the correct hybrid category at three levels of stringency (PofZ >= 0.5, 0.75 and 0.9) | [_Error Checking and Diagnostics_](#accuracy)
-**hybridpowercomp.R** |  Evaluates the accuracy with which *NewHybrids* assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (critical posterior probability thresholds). Will also write graphical and numerical results to a directory provided by the user. Also allows the efficacy of multiple panels of varying numbers of markers to be compared.| [_Quantification and Analysis_](#power)
+**hybridPowerComp.R** |  Evaluates the accuracy with which *NewHybrids* assigns individuals of known hybrid class to the correct hybrid class in simulated datasets at varying levels of stringency (critical posterior probability thresholds). Will also write graphical and numerical results to a directory provided by the user. Also allows the efficacy of multiple panels of varying numbers of markers to be compared.| [_Quantification and Analysis_](#power)
 **nh_panel_delta_plotR.R** |  Plots the change in individual genotype class probability of assignment for different panel sizes.| [_Quantification and Analysis_](#deltaplot)
-**nh_build_example_results.R** |  Installs pre-analyzed example data to be used familiarize oneself with the functions *nh_preCheckR*, *nh_multiplotR*, and *hybridpowercomp* | [_Example Data_](#example)
+**nh_build_example_results.R** |  Installs pre-analyzed example data to be used familiarize oneself with the functions *nh_preCheckR*, *nh_multiplotR*, and *hybridPowerComp* | [_Example Data_](#example)
 
 ***  
 ### Package Installation
@@ -112,7 +116,7 @@ your.path = paste0(path.hold, "/hybriddetective example/")
 
 <a name = "example"/>
 <h4 class="text-primary"> nh_build_example_results.R</h4>
-This function will write and delete the provided pre-analyzed data that can be used to explore the use and results of the functions *nh_preCheckR*, *nh_multiplotR*, and *hybridpowercomp*. This function also demonstrates the manner/format in which [parallelnewhybrid](https://github.com/bwringe/parallelnewhybrid) exports the results of *NewHybrids* analyses. The function will write the example data to a folder/file path specified by the user.
+This function will write and delete the provided pre-analyzed data that can be used to explore the use and results of the functions *nh_preCheckR*, *nh_multiplotR*, and *hybridPowerComp*. This function also demonstrates the manner/format in which [parallelnewhybrid](https://github.com/bwringe/parallelnewhybrid) exports the results of *NewHybrids* analyses. The function will write the example data to a folder/file path specified by the user.
 
 ```r
 ## INSTALL EXAMPLE DATA
@@ -139,7 +143,7 @@ nh_build_example_results(dir = paste0(path.hold, "/"), remove_example = TRUE)
 * Dr. Nick Jeffery <https://github.com/NickJeff13>  
 * Dr. Ryan Stanley <https://github.com/rystanley> 
 
-This package has been designed to work in conjunction with the packages [parallelnewhybrid](https://github.com/bwringe/parallelnewhybrid) and [genepopedit](https://github.com/rystanley/genepopedit) to offer a more efficient and repeatable method of detecting hybrid individuals based on genomic data. This is accomplished by moving the workflow into the R environment. The package is open, and interested individuals are encouraged to modify the code for their purposes if needed. I will endeavour to respond in a timely manner to any and all inquiries, and will try to add requested functions, or functionality where requested.
+This package has been designed to work in conjunction with the packages [parallelnewhybrid](https://github.com/bwringe/parallelnewhybrid) [(Wringe et al. 2017)](http://onlinelibrary.wiley.com/doi/10.1111/1755-0998.12597/abstract) and [genepopedit](https://github.com/rystanley/genepopedit) [(Stanley et al. 2017)](http://onlinelibrary.wiley.com/doi/10.1111/1755-0998.12569/abstract) to offer a more efficient and repeatable method of detecting hybrid individuals based on genomic data. This is accomplished by moving the workflow into the R environment. The package is open, and interested individuals are encouraged to modify the code for their purposes if needed. I will endeavour to respond in a timely manner to any and all inquiries, and will try to add requested functions, or functionality where requested.
 
 * If you don't understand anything, please contact me (bwringe[at]gmail.com)
 * Any ideas on how to improve the functionality are very much appreciated.
@@ -161,7 +165,7 @@ To cite the current version of **hybriddetective**, please refer to our zenodo D
 
 <a name = "gettoploc"/>
 <h4 class="text-primary"> getTopLoc.R</h4>
-This function is designed to produce panels of the *n* unlinked loci with the highest loci-specific Fst, where *n* is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used to created simulated hybrid datasets to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panel(s) that is then used in their validation (Anderson 2010). The function will save three files to the folder that contains the data provided. The first file is a list of the top *n* loci, ordered by Fst, which can be used to subset data in with the function **genepop_subset** from the **genepopedit** package. The second file is a list of the individuals from each of the two populations that were subsetted out to form the testing panel. The final file are the genotypes of the individuals listed in the second file, at the top *n* unlinked loci (listed in the first file). This dataset can be used in the **freqbasedsim** functions to create simulated hybrids for panel efficacy testing. 
+This function is designed to produce panels of the *n* loci not in linkage disequilibrium with the highest loci-specific Fst, where *n* is a number specified by the user. The data provided to the function are broken into two data sets, one to be used to calculate the loci-specific Fsts, and the other to be used to created simulated hybrid datasets to test the efficacy of the panel. This is done to prevent high-grading bias where the same data is used to develop the panel(s) that is then used in their validation (Anderson 2010). The function will save three files to the folder that contains the data provided. The first file is a list of the top *n* loci, ordered by Fst, which can be used to subset data in with the function **genepop_subset** from the **genepopedit** package. The second file is a list of the individuals from each of the two populations that were subsetted out to form the testing panel. The final file are the genotypes of the individuals listed in the second file, at the top *n* loci not in linkage disequilibrium (listed in the first file). This dataset can be used in the **freqbasedsim** functions to create simulated hybrids for panel efficacy testing. 
 <span style = "color:red"> <strong>NOTE:</strong></span> Data must be entered into the function as a two-population GENEPOP format file.  
 <span style = "color:red"> <strong>NOTE:</strong></span> The programs **PLINK** and **PGDspider** are required to run **getTopLoc.R**. Refer to package installation for downloading instructions.  
 
@@ -172,7 +176,7 @@ This function is designed to produce panels of the *n* unlinked loci with the hi
 *panel.size*| An integer number of loci to include in the panel
 *FST.threshold*| The minimum Fst threshold required to retain a locus. This value is used where there are a large number of relatively uninformative (i.e. low Fst) loci to improve the speed of the function.
 *r2.threshold*| The minimum r^2 threshold to consider a pair of loci to be in linkage disequilibrium.
-*ld.window*| Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which essentially allows for all pairwise comparisons.
+*ld.window*| Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which should allow for all pairwise comparisons.
 *allocate.PGD.RAM*| An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses. Note: This option cannot be changed on Windows (refer to PGDSpider help file for more information)
 *where.PLINK*| A file path to the PLINK installation folder
 *where.PGDspider*| A file path to the PGDspider installation folder
@@ -204,7 +208,7 @@ getTopLoc(GPD = your_example_data_path, panel.size = 50, where.PLINK = your_plin
 
 <a name = "freqbasedADV"/>
 <h4 class="text-primary"> freqbasedsim_GTFreq.R</h4>
-This function will simulate multigenerational hybrids based on the allele frequencies of the two reference populations provided in the same manner as **freqbasedsim**. The only difference is that **freqbasedsim_Advanced** allows users greater flexibility in specifying the number of individuals in each of the hybrid genotype frequency classes to be simulated.  
+This function will simulate multigenerational hybrids based on the allele frequencies of the two reference populations provided. By so doing, the genotypes of the reference populations are centred, and linkage disequilibria or deviations from Hardy-Weinberg that may have been present in the sampled individuals are eliminated. **freqbasedsim_Advanced** allows users flexibility in specifying the number of individuals in each of the hybrid genotype frequency classes to be simulated.  
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
@@ -236,7 +240,7 @@ freqbasedsim_GTFreq(GenePopData = "~/ ... /YourReferenceData.txt", sample.sizePu
 
 <a name = "freqbasedUB2"/>
 <h4 class="text-primary"> freqbasedsim_AlleleSample.R</h4>
-This function will simulate multigenerational hybrids in a more unbiased fashion than the other simulation functions. The function requires that two reference populations must be provided as a single *GenePop* format text file, such as the file created by **getTopLoc**.  
+This function will simulate multigenerational hybrids by drawing 2 alleles from each loci, without replacement from the two reference populations. The function requires that two reference populations must be provided as a single *GenePop* format text file, such as the file created by **getTopLoc**.  
 The function first creates Pure1 and Pure2 individuals by drawing 2 alleles from each loci, without replacement from the two reference populations. By so doing, the genotypes of the reference populations are centred, and linkage disequilibria or deviations from Hardy-Weinberg that may have been present in the sampled individuals are eliminated. Subsequently, each F1 individual is created by drawing 1 allele per loci withouth replacement from the Pure1 individuals and 1 loci without replacement from the Pure2 individuals. F2 indivduals are created by drawning 2 alleles per loci without replacement from the F1 indivdiuals. Backcross individuals are created by drawing 1 allele per loci withouth replacement from the F1 individuals, and one without replacement from the appropriate Pure population individuals.
 
 **Parameter** | **Description**
@@ -256,10 +260,9 @@ The function first creates Pure1 and Pure2 individuals by drawing 2 alleles from
 
 #### Usage
 ```r
-## This function is designed to be more unbiased than the other simulation functions. This is accomplished by sampling, without replacement, only a proportion (specified by prop.sample) of the individuals provided (Anderson 2010). 
+## This function will simulate multigenerational hybrids by drawing 2 alleles from each loci, without replacement from the two reference populations. The function requires that two reference populations must be provided as a single GenePop format text file, such as the file created by the function getTopLoc.  
 
-### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR
-  ## if you going through the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
+### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR if you going through the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
 
 freqbasedsim_UB2(GPD = "~/ ... /YourReferenceData.txt")
 ```
@@ -285,7 +288,7 @@ This function quickly creates files to be used to detect hybridization within ex
 #### Usage
 
 ```r
-### This function will create simulated reference data using the algorithm from "freqbasedsim" based on the genotypes of two reference populations provided by the user, and then combines these with unknown/experimental data
+### This function will create simulated reference data using the algorithm from "freqbasedsim_GTFreq" based on the genotypes of two reference populations provided by the user, and then combines these with unknown/experimental data
 
 ### NOTE: "TwoReferencePops.txt" data to be simulated and "GenotypesOfUnknownInds.txt" are genotypes of unknown/experimental individuals at the same loci
   ## if you going through the package example,"SimPurePops_50_Loci_Panel.txt" can be used for both "GenotypesOfUnknownInds.txt" and "TwoReferencePops.txt"
@@ -382,7 +385,7 @@ When using *NewHybrids*, the Markov Chain Monte Carlo (MCMC) chains will occasio
 #### Usage
 
 ```r
-## precheckR will check for NewHybrids results in all folders within the folder specified by "PreDir". i.e. all results in the folders within the "NH.Results" folder created by parallelnh_xx
+## precheckR will check for NewHybrids results in all folders within the folder specified by "PreDir". i.e. all results in the folders within the "NH.Results" folder created by parallelnh_xx from the package parallelnewhybrid
 
 ## to check results created by running parallelnh_xx
 
@@ -395,11 +398,13 @@ nh_preCheckR(PreDir = "~/ ... /NH.Results/", propCutOff = 0.5, PofZCutOff = 0.1)
 
 <a name = "plotR"/>
 <h4 class="text-primary"> nh_plotR.R</h4>
-This function will plot the cumulative probability of assignment (PofZ) for each individual in a *NewHybrids* analysis. *nh_plotR.R* can be used with both simulated and experimental datasets.  
+This function will plot the cumulative probability of assignment (PofZ) for each individual in a *NewHybrids* analysis. *nh_plotR.R* can be used with both simulated and experimental datasets. NEWHYBRIDS denotes one of the pure populations “pop1” and the other “pop2” (and thus backcrosses) at random (i.e. “pop1” can be equivalent to “pop2” in different runs). However, the ordering of individuals or samples remains constant and therefore, when examining the results of nh_multiplotR, it is important to bear in mind that the colouration of individuals in each plot can switch, yet the interpretation of the assignment(s) is the same. Because of this, *nh_plotR* contains an optional argument account for this where reversals have been noted.   
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
 *NHResults*| A file path to the NewHybrids (PofZ file) result to be plotted 
+*ReversePure* | A logical which can be used to reverse the Pure1/BC1, Pure2/BC2 colours if NEWHYBRIDS switches which population is called Population1 and Population2 between analyses of the same data (allows you to make your plots the same colours). Options are "1" or "2"
+*ColourVector* | An optional vector to specify the six colours to be plotted as Pure1, Pure2, F1, F2, BC1, and BC2 respectively. The defaults are R's "red", "blue", "grey", "green", "black", and "yellow".
 
 ####Usage
 ```r
@@ -418,6 +423,7 @@ This function will plot the cumulative probability of assignment (PofZ) for each
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  
 *NHResults*| A file path to the directory in which the NewHybrids results (in individual folders as returned by parallelNH_XX) are located. 
+*ColourVector* | An optional vector to specify the six colours to be plotted as Pure1, Pure2, F1, F2, BC1, and BC2 respectively. The defaults are R's "red", "blue", "grey", "green", "black", and "yellow".
 
 #### Usage
 ```r
@@ -430,7 +436,7 @@ nh_multiplotR(NHResults = "~/ ... /NH.Results/") ## the function will create a f
 
 <a name = "accuracy"/>
 <h4 class="text-primary"> nh_accuracy_checkR.R</h4>
-This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by *NewHybrids* at three probability of assignment thresholds (PofZ >= 0.5, 0.75 and 0.9). The proportion of individuals for each hybrid category correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired (print.results = TRUE). The user also has the option to check the proportion of individuals in all hybrid categories correctly identified as being of hybrid ancestry (i.e. proportion of F1, F2, BC1, and BC2 individuals given the greatest PofZ in an any of those categories as opposed to Pure1 or Pure2). *nh_accuracy_checkR.R* is intended primarily for exploratory analysis, and it's functionality is expanded upon in the functions *hybridpower* and *hybridpowercomp*.  
+This function will quickly calculate, the proportion of individuals in a simulated dataset which were assigned to the correct hybrid category by *NewHybrids* at three probability of assignment thresholds (PofZ >= 0.5, 0.75 and 0.9). The proportion of individuals for each hybrid category correctly assigned will be returned as a dataframe with the name "NH.accuracy", and can also be printed to the screen if desired (print.results = TRUE). The user also has the option to check the proportion of individuals in all hybrid categories correctly identified as being of hybrid ancestry (i.e. proportion of F1, F2, BC1, and BC2 individuals given the greatest PofZ in an any of those categories as opposed to Pure1 or Pure2). *nh_accuracy_checkR.R* is intended primarily for exploratory analysis, and it's functionality is expanded upon in the function *hybridpowercomp*.  
 
 **Parameter** | **Description**
 ------------|---------------------------------------------------------------  

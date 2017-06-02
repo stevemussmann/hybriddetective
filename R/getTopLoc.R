@@ -1,14 +1,14 @@
 #' @name getTopLoc
 #' @title Creates a panel of the top n "unlinked" loci, and exports the list of loci
 #'
-#' @description \code{getTopLoc} Extracts the genotypes of individuals at the top n (by Fst) "unlinked" loci. The loci returned are in linkage equilibrium above a user defined r^2 threshold. The resultant file can then be used to simulate the panel efficacy using freqbasedsim. Alternatively, multiple panel sizes can be created by using truncated vectors of the exported loci names in the function subset_genepop from the genepopedit package (www.github.com/rystanley)
+#' @description \code{getTopLoc} Extracts the genotypes of individuals at the top n (by Fst) loci not in linkage disequilibrium. The loci returned are in linkage equilibrium above a user defined r^2 threshold (specified by r2.threshold). The resultant file can then be used to simulate the panel efficacy using freqbasedsim. Alternatively, multiple panel sizes can be created by using truncated vectors of the exported loci names in the function subset_genepop from the genepopedit package (www.github.com/rystanley)
 #' @param GPD A file path to the GENEPOP format file you wish to create your panel from
 #' @param LDpop A string which denotes which of the two populations you wish to calculate linkage disequilibrium in. The options are "Pop1" or "Pop2", or "Both" if the LD is to be calculated based on both populations.
 #' @param panel.size An integer number of loci to include in the panel
 #' @param FST.threshold The minimum FST threshold required to retain a locus
 #' @param r2.threshold The minimum r^2 threshold to consider a pair of loci to be in LD
-#' @param ld.window Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which essentially asks to compare each SNP against all others
-#' @param allocate.PGD.RAM An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses.
+#' @param ld.window Number of adjacent SNPs to compare each SNP against for LD - default is NULL, which translates to a window size of 99999, which should allow for all pairwise comparisons
+#' @param allocate.PGD.RAM An integer value in GB to specify the maximum amount of RAM to allocate to PGDspider. The default is 1 GB, which should be sufficient for most analyses. Note: This option cannot be changed on Windows (refer to PGDSpider help file for more information)
 #' @param where.PLINK A file path to the PLINK installation folder
 #' @param where.PGDspider A file path to the PGDspider installation folder
 #' @export
