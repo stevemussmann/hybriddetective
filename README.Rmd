@@ -14,6 +14,8 @@ output:
 ### Preamble  
 **hybriddetective** is designed to work in conjunction with, and to link the functions contained in the R packages **parallelnewhybrid** (<https://github.com/bwringe/parallelnewhybrid>) and **genepopedit** (<https://github.com/rystanley/genepopedit>), to bring the entire hybrid detection workflow into the R environment.  
 
+Please ensure that you have the correct version of **NewHybrids** installed. The source code and instructions for installation can be found at (<https://github.com/eriqande/newhybrids>)
+
 By using **hybriddetective**, together with the packages [parallelnewhybrid](https://github.com/bwringe/parallelnewhybrid) and [genepopedit](https://github.com/rystanley/genepopedit) the user is able to complete the entire hybrid detection analysis starting with genotypic/genomic data through to identification of hybrid individuals, with quantifiable levels of certainty of assignment. These packages facilitate the manipulation of genotype files, the development of panels of markers not in linkage disequilibrium that have the highest loci-specific Fst, the simulation of multi-generation hybrids and subsequent quantification of the efficacy and accuracy (Vaha and Primmer 2006) of panels to identify hybrids, and the determination of hybrid category of experimental data.  
     
 In addition, **hybriddetective** includes plotting functionality to generate both exploratory and publishable figures.  
