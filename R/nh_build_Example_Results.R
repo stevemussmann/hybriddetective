@@ -10,7 +10,7 @@
 nh_build_example_results <- function(dir = NULL, remove_example = FALSE){
 
   ## If the directory is not speficied, set dir to the working directory
-  if(length(dir1) < 1){
+  if(length(dir) < 1){
     dir = getwd()
   }
 
