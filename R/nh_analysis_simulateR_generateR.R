@@ -20,7 +20,7 @@
 
 nh_analysis_simulateR_generateR <- function(ReferencePopsData, UnknownIndvs, outputName = NULL, pop.groups = c("Pure1", "Pure2"), sample.size = 200, NumSims = 1, NumReps = 1, cats.include = c("PopA", "PopB", "F1", "F2", "BCA", "BCB")){
 
-  if(length(out.name) == 0){out.name=ReferencePopsData}
+  if(length(outputName) == 0){out.name=ReferencePopsData}
 
   ## Top part of this function has been direcrtly copied from the simulate hybrids function
 
@@ -492,7 +492,7 @@ nh_analysis_simulateR_generateR <- function(ReferencePopsData, UnknownIndvs, out
   Loci.out <- c(insertNumIndivs, insertNumLoci, insertYourDigits, insertFormat, insertLociName,   Loci.sim, Loci.Unknown)
   #write.table(x = Loci.out, file = "NSDrop1.txt", row.names = FALSE, col.names = FALSE, quote = FALSE)
 
-   outNameGive <- out.name
+  outNameGive <- out.name
   outNameGive <- paste0(outNameGive, "_S", sim)
 
   for(reps in 1:NumReps){
