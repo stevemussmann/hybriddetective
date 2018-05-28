@@ -20,7 +20,7 @@
 
 nh_analysis_simulateR_generateR <- function(ReferencePopsData, UnknownIndvs, outputName = NULL, pop.groups = c("Pure1", "Pure2"), sample.size = 200, NumSims = 1, NumReps = 1, cats.include = c("PopA", "PopB", "F1", "F2", "BCA", "BCB")){
 
-  if(length(outputName) == 0){out.name=ReferencePopsData}
+  if(length(outputName) == 0){out.name=ReferencePopsData} else {out.name=outputName}
 
   ## Top part of this function has been direcrtly copied from the simulate hybrids function
 
