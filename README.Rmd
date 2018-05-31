@@ -260,7 +260,7 @@ The function first creates Pure1 and Pure2 individuals by drawing 2 alleles from
 
 ### NOTE: "YourReferenceData.txt" is either data in that you wish to simulate in GenePop format OR if you going through the package example, it will be the file "SimPurePops_50_Loci_Panel.txt" created by getTopLoc
 
-freqbasedsim_UB2(GPD = "~/ ... /YourReferenceData.txt")
+freqbasedsim_AlleleSample(GPD = "~/ ... /YourReferenceData.txt")
 ```
 
 ***
