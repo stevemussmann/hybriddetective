@@ -18,7 +18,7 @@ nh_subsetR <- function(NHData, loci = NULL){
 
   temp <- as.data.frame(do.call(rbind, stringr::strsplit(NHD_nometa, " ")))
 
-  colnamevec <- unlist(stringr::strsplit(NHD[5,], " "))
+  colnamevec <- unlist(stringr::str_split(NHD[5,], " "))
 
   colnames(temp) <- colnamevec
 
