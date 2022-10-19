@@ -473,7 +473,12 @@ freqbasedsim_GTFreq <- function(GenePopData, pop.groups = c("PopA", "PopB"), out
                       outNameGive <- gsub(x = GenePopData, pattern = ".txt", replacement = "")
                       outNameGive <- paste0(outNameGive, "_S", sim)
 
-                      popvecout.fname <- gsub(x = GenePopData, pattern = ".txt", replacement = "_individuals.txt")
+                      #popvecout.fname <- gsub(x = GenePopData, pattern = ".txt", replacement = "_individuals.txt")
+                      nameVec <- unlist(strsplit(GenePopData, ".", fixed = TRUE)) #split filename into vector
+                      nameVec <- nameVec[-length(nameVec)] #remove file extension
+                      nameVec <- append(nameVec, "individuals.txt") #add new file ending
+                      popvecout.fname <- paste(nameVec, collapse='.') #concatenate into new file name
+                      
                       write(x = popvecout, file = popvecout.fname)
 
                       for(r in 1:NumReps){
