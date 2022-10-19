@@ -35,10 +35,10 @@ freqbasedsim_GTFreq <- function(GenePopData, pop.groups = c("PopA", "PopB"), out
   NumIndivs <- (2*sample.sizePure) + sample.sizeF1 + sample.sizeF2 + (2*sample.sizeBC)
 
   stacks.version <- GenePop[1, ] # this could be blank or any other source. ## this was duplicated from another function - not sure if needed
-
+  
   ## remove the first row which contains data normally ignored by GenePop, reformat data
-  GenePop <- as.vector(GenePop)
   GenePop <- GenePop[-1,]
+  GenePop <- as.vector(GenePop)
   GenePop <- data.frame(data=GenePop,ind=1:length(GenePop))
   GenePop$data <- as.character(GenePop$data)
 
